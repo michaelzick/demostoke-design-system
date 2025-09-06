@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,8 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const { signIn, signUp, isAuthenticated } = useAuth();
   const { toast } = useToast();
@@ -56,7 +59,13 @@ const Auth = () => {
       return;
     }
 
-    const { error } = await signIn(email, password);
+    if (!captchaToken) {
+      setErrors({ general: 'Please complete the captcha verification' });
+      setLoading(false);
+      return;
+    }
+
+    const { error } = await signIn(email, password, captchaToken);
 
     if (error) {
       if (error.message.includes('Invalid login credentials')) {
@@ -103,7 +112,13 @@ const Auth = () => {
       return;
     }
 
-    const { error } = await signUp(email, password);
+    if (!captchaToken) {
+      setErrors({ general: 'Please complete the captcha verification' });
+      setLoading(false);
+      return;
+    }
+
+    const { error } = await signUp(email, password, captchaToken);
 
     if (error) {
       if (error.message.includes('User already registered')) {
@@ -131,6 +146,8 @@ const Auth = () => {
     setPassword('');
     setConfirmPassword('');
     setErrors({});
+    setCaptchaToken(null);
+    captchaRef.current?.resetCaptcha();
   };
 
   return (
@@ -216,13 +233,23 @@ const Auth = () => {
                   )}
                 </div>
 
+                <div className="flex justify-center">
+                  <HCaptcha
+                    ref={captchaRef}
+                    sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
+                    onVerify={(token) => setCaptchaToken(token)}
+                    onExpire={() => setCaptchaToken(null)}
+                    onError={() => setCaptchaToken(null)}
+                  />
+                </div>
+
                 {errors.general && (
                   <Alert variant="destructive">
                     <AlertDescription>{errors.general}</AlertDescription>
                   </Alert>
                 )}
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full" disabled={loading || !captchaToken}>
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Sign In
                 </Button>
@@ -309,13 +336,23 @@ const Auth = () => {
                   )}
                 </div>
 
+                <div className="flex justify-center">
+                  <HCaptcha
+                    ref={captchaRef}
+                    sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
+                    onVerify={(token) => setCaptchaToken(token)}
+                    onExpire={() => setCaptchaToken(null)}
+                    onError={() => setCaptchaToken(null)}
+                  />
+                </div>
+
                 {errors.general && (
                   <Alert variant="destructive">
                     <AlertDescription>{errors.general}</AlertDescription>
                   </Alert>
                 )}
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full" disabled={loading || !captchaToken}>
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Create Account
                 </Button>
