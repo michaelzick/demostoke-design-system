@@ -233,7 +233,7 @@ const Auth = () => {
                   )}
                 </div>
 
-                <div className="flex justify-center">
+                <div>
                   <HCaptcha
                     ref={captchaRef}
                     sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
@@ -336,7 +336,7 @@ const Auth = () => {
                   )}
                 </div>
 
-                <div className="flex justify-center">
+                <div>
                   <HCaptcha
                     ref={captchaRef}
                     sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
