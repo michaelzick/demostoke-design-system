@@ -230,6 +230,48 @@ export type Database = {
         }
         Relationships: []
       }
+      design_system_profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          company: string | null
+          created_at: string
+          display_name: string | null
+          dribbble_url: string | null
+          github_url: string | null
+          id: string
+          updated_at: string
+          user_id: string
+          website_url: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          company?: string | null
+          created_at?: string
+          display_name?: string | null
+          dribbble_url?: string | null
+          github_url?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+          website_url?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          company?: string | null
+          created_at?: string
+          display_name?: string | null
+          dribbble_url?: string | null
+          github_url?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       downloaded_images: {
         Row: {
           created_at: string

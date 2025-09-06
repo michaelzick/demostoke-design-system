@@ -10,20 +10,20 @@ import { Sparkles, Wand2, AlertTriangle, Loader2, CheckCircle } from "lucide-rea
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { componentService } from "@/services/componentService";
+import { useAuth } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 export default function NewComponent() {
   const [prompt, setPrompt] = useState("");
   const [componentName, setComponentName] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
-  const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const checkConnection = async () => {
       setIsConnected(componentService.isConnected());
-      const currentUser = await componentService.getCurrentUser();
-      setUser(currentUser);
     };
     checkConnection();
   }, []);
@@ -88,17 +88,18 @@ export default function NewComponent() {
   ];
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-display-md">Create New Component</h1>
-        <p className="text-body-lg text-muted-foreground">
-          Use AI to generate React components based on your description, or create them manually.
-        </p>
-      </div>
+    <ProtectedRoute>
+      <div className="p-6 max-w-4xl mx-auto space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-display-md">Create New Component</h1>
+          <p className="text-body-lg text-muted-foreground">
+            Use AI to generate React components based on your description, or create them manually.
+          </p>
+        </div>
 
       {/* Connection Status */}
       {isConnected ? (
-        user ? (
+        isAuthenticated ? (
           <Alert className="border-success/20 bg-success/5">
             <CheckCircle className="h-4 w-4 text-success" />
             <AlertDescription className="text-success">
@@ -162,7 +163,7 @@ export default function NewComponent() {
 
             <Button 
               onClick={handleGenerate}
-              disabled={!prompt.trim() || !componentName.trim() || isGenerating || !isConnected || !user}
+              disabled={!prompt.trim() || !componentName.trim() || isGenerating || !isConnected || !isAuthenticated}
               className="w-full btn-hero"
             >
               {isGenerating ? (
@@ -264,6 +265,7 @@ export default function NewComponent() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 }
