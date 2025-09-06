@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -6,21 +6,77 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Sparkles, Wand2, AlertTriangle, Loader2 } from "lucide-react";
+import { Sparkles, Wand2, AlertTriangle, Loader2, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
+import { componentService } from "@/services/componentService";
 
 export default function NewComponent() {
   const [prompt, setPrompt] = useState("");
   const [componentName, setComponentName] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      setIsConnected(componentService.isConnected());
+      const currentUser = await componentService.getCurrentUser();
+      setUser(currentUser);
+    };
+    checkConnection();
+  }, []);
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() || !componentName.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please provide both component name and description.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to generate components.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setIsGenerating(true);
-    // TODO: Implement GPT-4o integration when Supabase is connected
-    setTimeout(() => {
+    
+    try {
+      const response = await componentService.generateComponent({
+        componentName,
+        prompt,
+        userId: user.id
+      });
+
+      if (response.success && response.component) {
+        toast({
+          title: "Component Generated!",
+          description: `${componentName} has been created successfully.`,
+        });
+        
+        // Navigate to components page to show the new component
+        navigate("/components");
+      } else {
+        throw new Error(response.error || "Failed to generate component");
+      }
+    } catch (error) {
+      console.error("Generation error:", error);
+      toast({
+        title: "Generation Failed",
+        description: error instanceof Error ? error.message : "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    } finally {
       setIsGenerating(false);
-    }, 3000);
+    }
   };
 
   const examplePrompts = [
@@ -40,14 +96,31 @@ export default function NewComponent() {
         </p>
       </div>
 
-      {/* Supabase Connection Notice */}
-      <Alert className="border-warning/20 bg-warning/5">
-        <AlertTriangle className="h-4 w-4 text-warning" />
-        <AlertDescription className="text-warning">
-          <strong>Backend Integration Required:</strong> Connect to Supabase to enable AI component generation with GPT-4o. 
-          Click the green Supabase button in the top right to get started.
-        </AlertDescription>
-      </Alert>
+      {/* Connection Status */}
+      {isConnected ? (
+        user ? (
+          <Alert className="border-success/20 bg-success/5">
+            <CheckCircle className="h-4 w-4 text-success" />
+            <AlertDescription className="text-success">
+              <strong>Ready to Generate:</strong> AI component generation is enabled and you're signed in.
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <Alert className="border-warning/20 bg-warning/5">
+            <AlertTriangle className="h-4 w-4 text-warning" />
+            <AlertDescription className="text-warning">
+              <strong>Sign In Required:</strong> Please sign in to generate and save components.
+            </AlertDescription>
+          </Alert>
+        )
+      ) : (
+        <Alert className="border-warning/20 bg-warning/5">
+          <AlertTriangle className="h-4 w-4 text-warning" />
+          <AlertDescription className="text-warning">
+            <strong>Backend Integration Required:</strong> Connect to Supabase to enable AI component generation with GPT-4o.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* AI Generation Form */}
@@ -89,7 +162,7 @@ export default function NewComponent() {
 
             <Button 
               onClick={handleGenerate}
-              disabled={!prompt.trim() || isGenerating}
+              disabled={!prompt.trim() || !componentName.trim() || isGenerating || !isConnected || !user}
               className="w-full btn-hero"
             >
               {isGenerating ? (
