@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -18,7 +18,7 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  
+
   const { signIn, signUp, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const Auth = () => {
     }
 
     const { error } = await signIn(email, password);
-    
+
     if (error) {
       if (error.message.includes('Invalid login credentials')) {
         setErrors({ general: 'Invalid email or password' });
@@ -76,7 +76,7 @@ const Auth = () => {
       });
       navigate('/');
     }
-    
+
     setLoading(false);
   };
 
@@ -104,7 +104,7 @@ const Auth = () => {
     }
 
     const { error } = await signUp(email, password);
-    
+
     if (error) {
       if (error.message.includes('User already registered')) {
         setErrors({ general: 'An account with this email already exists' });
@@ -122,7 +122,7 @@ const Auth = () => {
         description: "Please check your email to verify your account.",
       });
     }
-    
+
     setLoading(false);
   };
 
@@ -134,8 +134,26 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen bg-background">
+      {/* Navigation Header */}
+      <div className="p-4">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
+          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-sm">DS</span>
+          </div>
+          <div>
+            <h2 className="text-heading-sm text-foreground">DemoStoke</h2>
+            <p className="text-xs text-muted-foreground">Design System</p>
+          </div>
+        </Link>
+      </div>
+
+      {/* Auth Form */}
+      <div className="flex items-center justify-center px-4 pb-4">
+        <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Design System</CardTitle>
           <CardDescription>
@@ -148,7 +166,7 @@ const Auth = () => {
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="signin" className="space-y-4">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
@@ -166,7 +184,7 @@ const Auth = () => {
                     <p className="text-sm text-destructive">{errors.email}</p>
                   )}
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="signin-password">Password</Label>
                   <div className="relative">
@@ -210,7 +228,7 @@ const Auth = () => {
                 </Button>
               </form>
             </TabsContent>
-            
+
             <TabsContent value="signup" className="space-y-4">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
@@ -228,7 +246,7 @@ const Auth = () => {
                     <p className="text-sm text-destructive">{errors.email}</p>
                   )}
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="signup-password">Password</Label>
                   <div className="relative">
@@ -259,7 +277,7 @@ const Auth = () => {
                     <p className="text-sm text-destructive">{errors.password}</p>
                   )}
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="confirm-password">Confirm Password</Label>
                   <div className="relative">
@@ -306,6 +324,7 @@ const Auth = () => {
           </Tabs>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
