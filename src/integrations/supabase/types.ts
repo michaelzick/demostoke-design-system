@@ -176,6 +176,60 @@ export type Database = {
         }
         Relationships: []
       }
+      design_system_components: {
+        Row: {
+          category: string
+          component_code: string
+          created_at: string
+          created_by: string
+          description: string | null
+          figma_file_id: string | null
+          id: string
+          is_public: boolean
+          name: string
+          props_schema: Json | null
+          status: string
+          stories: Json | null
+          tags: string[] | null
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          category: string
+          component_code: string
+          created_at?: string
+          created_by: string
+          description?: string | null
+          figma_file_id?: string | null
+          id?: string
+          is_public?: boolean
+          name: string
+          props_schema?: Json | null
+          status?: string
+          stories?: Json | null
+          tags?: string[] | null
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          category?: string
+          component_code?: string
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          figma_file_id?: string | null
+          id?: string
+          is_public?: boolean
+          name?: string
+          props_schema?: Json | null
+          status?: string
+          stories?: Json | null
+          tags?: string[] | null
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
       downloaded_images: {
         Row: {
           created_at: string
