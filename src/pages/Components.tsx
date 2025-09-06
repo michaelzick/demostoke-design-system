@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Grid, List, Filter, MoreHorizontal, Eye, Download, Copy } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { copyComponentCode, viewInStorybook, exportComponentSpec } from "@/utils/componentActions";
 
 export default function Components() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -101,15 +102,15 @@ export default function Components() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => viewInStorybook(component.name)}>
                 <Eye className="h-4 w-4 mr-2" />
                 View in Storybook
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => copyComponentCode(component.name)}>
                 <Copy className="h-4 w-4 mr-2" />
                 Copy Code
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => exportComponentSpec(component.name)}>
                 <Download className="h-4 w-4 mr-2" />
                 Export Spec
               </DropdownMenuItem>
@@ -171,15 +172,15 @@ export default function Components() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => viewInStorybook(component.name)}>
                   <Eye className="h-4 w-4 mr-2" />
                   View in Storybook
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => copyComponentCode(component.name)}>
                   <Copy className="h-4 w-4 mr-2" />
                   Copy Code
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => exportComponentSpec(component.name)}>
                   <Download className="h-4 w-4 mr-2" />
                   Export Spec
                 </DropdownMenuItem>
