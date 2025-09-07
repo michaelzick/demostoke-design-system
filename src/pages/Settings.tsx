@@ -84,12 +84,13 @@ export default function Settings() {
                     onChange={(e) => updateSetting('projectName', e.target.value)}
                   />
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="project-description">Description</Label>
                   <Input
                     id="project-description"
                     placeholder="A comprehensive design system for modern web applications"
+                    onChange={() => {}}
                   />
                 </div>
 
@@ -98,6 +99,7 @@ export default function Settings() {
                   <Input
                     id="project-version"
                     placeholder="1.0.0"
+                    onChange={() => {}}
                   />
                 </div>
               </CardContent>
@@ -173,13 +175,14 @@ export default function Settings() {
                       <div key={item.name} className="space-y-2">
                         <Label className="text-sm">{item.name}</Label>
                         <div className="flex items-center gap-2">
-                          <div 
+                          <div
                             className="w-8 h-8 rounded border"
                             style={{ backgroundColor: item.color }}
                           />
-                          <Input 
+                          <Input
                             value={item.color}
                             className="font-mono text-sm"
+                            onChange={() => {}}
                           />
                         </div>
                       </div>
@@ -364,6 +367,7 @@ export default function Settings() {
                   <Input
                     id="build-command"
                     placeholder="npm run build"
+                    onChange={() => {}}
                   />
                 </div>
 
@@ -372,6 +376,7 @@ export default function Settings() {
                   <Input
                     id="test-command"
                     placeholder="npm test"
+                    onChange={() => {}}
                   />
                 </div>
               </CardContent>
