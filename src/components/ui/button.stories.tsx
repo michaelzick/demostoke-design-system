@@ -17,7 +17,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+      options: ['default', 'destructive', 'outline', 'secondary', 'accent', 'hero', 'ghost', 'link'],
     },
     size: {
       control: { type: 'select' },
@@ -70,6 +70,20 @@ export const Link: Story = {
   args: {
     variant: 'link',
     children: 'Link',
+  },
+};
+
+export const Accent: Story = {
+  args: {
+    variant: 'accent',
+    children: 'Accent',
+  },
+};
+
+export const Hero: Story = {
+  args: {
+    variant: 'hero',
+    children: 'Hero Button',
   },
 };
 

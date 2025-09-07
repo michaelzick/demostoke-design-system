@@ -24,12 +24,16 @@ export default function Tokens() {
   ];
 
   const typographyTokens = [
-    { name: "Display Large", value: "text-display-lg", fontSize: "4rem", lineHeight: "1.1" },
-    { name: "Display Medium", value: "text-display-md", fontSize: "3rem", lineHeight: "1.2" },
-    { name: "Heading Large", value: "text-heading-lg", fontSize: "2rem", lineHeight: "1.3" },
-    { name: "Heading Medium", value: "text-heading-md", fontSize: "1.5rem", lineHeight: "1.4" },
-    { name: "Body Large", value: "text-body-lg", fontSize: "1.125rem", lineHeight: "1.6" },
-    { name: "Body Medium", value: "text-body-md", fontSize: "1rem", lineHeight: "1.5" },
+    { name: "Display Large", value: "text-display-lg", fontSize: "3.5rem (56px)", lineHeight: "1.2" },
+    { name: "Display Medium", value: "text-display-md", fontSize: "2.75rem (44px)", lineHeight: "1.2" },
+    { name: "Display Small", value: "text-display-sm", fontSize: "2.25rem (36px)", lineHeight: "1.2" },
+    { name: "Heading Large", value: "text-heading-lg", fontSize: "1.875rem (30px)", lineHeight: "1.2" },
+    { name: "Heading Medium", value: "text-heading-md", fontSize: "1.5rem (24px)", lineHeight: "1.2" },
+    { name: "Heading Small", value: "text-heading-sm", fontSize: "1.25rem (20px)", lineHeight: "1.5" },
+    { name: "Body Large", value: "text-body-lg", fontSize: "1.125rem (18px)", lineHeight: "1.75" },
+    { name: "Body Medium", value: "text-body-md", fontSize: "1rem (16px)", lineHeight: "1.5" },
+    { name: "Body Small", value: "text-body-sm", fontSize: "0.875rem (14px)", lineHeight: "1.5" },
+    { name: "Caption", value: "text-caption", fontSize: "0.75rem (12px)", lineHeight: "1.5" },
   ];
 
   const spacingTokens = [
@@ -64,7 +68,7 @@ export default function Tokens() {
               <div key={token.name} className="border rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{token.name}</span>
-                  <div 
+                  <div
                     className="w-8 h-8 rounded border border-border"
                     style={{ backgroundColor: token.hex }}
                   />
@@ -125,8 +129,8 @@ export default function Tokens() {
                 </div>
                 <div className={token.value}>Sample Text</div>
                 <div className="mt-2 text-sm text-muted-foreground">
-                  Class: <code className="bg-muted px-1 rounded">{token.value}</code> • 
-                  Size: {token.fontSize} • 
+                  Class: <code className="bg-muted px-1 rounded">{token.value}</code> •
+                  Size: {token.fontSize} •
                   Line Height: {token.lineHeight}
                 </div>
               </div>
@@ -158,7 +162,7 @@ export default function Tokens() {
                   </Button>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div 
+                  <div
                     className="bg-primary"
                     style={{ width: token.value, height: '16px' }}
                   />

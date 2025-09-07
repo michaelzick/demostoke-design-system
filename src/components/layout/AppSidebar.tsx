@@ -55,8 +55,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
-      <SidebarHeader className="p-4">
-        <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
+      <SidebarHeader className="p-md">
+        <div className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''}`}>
           <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-sm">DS</span>
           </div>
@@ -71,7 +71,7 @@ export function AppSidebar() {
 
       <SidebarContent>
         {/* New Component Button */}
-        <div className="px-4 pb-4">
+        <div className="px-md pb-md">
           <Button
             asChild
             variant="default"

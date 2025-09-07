@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./components/theme-provider";
 import Dashboard from "./pages/Dashboard";
 import Components from "./pages/Components";
 import NewComponent from "./pages/NewComponent";
@@ -17,16 +18,23 @@ import Settings from "./pages/Settings";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import { DemoStokeComponentTest } from "./components/DemoStokeComponentTest";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange={false}
+    >
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/*" element={
@@ -43,6 +51,7 @@ const App = () => (
                   <Route path="/figma" element={<Figma />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/test-components" element={<DemoStokeComponentTest />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
@@ -52,6 +61,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

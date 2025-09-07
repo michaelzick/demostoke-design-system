@@ -11,7 +11,9 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic --exit-zero-on-changes"
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "test:visual": "node scripts/visual-regression-test.js",
+    "test:visual-storybook": "npm run build-storybook && npm run chromatic"
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^1.12.1",

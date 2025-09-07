@@ -1,9 +1,10 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, User, LogOut } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { ThemeToggle } from "../theme-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,16 +32,14 @@ export function AppLayout({ children }: AppLayoutProps) {
 
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <header className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-4">
-            <div className="flex items-center gap-4">
+          <header className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-md">
+            <div className="flex items-center gap-md">
               <SidebarTrigger />
               <div className="text-heading-md">DemoStoke Design System</div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm">
-                <Sun className="h-4 w-4" />
-              </Button>
+            <div className="flex items-center gap-sm">
+              <ThemeToggle />
 
               {isAuthenticated ? (
                 <DropdownMenu>
@@ -55,7 +54,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex items-center justify-start gap-sm p-sm">
                       <div className="flex flex-col space-y-1 leading-none">
                         <p className="font-medium">{user?.email}</p>
                       </div>

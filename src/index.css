@@ -2,51 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DemoStoke Design System - Professional grade design tokens
-All colors MUST be HSL. Inspired by modern action sports and tech aesthetics.
+/* DemoStoke Design System - Authentic Brand Colors
+All colors use HSL format for consistency. Based on authentic DemoStoke brand palette:
+- Primary: DemoStoke Navy Blue (trust, professionalism)
+- Accent: Action Orange (energy, enthusiasm)
+- Secondary: Tech Gray (modern, sophisticated)
 */
 
 @layer base {
   :root {
     /* Core Brand Colors */
     --background: 0 0% 99%;
-    --foreground: 215 25% 17%;
+    --foreground: 215 25% 15%;
 
     /* Surface Colors */
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 17%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 17%;
+    --card: 215 10% 96%;
+    --card-foreground: 215 25% 15%;
+    --popover: 215 10% 96%;
+    --popover-foreground: 215 25% 15%;
 
-    /* Brand Primary - DemoStoke Cyan */
-    --primary: 188 100% 42%;
+    /* Brand Primary - DemoStoke Navy Blue */
+    --primary: 215 45% 25%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 188 100% 50%;
-    --primary-muted: 188 100% 96%;
+    --primary-glow: 215 45% 35%;
+    --primary-muted: 215 45% 95%;
 
-    /* Secondary - Mountain Gray */
-    --secondary: 215 15% 95%;
-    --secondary-foreground: 215 25% 17%;
+    /* Secondary - Tech Gray */
+    --secondary: 215 15% 85%;
+    --secondary-foreground: 215 25% 15%;
 
-    /* Accent - Action Yellow */
-    --accent: 50 100% 60%;
-    --accent-foreground: 215 25% 17%;
-    --accent-muted: 50 100% 95%;
+    /* Accent - Action Orange */
+    --accent: 25 95% 55%;
+    --accent-foreground: 0 0% 100%;
+    --accent-muted: 25 95% 95%;
 
     /* Functional Colors */
-    --muted: 215 15% 96%;
-    --muted-foreground: 215 10% 46%;
-    --destructive: 0 75% 60%;
+    --muted: 215 15% 94%;
+    --muted-foreground: 215 15% 45%;
+    --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
     --success: 142 70% 45%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 100% 60%;
-    --warning-foreground: 215 25% 17%;
+    --warning: 38 95% 55%;
+    --warning-foreground: 0 0% 100%;
 
     /* Interactive Elements */
     --border: 215 15% 90%;
     --input: 215 15% 94%;
-    --ring: 188 100% 42%;
+    --ring: 215 45% 25%;
 
     /* Design System Tokens */
     --radius: 0.75rem;
@@ -54,24 +57,38 @@ All colors MUST be HSL. Inspired by modern action sports and tech aesthetics.
     --radius-lg: 1rem;
     --radius-xl: 1.5rem;
 
-    /* Typography Scale */
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    --font-size-3xl: 1.875rem;
-    --font-size-4xl: 2.25rem;
+    /* DemoStoke Typography Scale */
+    --font-size-caption: 0.75rem;        /* 12px - Caption */
+    --font-size-body-sm: 0.875rem;       /* 14px - Body Small */
+    --font-size-body-md: 1rem;           /* 16px - Body Medium */
+    --font-size-body-lg: 1.125rem;       /* 18px - Body Large */
+    --font-size-heading-sm: 1.25rem;     /* 20px - Heading Small */
+    --font-size-heading-md: 1.5rem;      /* 24px - Heading Medium */
+    --font-size-heading-lg: 1.875rem;    /* 30px - Heading Large */
+    --font-size-display-sm: 2.25rem;     /* 36px - Display Small */
+    --font-size-display-md: 2.75rem;     /* 44px - Display Medium */
+    --font-size-display-lg: 3.5rem;      /* 56px - Display Large */
 
-    /* Spacing Scale */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    --spacing-2xl: 3rem;
-    --spacing-3xl: 4rem;
+    /* Font Weight Scale */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Line Height Scale */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+
+    /* DemoStoke Spacing Scale (based on 4px base unit) */
+    --spacing-xs: 0.25rem;    /* 4px */
+    --spacing-sm: 0.5rem;     /* 8px */
+    --spacing-md: 1rem;       /* 16px */
+    --spacing-lg: 1.5rem;     /* 24px */
+    --spacing-xl: 2rem;       /* 32px */
+    --spacing-2xl: 3rem;      /* 48px */
+    --spacing-3xl: 4rem;      /* 64px */
+    --spacing-4xl: 6rem;      /* 96px */
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
@@ -92,144 +109,240 @@ All colors MUST be HSL. Inspired by modern action sports and tech aesthetics.
     --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Sidebar Design System */
-    --sidebar-background: 215 20% 7%;
-    --sidebar-foreground: 215 15% 90%;
-    --sidebar-primary: 188 100% 42%;
+    --sidebar-background: 215 45% 25%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 25 95% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 20% 12%;
-    --sidebar-accent-foreground: 215 15% 90%;
-    --sidebar-border: 215 20% 15%;
-    --sidebar-ring: 188 100% 42%;
+    --sidebar-accent: 215 45% 35%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 215 45% 35%;
+    --sidebar-ring: 25 95% 55%;
   }
 
   .dark {
-    /* Dark Mode Core Colors */
-    --background: 215 25% 6%;
-    --foreground: 215 15% 90%;
-
-    /* Dark Mode Surfaces */
-    --card: 215 25% 8%;
-    --card-foreground: 215 15% 90%;
-    --popover: 215 25% 8%;
-    --popover-foreground: 215 15% 90%;
-
-    /* Dark Mode Brand */
-    --primary: 188 100% 50%;
-    --primary-foreground: 215 25% 6%;
-    --primary-glow: 188 100% 60%;
-    --primary-muted: 188 100% 10%;
-
-    /* Dark Mode Secondary */
-    --secondary: 215 20% 15%;
-    --secondary-foreground: 215 15% 90%;
-
-    /* Dark Mode Accent */
-    --accent: 50 100% 65%;
-    --accent-foreground: 215 25% 6%;
-    --accent-muted: 50 100% 15%;
-
-    /* Dark Mode Functional */
-    --muted: 215 20% 12%;
-    --muted-foreground: 215 10% 60%;
-    --destructive: 0 75% 55%;
-    --destructive-foreground: 215 15% 90%;
+    /* Override only colors that change in dark mode */
+    --background: 215 25% 8%;
+    --foreground: 215 15% 88%;
+    --card: 215 20% 12%;
+    --card-foreground: 215 15% 88%;
+    --popover: 215 20% 12%;
+    --popover-foreground: 215 15% 88%;
+    --primary: 215 55% 65%;
+    --primary-foreground: 215 25% 8%;
+    --primary-glow: 215 55% 75%;
+    --primary-muted: 215 55% 15%;
+    --secondary: 215 20% 25%;
+    --secondary-foreground: 215 15% 88%;
+    --accent: 25 90% 60%;
+    --accent-foreground: 215 25% 8%;
+    --accent-muted: 25 90% 15%;
+    --muted: 215 20% 15%;
+    --muted-foreground: 215 10% 65%;
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 215 15% 88%;
     --success: 142 70% 50%;
-    --success-foreground: 215 25% 6%;
-    --warning: 38 100% 65%;
-    --warning-foreground: 215 25% 6%;
-
-    /* Dark Mode Interactive */
+    --success-foreground: 215 25% 8%;
+    --warning: 38 90% 60%;
+    --warning-foreground: 215 25% 8%;
     --border: 215 20% 18%;
     --input: 215 20% 15%;
-    --ring: 188 100% 50%;
-
-    /* Dark Mode Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--warning)));
-    --gradient-surface: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
-
-    /* Dark Mode Shadows */
+    --ring: 215 55% 65%;
     --shadow-glow: 0 0 40px hsl(var(--primary) / 0.4);
-
-    /* Dark Mode Sidebar */
-    --sidebar-background: 215 25% 4%;
-    --sidebar-foreground: 215 15% 85%;
-    --sidebar-primary: 188 100% 50%;
-    --sidebar-primary-foreground: 215 25% 4%;
-    --sidebar-accent: 215 20% 10%;
-    --sidebar-accent-foreground: 215 15% 85%;
-    --sidebar-border: 215 20% 12%;
-    --sidebar-ring: 188 100% 50%;
+    --sidebar-background: 215 25% 6%;
+    --sidebar-foreground: 215 15% 88%;
+    --sidebar-primary: 25 90% 60%;
+    --sidebar-primary-foreground: 215 25% 6%;
+    --sidebar-accent: 215 55% 65%;
+    --sidebar-accent-foreground: 215 25% 6%;
+    --sidebar-border: 215 20% 18%;
+    --sidebar-ring: 25 90% 60%;
   }
 }
 
 @layer base {
+  /* Font Loading Optimization */
+  @font-face {
+    font-family: 'Inter';
+    font-display: swap;
+    src: local('Inter');
+  }
+
+  @font-face {
+    font-family: 'Space Grotesk';
+    font-display: swap;
+    src: local('Space Grotesk');
+  }
+
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-display: swap;
+    src: local('JetBrains Mono');
+  }
+
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* Ensure proper font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Design System Typography Classes */
+  /* Smooth theme transitions */
+  *,
+  *::before,
+  *::after {
+    transition:
+      background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Disable transitions during initial load to prevent flash */
+  .theme-transitioning *,
+  .theme-transitioning *::before,
+  .theme-transitioning *::after {
+    transition: none !important;
+  }
+
+  /* DemoStoke Typography System Classes */
   .text-display-lg {
-    @apply text-4xl font-bold tracking-tight;
+    font-size: var(--font-size-display-lg);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.02em;
+    @apply font-display;
   }
-  
+
   .text-display-md {
-    @apply text-3xl font-bold tracking-tight;
+    font-size: var(--font-size-display-md);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.02em;
+    @apply font-display;
   }
-  
+
   .text-display-sm {
-    @apply text-2xl font-bold tracking-tight;
+    font-size: var(--font-size-display-sm);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.01em;
+    @apply font-display;
   }
-  
+
   .text-heading-lg {
-    @apply text-xl font-semibold;
+    font-size: var(--font-size-heading-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.01em;
+    @apply font-sans;
   }
-  
+
   .text-heading-md {
-    @apply text-lg font-semibold;
+    font-size: var(--font-size-heading-md);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    @apply font-sans;
   }
-  
+
   .text-heading-sm {
-    @apply text-base font-semibold;
+    font-size: var(--font-size-heading-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-normal);
+    @apply font-sans;
   }
-  
+
   .text-body-lg {
-    @apply text-lg font-medium;
+    font-size: var(--font-size-body-lg);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-relaxed);
+    @apply font-sans;
   }
-  
+
   .text-body-md {
-    @apply text-base font-medium;
+    font-size: var(--font-size-body-md);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    @apply font-sans;
   }
-  
+
   .text-body-sm {
-    @apply text-sm font-medium;
+    font-size: var(--font-size-body-sm);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    @apply font-sans;
   }
-  
+
   .text-caption {
-    @apply text-xs font-medium tracking-wide uppercase;
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    @apply font-sans;
+  }
+
+  /* Additional Typography Utilities */
+  .text-code {
+    @apply font-mono text-body-sm;
+    background-color: hsl(var(--muted));
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  .text-link {
+    @apply text-primary hover:text-primary-glow underline-offset-4 hover:underline transition-colors;
+  }
+
+  /* Font Family Utilities */
+  .font-display {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+
+  .font-sans {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  }
+
+  /* Typography Responsive Utilities */
+  @media (max-width: 768px) {
+    .text-display-lg {
+      font-size: var(--font-size-display-md);
+    }
+
+    .text-display-md {
+      font-size: var(--font-size-display-sm);
+    }
   }
 
   /* Animation Classes */
   .animate-slide-up {
     animation: slide-up 0.3s ease-out;
   }
-  
+
   .animate-slide-down {
     animation: slide-down 0.3s ease-out;
   }
-  
+
   .animate-fade-in {
     animation: fade-in 0.3s ease-out;
   }
-  
+
   .animate-scale-in {
     animation: scale-in 0.2s ease-out;
   }
-  
+
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
   }
@@ -238,7 +351,7 @@ All colors MUST be HSL. Inspired by modern action sports and tech aesthetics.
   .glass-effect {
     @apply backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border border-white/20 dark:border-gray-700/20;
   }
-  
+
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
@@ -249,19 +362,19 @@ All colors MUST be HSL. Inspired by modern action sports and tech aesthetics.
   .btn-primary {
     @apply bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all;
   }
-  
+
   .btn-secondary {
     @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md transition-all;
   }
-  
+
   .btn-accent {
     @apply bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg transition-all;
   }
-  
+
   .btn-hero {
     @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground hover:shadow-glow transition-all duration-300;
   }
-  
+
   .btn-ghost {
     @apply hover:bg-muted hover:text-foreground transition-all;
   }

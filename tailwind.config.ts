@@ -14,25 +14,78 @@ export default {
     },
     extend: {
       fontFamily: {
+        // DemoStoke Typography System
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      },
+      fontSize: {
+        // DemoStoke Typography Scale
+        'caption': 'var(--font-size-caption)',
+        'body-sm': 'var(--font-size-body-sm)',
+        'body-md': 'var(--font-size-body-md)',
+        'body-lg': 'var(--font-size-body-lg)',
+        'heading-sm': 'var(--font-size-heading-sm)',
+        'heading-md': 'var(--font-size-heading-md)',
+        'heading-lg': 'var(--font-size-heading-lg)',
+        'display-sm': 'var(--font-size-display-sm)',
+        'display-md': 'var(--font-size-display-md)',
+        'display-lg': 'var(--font-size-display-lg)',
+        // Override default Tailwind sizes with DemoStoke scale
+        'xs': 'var(--font-size-caption)',
+        'sm': 'var(--font-size-body-sm)',
+        'base': 'var(--font-size-body-md)',
+        'lg': 'var(--font-size-body-lg)',
+        'xl': 'var(--font-size-heading-sm)',
+        '2xl': 'var(--font-size-heading-md)',
+        '3xl': 'var(--font-size-heading-lg)',
+        '4xl': 'var(--font-size-display-sm)',
+        '5xl': 'var(--font-size-display-md)',
+        '6xl': 'var(--font-size-display-lg)',
+      },
+      fontWeight: {
+        // DemoStoke Font Weight Scale
+        'normal': 'var(--font-weight-normal)',     // 400
+        'medium': 'var(--font-weight-medium)',     // 500
+        'semibold': 'var(--font-weight-semibold)', // 600
+        'bold': 'var(--font-weight-bold)',         // 700
+      },
+      lineHeight: {
+        // DemoStoke Line Height Scale
+        'tight': 'var(--line-height-tight)',       // 1.2
+        'normal': 'var(--line-height-normal)',     // 1.5
+        'relaxed': 'var(--line-height-relaxed)',   // 1.75
       },
       colors: {
+        // Core System Colors
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
+        // DemoStoke Brand Primary - Navy Blue
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
           glow: "hsl(var(--primary-glow))",
           muted: "hsl(var(--primary-muted))",
         },
+
+        // DemoStoke Secondary - Tech Gray
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+
+        // DemoStoke Accent - Action Orange
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+          muted: "hsl(var(--accent-muted))",
+        },
+
+        // Functional Colors
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -45,14 +98,11 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+
+        // Surface Colors
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-          muted: "hsl(var(--accent-muted))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -62,6 +112,8 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+
+        // Sidebar Component Colors
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -74,11 +126,13 @@ export default {
         },
       },
       backgroundImage: {
+        // DemoStoke Brand Gradients (use CSS custom properties for consistency)
         'gradient-primary': 'var(--gradient-primary)',
         'gradient-accent': 'var(--gradient-accent)',
         'gradient-surface': 'var(--gradient-surface)',
       },
       boxShadow: {
+        // DemoStoke Shadow System (use CSS custom properties)
         'glow': 'var(--shadow-glow)',
         'xs': 'var(--shadow-sm)',
         'sm': 'var(--shadow-base)',
@@ -87,13 +141,15 @@ export default {
         'xl': 'var(--shadow-xl)',
       },
       spacing: {
-        'xs': 'var(--spacing-xs)',
-        'sm': 'var(--spacing-sm)',
-        'md': 'var(--spacing-md)',
-        'lg': 'var(--spacing-lg)',
-        'xl': 'var(--spacing-xl)',
-        '2xl': 'var(--spacing-2xl)',
-        '3xl': 'var(--spacing-3xl)',
+        // DemoStoke Spacing Scale (based on 4px base unit)
+        'xs': 'var(--spacing-xs)',    // 0.25rem (4px)
+        'sm': 'var(--spacing-sm)',    // 0.5rem (8px)
+        'md': 'var(--spacing-md)',    // 1rem (16px)
+        'lg': 'var(--spacing-lg)',    // 1.5rem (24px)
+        'xl': 'var(--spacing-xl)',    // 2rem (32px)
+        '2xl': 'var(--spacing-2xl)',  // 3rem (48px)
+        '3xl': 'var(--spacing-3xl)',  // 4rem (64px)
+        '4xl': 'var(--spacing-4xl)',  // 6rem (96px)
       },
       transitionDuration: {
         'fast': 'var(--transition-fast)',
