@@ -10,8 +10,7 @@ import {
   Settings,
   Home,
   Package,
-  Sparkles,
-  User
+  Sparkles
 } from "lucide-react";
 
 import {
@@ -39,7 +38,6 @@ const toolsItems = [
   { title: "Import Spec", url: "/import", icon: Upload },
   { title: "Export Library", url: "/export", icon: Download },
   { title: "Figma Sync", url: "/figma", icon: Layers },
-  { title: "Profile", url: "/profile", icon: User },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
@@ -51,8 +49,8 @@ export function AppSidebar() {
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive 
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" 
+    isActive
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
       : "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground";
 
   return (
@@ -74,9 +72,9 @@ export function AppSidebar() {
       <SidebarContent>
         {/* New Component Button */}
         <div className="px-4 pb-4">
-          <Button 
-            asChild 
-            variant="default" 
+          <Button
+            asChild
+            variant="default"
             className={`w-full btn-hero ${collapsed ? 'px-2' : ''}`}
           >
             <NavLink to="/new-component">

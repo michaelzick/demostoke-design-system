@@ -28,7 +28,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <AppSidebar />
-        
+
         <div className="flex-1 flex flex-col">
           {/* Header */}
           <header className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-4">
@@ -36,12 +36,12 @@ export function AppLayout({ children }: AppLayoutProps) {
               <SidebarTrigger />
               <div className="text-heading-md">DemoStoke Design System</div>
             </div>
-            
+
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm">
                 <Sun className="h-4 w-4" />
               </Button>
-              
+
               {isAuthenticated ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -62,7 +62,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                     </div>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link to="/settings">
+                      <Link to="/profile">
                         <User className="mr-2 h-4 w-4" />
                         Profile
                       </Link>
