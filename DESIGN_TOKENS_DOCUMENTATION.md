@@ -30,60 +30,60 @@ Design Tokens
 
 ### Brand Colors
 
-#### Primary - DemoStoke Navy Blue
+#### Primary - DemoStoke Cyan Blue
 ```css
 /* Light Mode */
---primary: 215 45% 25%;           /* Deep navy blue */
---primary-foreground: 0 0% 100%;  /* White text */
---primary-glow: 215 45% 35%;      /* Lighter variant */
---primary-muted: 215 45% 95%;     /* Very light variant */
+--primary: 186 100% 48%;          /* Vibrant cyan blue */
+--primary-foreground: 210 40% 98%; /* Near white text */
+--primary-glow: 199 89% 48%;      /* Bright blue variant */
+--primary-muted: 210 40% 96.1%;   /* Very light blue */
 
 /* Dark Mode */
---primary: 215 55% 65%;           /* Lighter blue */
---primary-foreground: 215 25% 8%; /* Dark text */
---primary-glow: 215 55% 75%;      /* Even lighter */
---primary-muted: 215 55% 15%;     /* Dark variant */
+--primary: 199 89% 48%;           /* Bright blue */
+--primary-foreground: 222.2 47.4% 11.2%; /* Dark text */
+--primary-glow: 224.3 76.3% 48%;  /* Purple-blue variant */
+--primary-muted: 217.2 32.6% 17.5%; /* Dark blue variant */
 ```
 
-#### Accent - Action Orange
+#### Secondary - DemoStoke Warm Yellow
 ```css
 /* Light Mode */
---accent: 25 95% 55%;             /* Vibrant orange */
---accent-foreground: 0 0% 100%;   /* White text */
---accent-muted: 25 95% 95%;       /* Very light orange */
+--secondary: 39 71% 84%;          /* Warm yellow */
+--secondary-foreground: 222.2 47.4% 11.2%; /* Dark text */
 
 /* Dark Mode */
---accent: 25 90% 60%;             /* Adjusted for dark backgrounds */
---accent-foreground: 215 25% 8%;  /* Dark text */
---accent-muted: 25 90% 15%;       /* Dark orange variant */
+--secondary: 39 30% 76%;          /* Muted yellow */
+--secondary-foreground: 222.2 47.4% 11.2%; /* Dark text */
 ```
 
-#### Secondary - Tech Gray
+#### Accent - Neutral Gray
 ```css
 /* Light Mode */
---secondary: 215 15% 85%;         /* Light gray */
---secondary-foreground: 215 25% 15%; /* Dark text */
+--accent: 210 40% 96.1%;          /* Light neutral gray */
+--accent-foreground: 222.2 47.4% 11.2%; /* Dark text */
+--accent-muted: 210 40% 96.1%;    /* Same as accent */
 
 /* Dark Mode */
---secondary: 215 20% 25%;         /* Dark gray */
---secondary-foreground: 215 15% 88%; /* Light text */
+--accent: 217.2 32.6% 17.5%;      /* Dark neutral gray */
+--accent-foreground: 210 40% 98%; /* Light text */
+--accent-muted: 217.2 32.6% 17.5%; /* Same as accent */
 ```
 
 ### Semantic Colors
 
 #### Surfaces and Backgrounds
 ```css
---background: [Light: 0 0% 99%] [Dark: 215 25% 8%]
---foreground: [Light: 215 25% 15%] [Dark: 215 15% 88%]
---card: [Light: 215 10% 96%] [Dark: 215 20% 12%]
---muted: [Light: 215 15% 94%] [Dark: 215 20% 15%]
+--background: [Light: 0 0% 100%] [Dark: 222.2 84% 4.9%]
+--foreground: [Light: 222.2 84% 4.9%] [Dark: 210 40% 98%]
+--card: [Light: 0 0% 100%] [Dark: 222.2 84% 4.9%]
+--muted: [Light: 210 40% 96.1%] [Dark: 217.2 32.6% 17.5%]
 ```
 
 #### Interactive Elements
 ```css
---border: [Light: 215 15% 90%] [Dark: 215 20% 18%]
---input: [Light: 215 15% 94%] [Dark: 215 20% 15%]
---ring: [Light: 215 45% 25%] [Dark: 215 55% 65%]
+--border: [Light: 214.3 31.8% 91.4%] [Dark: 217.2 32.6% 17.5%]
+--input: [Light: 214.3 31.8% 91.4%] [Dark: 217.2 32.6% 17.5%]
+--ring: [Light: 199 89% 48%] [Dark: 224.3 76.3% 48%]
 ```
 
 ### Functional Colors
@@ -91,7 +91,7 @@ Design Tokens
 ```css
 --success: [Light: 142 70% 45%] [Dark: 142 70% 50%]
 --warning: [Light: 38 95% 55%] [Dark: 38 90% 60%]
---destructive: [Light: 0 75% 55%] [Dark: 0 70% 60%]
+--destructive: [Light: 0 84.2% 60.2%] [Dark: 0 62.8% 30.6%]
 ```
 
 ## Typography System
@@ -242,11 +242,11 @@ if (prefersDark) {
 ### Sidebar Component
 
 ```css
---sidebar-background: [Light: 215 45% 25%] [Dark: 215 25% 6%]
---sidebar-foreground: [Light: 0 0% 100%] [Dark: 215 15% 88%]
---sidebar-primary: [Light: 25 95% 55%] [Dark: 25 90% 60%]
---sidebar-accent: [Light: 215 45% 35%] [Dark: 215 55% 65%]
---sidebar-border: [Light: 215 45% 35%] [Dark: 215 20% 18%]
+--sidebar-background: [Light: 0 0% 98%] [Dark: 240 5.9% 10%]
+--sidebar-foreground: [Light: 240 5.3% 26.1%] [Dark: 240 4.8% 95.9%]
+--sidebar-primary: [Light: 240 5.9% 10%] [Dark: 224.3 76.3% 48%]
+--sidebar-accent: [Light: 240 4.8% 95.9%] [Dark: 240 3.7% 15.9%]
+--sidebar-border: [Light: 220 13% 91%] [Dark: 240 3.7% 15.9%]
 ```
 
 ### Button Variants
