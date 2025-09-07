@@ -40,19 +40,58 @@ export const designSystemProfileService = {
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
+      console.error('No authenticated user found');
       return false;
     }
 
-    const { error } = await supabase
+    // Use UPSERT to handle both insert and update cases
+    const { data, error } = await supabase
       .from('design_system_profiles')
-      .update(updates)
-      .eq('user_id', user.id);
+      .upsert({
+        user_id: user.id,
+        ...updates
+      }, {
+        onConflict: 'user_id'
+      })
+      .select();
 
     if (error) {
-      console.error('Error updating design system profile:', error);
+      console.error('Error upserting design system profile:', error);
       return false;
     }
 
+    if (!data || data.length === 0) {
+      console.error('No data returned from upsert operation');
+      return false;
+    }
+
+    console.log('Profile updated successfully:', data[0]);
+    return true;
+  },
+
+  async createProfile(): Promise<boolean> {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.error('No authenticated user found');
+      return false;
+    }
+
+    const { data, error } = await supabase
+      .from('design_system_profiles')
+      .insert({
+        user_id: user.id,
+        display_name: user.user_metadata?.name || user.email,
+        avatar_url: `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.id}`
+      })
+      .select();
+
+    if (error) {
+      console.error('Error creating design system profile:', error);
+      return false;
+    }
+
+    console.log('Profile created successfully:', data[0]);
     return true;
   },
 
