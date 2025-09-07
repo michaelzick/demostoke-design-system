@@ -10,7 +10,8 @@ import {
   Settings,
   Home,
   Package,
-  Sparkles
+  Sparkles,
+  User
 } from "lucide-react";
 
 import {
@@ -38,6 +39,7 @@ const toolsItems = [
   { title: "Import Spec", url: "/import", icon: Upload },
   { title: "Export Library", url: "/export", icon: Download },
   { title: "Figma Sync", url: "/figma", icon: Layers },
+  { title: "Profile", url: "/profile", icon: User },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
