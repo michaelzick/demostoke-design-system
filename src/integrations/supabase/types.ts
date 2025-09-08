@@ -272,6 +272,78 @@ export type Database = {
         }
         Relationships: []
       }
+      design_system_settings: {
+        Row: {
+          accent_color: string | null
+          auto_publish: boolean | null
+          base_font_size: string | null
+          build_command: string | null
+          code_generation: string | null
+          created_at: string
+          default_theme: string | null
+          font_family: string | null
+          id: string
+          notifications: boolean | null
+          primary_color: string | null
+          project_description: string | null
+          project_name: string | null
+          project_version: string | null
+          public_components: boolean | null
+          secondary_color: string | null
+          storybook_port: string | null
+          success_color: string | null
+          test_command: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accent_color?: string | null
+          auto_publish?: boolean | null
+          base_font_size?: string | null
+          build_command?: string | null
+          code_generation?: string | null
+          created_at?: string
+          default_theme?: string | null
+          font_family?: string | null
+          id?: string
+          notifications?: boolean | null
+          primary_color?: string | null
+          project_description?: string | null
+          project_name?: string | null
+          project_version?: string | null
+          public_components?: boolean | null
+          secondary_color?: string | null
+          storybook_port?: string | null
+          success_color?: string | null
+          test_command?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          accent_color?: string | null
+          auto_publish?: boolean | null
+          base_font_size?: string | null
+          build_command?: string | null
+          code_generation?: string | null
+          created_at?: string
+          default_theme?: string | null
+          font_family?: string | null
+          id?: string
+          notifications?: boolean | null
+          primary_color?: string | null
+          project_description?: string | null
+          project_name?: string | null
+          project_version?: string | null
+          public_components?: boolean | null
+          secondary_color?: string | null
+          storybook_port?: string | null
+          success_color?: string | null
+          test_command?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       downloaded_images: {
         Row: {
           created_at: string

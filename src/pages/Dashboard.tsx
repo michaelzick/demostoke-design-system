@@ -22,7 +22,7 @@ export default function Dashboard() {
   return (
     <div className="p-6 space-y-6">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-xl bg-gradient-primary p-8 text-primary-foreground">
+      <div className="relative overflow-hidden rounded-xl bg-primary p-8 text-primary-foreground">
         <div className="relative z-10">
           <h1 className="text-display-lg mb-4">Welcome to DemoStoke Design System</h1>
           <p className="text-body-lg mb-6 opacity-90">
@@ -42,7 +42,6 @@ export default function Dashboard() {
             </Button>
           </div>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 opacity-20"></div>
       </div>
 
       {/* Stats Grid */}
@@ -109,12 +108,6 @@ export default function Dashboard() {
               <NavLink to="/new-component">
                 <Plus className="h-4 w-4 mr-2" />
                 Create New Component
-              </NavLink>
-            </Button>
-            <Button asChild variant="outline" className="w-full justify-start">
-              <NavLink to="/ai-generate">
-                <Sparkles className="h-4 w-4 mr-2" />
-                AI Generate Component
               </NavLink>
             </Button>
             <Button asChild variant="outline" className="w-full justify-start">

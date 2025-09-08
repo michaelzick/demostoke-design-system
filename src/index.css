@@ -372,9 +372,6 @@ All colors use HSL format for consistency. Based on authentic DemoStoke brand pa
     @apply bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg transition-all;
   }
 
-  .btn-hero {
-    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground hover:shadow-glow transition-all duration-300;
-  }
 
   .btn-ghost {
     @apply hover:bg-muted hover:text-foreground transition-all;

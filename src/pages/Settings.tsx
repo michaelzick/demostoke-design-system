@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,24 +9,108 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Settings as SettingsIcon, Users, Shield, Palette, Code, Bell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { designSystemSettingsService } from "@/services/designSystemSettingsService";
 
 export default function Settings() {
   const { toast } = useToast();
   const [settings, setSettings] = useState({
     projectName: "DemoStoke Design System",
+    projectDescription: "",
+    projectVersion: "1.0.0",
     defaultTheme: "light",
     autoPublish: true,
     notifications: true,
     publicComponents: false,
     codeGeneration: "typescript",
     storybookPort: "6006",
+    buildCommand: "",
+    testCommand: "",
+    fontFamily: "inter",
+    baseFontSize: "16",
+    primaryColor: "#3b82f6",
+    secondaryColor: "#6b7280",
+    accentColor: "#f59e0b",
+    successColor: "#10b981",
   });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleSave = () => {
-    toast({
-      title: "Settings saved",
-      description: "Your preferences have been updated successfully.",
-    });
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const userSettings = await designSystemSettingsService.getCurrentSettings();
+      if (userSettings) {
+        setSettings({
+          projectName: userSettings.project_name,
+          projectDescription: userSettings.project_description || "",
+          projectVersion: userSettings.project_version,
+          defaultTheme: userSettings.default_theme,
+          autoPublish: userSettings.auto_publish,
+          notifications: userSettings.notifications,
+          publicComponents: userSettings.public_components,
+          codeGeneration: userSettings.code_generation,
+          storybookPort: userSettings.storybook_port,
+          buildCommand: userSettings.build_command || "",
+          testCommand: userSettings.test_command || "",
+          fontFamily: userSettings.font_family,
+          baseFontSize: userSettings.base_font_size,
+          primaryColor: userSettings.primary_color,
+          secondaryColor: userSettings.secondary_color,
+          accentColor: userSettings.accent_color,
+          successColor: userSettings.success_color,
+        });
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const success = await designSystemSettingsService.updateSettings({
+        project_name: settings.projectName,
+        project_description: settings.projectDescription,
+        project_version: settings.projectVersion,
+        default_theme: settings.defaultTheme,
+        auto_publish: settings.autoPublish,
+        notifications: settings.notifications,
+        public_components: settings.publicComponents,
+        code_generation: settings.codeGeneration,
+        storybook_port: settings.storybookPort,
+        build_command: settings.buildCommand,
+        test_command: settings.testCommand,
+        font_family: settings.fontFamily,
+        base_font_size: settings.baseFontSize,
+        primary_color: settings.primaryColor,
+        secondary_color: settings.secondaryColor,
+        accent_color: settings.accentColor,
+        success_color: settings.successColor,
+      });
+
+      if (success) {
+        toast({
+          title: "Settings saved",
+          description: "Your preferences have been updated successfully.",
+        });
+      } else {
+        toast({
+          title: "Error saving settings",
+          description: "Please try again later.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      toast({
+        title: "Error saving settings",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
 
   const updateSetting = (key: string, value: any) => {
@@ -90,7 +174,8 @@ export default function Settings() {
                   <Input
                     id="project-description"
                     placeholder="A comprehensive design system for modern web applications"
-                    onChange={() => {}}
+                    value={settings.projectDescription}
+                    onChange={(e) => updateSetting('projectDescription', e.target.value)}
                   />
                 </div>
 
@@ -99,7 +184,8 @@ export default function Settings() {
                   <Input
                     id="project-version"
                     placeholder="1.0.0"
-                    onChange={() => {}}
+                    value={settings.projectVersion}
+                    onChange={(e) => updateSetting('projectVersion', e.target.value)}
                   />
                 </div>
               </CardContent>
@@ -167,10 +253,10 @@ export default function Settings() {
                   <Label>Color Palette</Label>
                   <div className="grid grid-cols-4 gap-4">
                     {[
-                      { name: "Primary", color: "#3b82f6" },
-                      { name: "Secondary", color: "#6b7280" },
-                      { name: "Accent", color: "#f59e0b" },
-                      { name: "Success", color: "#10b981" },
+                      { name: "Primary", color: settings.primaryColor, key: "primaryColor" },
+                      { name: "Secondary", color: settings.secondaryColor, key: "secondaryColor" },
+                      { name: "Accent", color: settings.accentColor, key: "accentColor" },
+                      { name: "Success", color: settings.successColor, key: "successColor" },
                     ].map((item) => (
                       <div key={item.name} className="space-y-2">
                         <Label className="text-sm">{item.name}</Label>
@@ -182,7 +268,7 @@ export default function Settings() {
                           <Input
                             value={item.color}
                             className="font-mono text-sm"
-                            onChange={() => {}}
+                            onChange={(e) => updateSetting(item.key, e.target.value)}
                           />
                         </div>
                       </div>
@@ -199,7 +285,7 @@ export default function Settings() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label>Font Family</Label>
-                  <Select defaultValue="inter">
+                  <Select value={settings.fontFamily} onValueChange={(value) => updateSetting('fontFamily', value)}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -213,7 +299,7 @@ export default function Settings() {
 
                 <div className="space-y-2">
                   <Label>Base Font Size</Label>
-                  <Select defaultValue="16">
+                  <Select value={settings.baseFontSize} onValueChange={(value) => updateSetting('baseFontSize', value)}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -367,7 +453,8 @@ export default function Settings() {
                   <Input
                     id="build-command"
                     placeholder="npm run build"
-                    onChange={() => {}}
+                    value={settings.buildCommand}
+                    onChange={(e) => updateSetting('buildCommand', e.target.value)}
                   />
                 </div>
 
@@ -376,7 +463,8 @@ export default function Settings() {
                   <Input
                     id="test-command"
                     placeholder="npm test"
-                    onChange={() => {}}
+                    value={settings.testCommand}
+                    onChange={(e) => updateSetting('testCommand', e.target.value)}
                   />
                 </div>
               </CardContent>
@@ -440,7 +528,9 @@ export default function Settings() {
       </Tabs>
 
       <div className="flex justify-end">
-        <Button onClick={handleSave}>Save Changes</Button>
+        <Button onClick={handleSave} disabled={isLoading}>
+          {isLoading ? "Loading..." : "Save Changes"}
+        </Button>
       </div>
     </div>
   );

@@ -57,9 +57,11 @@ export function AppSidebar() {
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarHeader className="p-md">
         <div className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''}`}>
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">DS</span>
-          </div>
+          <img 
+            src="/src/assets/images/demostoke-logo-ds-transparent-cropped.webp" 
+            alt="DemoStoke Logo" 
+            className="w-8 h-8 object-contain"
+          />
           {!collapsed && (
             <div>
               <h2 className="text-heading-sm text-sidebar-foreground">DemoStoke</h2>
@@ -75,7 +77,7 @@ export function AppSidebar() {
           <Button
             asChild
             variant="default"
-            className={`w-full btn-hero ${collapsed ? 'px-2' : ''}`}
+            className={`w-full ${collapsed ? 'px-2' : ''}`}
           >
             <NavLink to="/new-component">
               <Plus className="h-4 w-4" />
@@ -120,22 +122,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* AI Generation Section */}
-        <SidebarGroup>
-          <SidebarGroupLabel className={collapsed ? 'sr-only' : ''}>AI Tools</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <NavLink to="/ai-generate" className={getNavCls}>
-                    <Sparkles className="h-4 w-4" />
-                    {!collapsed && <span>AI Generate</span>}
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );
