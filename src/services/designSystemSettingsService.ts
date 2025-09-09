@@ -1,27 +1,86 @@
 import { supabase } from '@/integrations/supabase/client';
 
-export interface DesignSystemSettings {
-  id: string;
-  user_id: string;
-  project_name: string;
+interface DesignSystemSettings {
+  id?: string;
+  user_id?: string;
+  project_name?: string;
   project_description?: string;
-  project_version: string;
-  default_theme: string;
-  auto_publish: boolean;
-  notifications: boolean;
-  public_components: boolean;
-  code_generation: string;
-  storybook_port: string;
+  project_version?: string;
+  default_theme?: string;
+  // Light mode colors
+  primary_color?: string;
+  secondary_color?: string;
+  accent_color?: string;
+  success_color?: string;
+  destructive_color?: string;
+  warning_color?: string;
+  background_color?: string;
+  foreground_color?: string;
+  muted_color?: string;
+  border_color?: string;
+  ring_color?: string;
+  // Dark mode colors
+  primary_color_dark?: string;
+  secondary_color_dark?: string;
+  accent_color_dark?: string;
+  success_color_dark?: string;
+  destructive_color_dark?: string;
+  warning_color_dark?: string;
+  background_color_dark?: string;
+  foreground_color_dark?: string;
+  muted_color_dark?: string;
+  border_color_dark?: string;
+  ring_color_dark?: string;
+  // Sidebar colors
+  sidebar_background?: string;
+  sidebar_foreground?: string;
+  sidebar_primary?: string;
+  sidebar_primary_foreground?: string;
+  sidebar_accent?: string;
+  sidebar_accent_foreground?: string;
+  sidebar_border?: string;
+  sidebar_ring?: string;
+  // Dark mode sidebar colors
+  sidebar_background_dark?: string;
+  sidebar_foreground_dark?: string;
+  sidebar_primary_dark?: string;
+  sidebar_primary_foreground_dark?: string;
+  sidebar_accent_dark?: string;
+  sidebar_accent_foreground_dark?: string;
+  sidebar_border_dark?: string;
+  sidebar_ring_dark?: string;
+  // Typography
+  font_family?: string;
+  base_font_size?: string;
+  font_display_lg?: string;
+  font_display_md?: string;
+  font_display_sm?: string;
+  font_heading_lg?: string;
+  font_heading_md?: string;
+  font_heading_sm?: string;
+  font_body_lg?: string;
+  font_body_md?: string;
+  font_body_sm?: string;
+  font_caption?: string;
+  // Spacing
+  spacing_xs?: string;
+  spacing_sm?: string;
+  spacing_md?: string;
+  spacing_lg?: string;
+  spacing_xl?: string;
+  spacing_2xl?: string;
+  spacing_3xl?: string;
+  spacing_4xl?: string;
+  // Other settings
+  auto_publish?: boolean;
+  notifications?: boolean;
+  public_components?: boolean;
+  code_generation?: string;
+  storybook_port?: string;
   build_command?: string;
   test_command?: string;
-  font_family: string;
-  base_font_size: string;
-  primary_color: string;
-  secondary_color: string;
-  accent_color: string;
-  success_color: string;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export const designSystemSettingsService = {
@@ -121,3 +180,5 @@ export const designSystemSettingsService = {
     return !!supabase;
   }
 };
+
+export type { DesignSystemSettings };
