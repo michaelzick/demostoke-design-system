@@ -16,7 +16,7 @@ export default {
       fontFamily: {
         // DemoStoke Typography System
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        display: ['Tahoma', 'Arial', 'sans-serif'],
         mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       fontSize: {

@@ -92,6 +92,10 @@ export default function Settings() {
       });
 
       if (success) {
+        // Trigger settings update event for theme provider
+        localStorage.setItem('design-system-settings-updated', Date.now().toString());
+        window.dispatchEvent(new StorageEvent('storage', { key: 'design-system-settings-updated' }));
+        
         toast({
           title: "Settings saved",
           description: "Your preferences have been updated successfully.",
@@ -291,6 +295,7 @@ export default function Settings() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="inter">Inter</SelectItem>
+                      <SelectItem value="tahoma">Tahoma</SelectItem>
                       <SelectItem value="roboto">Roboto</SelectItem>
                       <SelectItem value="system">System</SelectItem>
                     </SelectContent>

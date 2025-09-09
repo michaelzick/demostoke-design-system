@@ -6,10 +6,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./components/theme-provider";
+import { useThemeProvider } from "./hooks/useThemeProvider";
 import Dashboard from "./pages/Dashboard";
 import Components from "./pages/Components";
 import NewComponent from "./pages/NewComponent";
 import Tokens from "./pages/Tokens";
+import EditableTokens from "./pages/EditableTokens";
 import Documentation from "./pages/Documentation";
 import Import from "./pages/Import";
 import Export from "./pages/Export";
@@ -22,15 +24,18 @@ import { DemoStokeComponentTest } from "./components/DemoStokeComponentTest";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange={false}
-    >
-      <AuthProvider>
+const App = () => {
+  useThemeProvider();
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange={false}
+      >
+        <AuthProvider>
         <TooltipProvider>
           <Toaster />
           <Sonner />
@@ -44,7 +49,8 @@ const App = () => (
                   <Route path="/components" element={<Components />} />
                   <Route path="/new-component" element={<NewComponent />} />
                   <Route path="/ai-generate" element={<NewComponent />} />
-                  <Route path="/tokens" element={<Tokens />} />
+                  <Route path="/tokens" element={<EditableTokens />} />
+                  <Route path="/tokens-old" element={<Tokens />} />
                   <Route path="/docs" element={<Documentation />} />
                   <Route path="/import" element={<Import />} />
                   <Route path="/export" element={<Export />} />
@@ -61,8 +67,9 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

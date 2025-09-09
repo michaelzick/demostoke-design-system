@@ -136,8 +136,9 @@ export default function Components() {
           </div>
           
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>{component.lastModified}</span>
-            <span>{component.downloads} downloads</span>
+            <span className="text-sm text-muted-foreground">
+              Status: {component.status}
+            </span>
           </div>
         </div>
       </CardContent>
@@ -159,8 +160,6 @@ export default function Components() {
           
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Badge variant="outline">{component.category}</Badge>
-            <span className="hidden md:inline">{component.lastModified}</span>
-            <span className="hidden lg:inline">{component.downloads} downloads</span>
             <Badge variant={component.status === "Published" ? "default" : "secondary"}>
               {component.status}
             </Badge>

@@ -305,13 +305,13 @@ All colors use HSL format for consistency. Based on authentic DemoStoke brand pa
 
   /* Font Family Utilities */
   .font-display {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Tahoma', Arial, sans-serif;
   }
-
+  
   .font-sans {
     font-family: 'Inter', system-ui, sans-serif;
   }
-
+  
   .font-mono {
     font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
   }
