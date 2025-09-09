@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Copy, Palette, Type, Ruler, Sun, Moon } from 'lucide-react';
 import { designSystemSettingsService } from '@/services/designSystemSettingsService';
 import { useToast } from '@/hooks/use-toast';
+import { DesignSystemProvider } from '@/components/DesignSystemProvider';
 
 export default function EditableTokens() {
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
@@ -433,7 +434,8 @@ export default function EditableTokens() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <DesignSystemProvider>
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Design Tokens</h1>
         <p className="text-muted-foreground">
@@ -633,7 +635,8 @@ export default function EditableTokens() {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs>
-    </div>
+        </Tabs>
+      </div>
+    </DesignSystemProvider>
   );
 }

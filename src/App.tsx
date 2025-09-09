@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./components/theme-provider";
-import { useThemeProvider } from "./hooks/useThemeProvider";
 import Dashboard from "./pages/Dashboard";
 import Components from "./pages/Components";
 import NewComponent from "./pages/NewComponent";
@@ -25,8 +24,6 @@ import { DemoStokeComponentTest } from "./components/DemoStokeComponentTest";
 const queryClient = new QueryClient();
 
 const App = () => {
-  useThemeProvider();
-  
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider

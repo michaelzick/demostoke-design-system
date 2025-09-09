@@ -2,425 +2,429 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DemoStoke Design System - Authentic Brand Colors
-All colors use HSL format for consistency. Based on authentic DemoStoke brand palette:
-- Primary: DemoStoke Cyan Blue (186 100% 48% - vibrant, trustworthy)
-- Secondary: DemoStoke Warm Yellow (39 71% 84% - friendly, approachable)
-- Accent: Neutral Gray (matches muted for consistency)
-- Ring/Focus: Bright Blue (199 89% 48% - high visibility)
-*/
-
-@layer base {
-  :root {
-    /* Core Brand Colors - Authentic DemoStoke */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    /* Surface Colors */
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    /* Brand Primary - DemoStoke Cyan Blue */
-    --primary: 186 100% 48%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 199 89% 48%;
-    --primary-muted: 210 40% 96.1%;
-
-    /* Secondary - DemoStoke Warm Yellow */
-    --secondary: 39 71% 84%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    /* Accent - Matches muted for consistency */
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --accent-muted: 210 40% 96.1%;
-
-    /* Functional Colors */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --success: 142 70% 45%;
-    --success-foreground: 210 40% 98%;
-    --warning: 38 95% 55%;
-    --warning-foreground: 222.2 47.4% 11.2%;
-
-    /* Interactive Elements */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 199 89% 48%;
-
-    /* Design System Tokens */
-    --radius: 0.5rem;
-    --radius-sm: 0.25rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-
-    /* DemoStoke Typography Scale */
-    --font-size-caption: 0.75rem;        /* 12px - Caption */
-    --font-size-body-sm: 0.875rem;       /* 14px - Body Small */
-    --font-size-body-md: 1rem;           /* 16px - Body Medium */
-    --font-size-body-lg: 1.125rem;       /* 18px - Body Large */
-    --font-size-heading-sm: 1.25rem;     /* 20px - Heading Small */
-    --font-size-heading-md: 1.5rem;      /* 24px - Heading Medium */
-    --font-size-heading-lg: 1.875rem;    /* 30px - Heading Large */
-    --font-size-display-sm: 2.25rem;     /* 36px - Display Small */
-    --font-size-display-md: 2.75rem;     /* 44px - Display Medium */
-    --font-size-display-lg: 3.5rem;      /* 56px - Display Large */
-
-    /* Font Weight Scale */
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-
-    /* Line Height Scale */
-    --line-height-tight: 1.2;
-    --line-height-normal: 1.5;
-    --line-height-relaxed: 1.75;
-
-    /* DemoStoke Spacing Scale (based on 4px base unit) */
-    --spacing-xs: 0.25rem;    /* 4px */
-    --spacing-sm: 0.5rem;     /* 8px */
-    --spacing-md: 1rem;       /* 16px */
-    --spacing-lg: 1.5rem;     /* 24px */
-    --spacing-xl: 2rem;       /* 32px */
-    --spacing-2xl: 3rem;      /* 48px */
-    --spacing-3xl: 4rem;      /* 64px */
-    --spacing-4xl: 6rem;      /* 96px */
-
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--warning)));
-    --gradient-surface: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(var(--foreground) / 0.05);
-    --shadow-base: 0 1px 3px 0 hsl(var(--foreground) / 0.1), 0 1px 2px -1px hsl(var(--foreground) / 0.1);
-    --shadow-md: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 0 2px 4px -2px hsl(var(--foreground) / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -4px hsl(var(--foreground) / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(var(--foreground) / 0.1), 0 8px 10px -6px hsl(var(--foreground) / 0.1);
-    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.3);
-
-    /* Transitions */
-    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Sidebar Design System - Authentic DemoStoke */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    /* Dark Mode - Authentic DemoStoke Colors */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 199 89% 48%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --primary-glow: 224.3 76.3% 48%;
-    --primary-muted: 217.2 32.6% 17.5%;
-    --secondary: 39 30% 76%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --accent-muted: 217.2 32.6% 17.5%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --success: 142 70% 50%;
-    --success-foreground: 222.2 84% 4.9%;
-    --warning: 38 90% 60%;
-    --warning-foreground: 222.2 84% 4.9%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.4);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+/* CSS Variables - Light Mode (DemoStoke Brand Colors) */
+:root {
+  /* Primary Colors - DemoStoke Cyan Blue */
+  --primary: 186 100% 48%;
+  --primary-glow: 199 89% 48%;
+  --primary-variant: 199 89% 48%;
+  
+  /* Secondary Colors - DemoStoke Warm Yellow */
+  --secondary: 39 71% 84%;
+  --secondary-glow: 39 90% 75%;
+  --secondary-variant: 39 60% 78%;
+  
+  /* Accent Colors - Neutral Gray */
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 84% 4.9%;
+  
+  /* Base Colors */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  
+  /* Muted Colors */
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  
+  /* Border & Input */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 199 89% 48%;
+  
+  /* Card */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  
+  /* Popover */
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  
+  /* Destructive */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  
+  /* Success */
+  --success: 142 70% 45%;
+  --success-foreground: 210 40% 98%;
+  
+  /* Warning */
+  --warning: 38 95% 55%;
+  --warning-foreground: 222.2 84% 4.9%;
+  
+  /* Typography Scale */
+  --font-size-display-lg: 3.5rem;
+  --font-size-display-md: 2.75rem;
+  --font-size-display-sm: 2.25rem;
+  --font-size-heading-lg: 1.875rem;
+  --font-size-heading-md: 1.5rem;
+  --font-size-heading-sm: 1.25rem;
+  --font-size-body-lg: 1.125rem;
+  --font-size-body-md: 1rem;
+  --font-size-body-sm: 0.875rem;
+  --font-size-caption: 0.75rem;
+  
+  /* Line Heights */
+  --line-height-display: 1.2;
+  --line-height-heading: 1.2;
+  --line-height-body: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Spacing Scale */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 96px;
+  
+  /* Component Gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+  --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
+  --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+  
+  /* Shadows */
+  --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+  --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+  --shadow-subtle: 0 2px 8px -2px hsl(var(--foreground) / 0.1);
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-medium: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Sidebar Colors */
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
 }
 
-@layer base {
-  /* Font Loading Optimization */
-  @font-face {
-    font-family: 'Inter';
-    font-display: swap;
-    src: local('Inter');
-  }
+/* Dark Mode Colors */
+.dark {
+  /* Primary Colors - Enhanced for dark mode */
+  --primary: 199 89% 48%;
+  --primary-glow: 199 100% 55%;
+  --primary-variant: 186 100% 48%;
+  
+  /* Secondary Colors - Warmer for dark mode */
+  --secondary: 39 30% 76%;
+  --secondary-glow: 39 80% 78%;
+  --secondary-variant: 39 60% 70%;
+  
+  /* Accent Colors */
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  
+  /* Base Colors */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  
+  /* Muted Colors */
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  
+  /* Border & Input */
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
+  
+  /* Card */
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  
+  /* Popover */
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  
+  /* Destructive */
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  
+  /* Success */
+  --success: 142 70% 50%;
+  --success-foreground: 222.2 84% 4.9%;
+  
+  /* Warning */
+  --warning: 38 90% 60%;
+  --warning-foreground: 222.2 84% 4.9%;
+  
+  /* Sidebar Colors for Dark Mode */
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+}
 
-  @font-face {
-    font-family: 'Space Grotesk';
-    font-display: swap;
-    src: local('Space Grotesk');
-  }
+/* Custom Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-  @font-face {
-    font-family: 'JetBrains Mono';
-    font-display: swap;
-    src: local('JetBrains Mono');
-  }
+/* Base Styles */
+* {
+  border-color: hsl(var(--border));
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+}
 
-  * {
-    @apply border-border;
-  }
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  /* Prevent theme transition flash */
-  .theme-transitioning *,
-  .theme-transitioning *::before,
-  .theme-transitioning *::after {
-    transition: none !important;
-  }
+/* Typography Utilities */
+.text-display-lg {
+  font-size: var(--font-size-display-lg);
+  line-height: var(--line-height-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
 
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    /* Ensure proper font rendering */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
+.text-display-md {
+  font-size: var(--font-size-display-md);
+  line-height: var(--line-height-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
 
-  /* Smooth theme transitions - excluding transform to prevent dropdown positioning conflicts */
-  *,
-  *::before,
-  *::after {
-    transition:
-      background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+.text-display-sm {
+  font-size: var(--font-size-display-sm);
+  line-height: var(--line-height-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+}
 
-  /* Disable transitions during initial load to prevent flash */
-  .theme-transitioning *,
-  .theme-transitioning *::before,
-  .theme-transitioning *::after {
-    transition: none !important;
-  }
+.text-heading-lg {
+  font-size: var(--font-size-heading-lg);
+  line-height: var(--line-height-heading);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.01em;
+}
 
-  /* DemoStoke Typography System Classes */
+.text-heading-md {
+  font-size: var(--font-size-heading-md);
+  line-height: var(--line-height-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.text-heading-sm {
+  font-size: var(--font-size-heading-sm);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-medium);
+}
+
+.text-body-lg {
+  font-size: var(--font-size-body-lg);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-normal);
+}
+
+.text-body-md {
+  font-size: var(--font-size-body-md);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-normal);
+}
+
+.text-body-sm {
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-normal);
+}
+
+.text-caption {
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.text-code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.text-link {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.text-link:hover {
+  color: hsl(var(--primary-glow));
+}
+
+/* Font Family Utilities */
+.font-display {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+}
+
+.font-sans {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
   .text-display-lg {
-    font-size: var(--font-size-display-lg);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-tight);
-    letter-spacing: -0.02em;
-    @apply font-display;
+    font-size: 2.75rem;
   }
-
+  
   .text-display-md {
-    font-size: var(--font-size-display-md);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-tight);
-    letter-spacing: -0.02em;
-    @apply font-display;
+    font-size: 2.25rem;
   }
-
+  
   .text-display-sm {
-    font-size: var(--font-size-display-sm);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-tight);
-    letter-spacing: -0.01em;
-    @apply font-display;
-  }
-
-  .text-heading-lg {
-    font-size: var(--font-size-heading-lg);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-tight);
-    letter-spacing: -0.01em;
-    @apply font-sans;
-  }
-
-  .text-heading-md {
-    font-size: var(--font-size-heading-md);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-tight);
-    @apply font-sans;
-  }
-
-  .text-heading-sm {
-    font-size: var(--font-size-heading-sm);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-normal);
-    @apply font-sans;
-  }
-
-  .text-body-lg {
-    font-size: var(--font-size-body-lg);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-relaxed);
-    @apply font-sans;
-  }
-
-  .text-body-md {
-    font-size: var(--font-size-body-md);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-normal);
-    @apply font-sans;
-  }
-
-  .text-body-sm {
-    font-size: var(--font-size-body-sm);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-normal);
-    @apply font-sans;
-  }
-
-  .text-caption {
-    font-size: var(--font-size-caption);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-normal);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    @apply font-sans;
-  }
-
-  /* Additional Typography Utilities */
-  .text-code {
-    @apply font-mono text-body-sm;
-    background-color: hsl(var(--muted));
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.25rem;
-  }
-
-  .text-link {
-    @apply text-primary hover:text-primary-glow underline-offset-4 hover:underline transition-colors;
-  }
-
-  /* Font Family Utilities */
-  .font-display {
-    font-family: 'Tahoma', Arial, sans-serif;
-  }
-  
-  .font-sans {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-  
-  .font-mono {
-    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
-  }
-
-  /* Typography Responsive Utilities */
-  @media (max-width: 768px) {
-    .text-display-lg {
-      font-size: var(--font-size-display-md);
-    }
-
-    .text-display-md {
-      font-size: var(--font-size-display-sm);
-    }
-  }
-
-  /* Animation Classes */
-  .animate-slide-up {
-    animation: slide-up 0.3s ease-out;
-  }
-
-  .animate-slide-down {
-    animation: slide-down 0.3s ease-out;
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.3s ease-out;
-  }
-
-  .animate-scale-in {
-    animation: scale-in 0.2s ease-out;
-  }
-
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-
-  /* Component Enhancement Classes */
-  .glass-effect {
-    @apply backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border border-white/20 dark:border-gray-700/20;
-  }
-
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
+    font-size: 1.875rem;
   }
 }
 
-@layer components {
-  /* Design System Button Variants */
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all;
-  }
-
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md transition-all;
-  }
-
-  .btn-accent {
-    @apply bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg transition-all;
-  }
-
-
-  .btn-ghost {
-    @apply hover:bg-muted hover:text-foreground transition-all;
-  }
-
-  /* DemoStoke Specific Component Styles */
-  button.bg-primary,
-  a.bg-primary {
-    background-color: hsl(var(--primary));
-    color: #212121;
-  }
-
-  .bg-primary a,
-  .bg-primary a:link,
-  .bg-primary a:visited {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .bg-primary a:hover {
-    color: #212121;
-  }
-
-  /* DemoStoke Component Utilities */
-  .owner-personality {
-    color: #020817;
-  }
-
-  .homepage-float-1 {
-    animation-delay: 0.5s;
-  }
-
-  .how-it-works-icon {
-    color: #020817;
-  }
+/* Animation Classes */
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
 }
 
-/* Keyframes for animations */
-@keyframes slide-up {
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Component Enhancement Classes */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.shadow-elegant {
+  box-shadow: var(--shadow-elegant);
+}
+
+.shadow-subtle {
+  box-shadow: var(--shadow-subtle);
+}
+
+/* Button Variants */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  box-shadow: var(--shadow-elegant);
+  transition: all var(--transition-medium);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-secondary {
+  background: var(--gradient-secondary);
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  transition: all var(--transition-medium);
+}
+
+.btn-secondary:hover {
+  background: hsl(var(--secondary-glow));
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.btn-ghost:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
+
+.btn-hero {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-elegant);
+  transition: all var(--transition-medium);
+}
+
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Enhancement Classes for Specific Elements */
+a[href="/"], .owner-personality {
+  color: hsl(var(--primary));
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast);
+}
+
+a[href="/"]:hover, .owner-personality:hover {
+  color: hsl(var(--primary-glow));
+}
+
+.homepage-float-1 {
+  animation: float 6s ease-in-out infinite;
+}
+
+.how-it-works-icon {
+  color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.1);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  transition: all var(--transition-medium);
+}
+
+.how-it-works-icon:hover {
+  background: hsl(var(--primary) / 0.2);
+  transform: scale(1.05);
+}
+
+/* Animation Keyframes */
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -428,26 +432,19 @@ All colors use HSL format for consistency. Based on authentic DemoStoke brand pa
   }
 }
 
-@keyframes slide-down {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scale-in {
+@keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.9);
   }
   to {
     opacity: 1;
@@ -460,22 +457,54 @@ All colors use HSL format for consistency. Based on authentic DemoStoke brand pa
     box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
   }
   to {
-    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
 
 /* Mapbox GL Styles */
-.mapboxgl-popup {
-  max-width: 300px;
-}
-
-.mapboxgl-popup-content {
-  padding: 15px;
-  border-radius: 8px;
+.mapboxgl-popup .mapboxgl-popup-content {
+  padding: 15px 20px;
   color: #020817;
 }
 
 .mapboxgl-popup-close-button {
   padding-right: 7px;
   padding-left: 7px;
+}
+
+/* Remove theme transition class after load to enable smooth transitions */
+.theme-transitioning * {
+  transition: none !important;
+}
+
+/* Design System Preview Scope - Only applies to previews, not the entire site */
+.design-system-preview {
+  /* Override with design system variables only in preview areas */
+  --primary: var(--ds-primary, var(--primary));
+  --secondary: var(--ds-secondary, var(--secondary));
+  --accent: var(--ds-accent, var(--accent));
+  --background: var(--ds-background, var(--background));
+  --foreground: var(--ds-foreground, var(--foreground));
+  --muted: var(--ds-muted, var(--muted));
+  --border: var(--ds-border, var(--border));
+  
+  /* Typography overrides for preview */
+  font-family: var(--ds-font-family-sans, var(--font-family-sans));
+}
+
+.design-system-preview .font-display {
+  font-family: var(--ds-font-family-display, var(--font-family-display));
+}
+
+.design-system-preview .font-mono {
+  font-family: var(--ds-font-family-mono, var(--font-family-mono));
 }
