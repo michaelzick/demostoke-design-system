@@ -35,7 +35,7 @@ export default function Dashboard() {
                 New Component
               </NavLink>
             </Button>
-            <Button asChild variant="outline" size="lg" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+            <Button asChild variant="outline" size="lg" className="bg-foreground/10 border-foreground/20 text-foreground hover:bg-foreground/20">
               <NavLink to="/components">
                 View Library
               </NavLink>

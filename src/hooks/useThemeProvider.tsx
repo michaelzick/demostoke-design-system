@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
+import { useTheme } from '@/components/theme-provider';
 import { designSystemSettingsService } from '@/services/designSystemSettingsService';
 
 export const useThemeProvider = () => {
+  const { resolvedTheme } = useTheme();
+
   useEffect(() => {
     const applyDesignSystemSettings = async () => {
       try {
@@ -9,6 +12,7 @@ export const useThemeProvider = () => {
         if (!settings) return;
 
         const root = document.documentElement;
+        const isDark = resolvedTheme === 'dark';
 
         // Convert hex colors to HSL
         const hexToHsl = (hex: string) => {
@@ -36,9 +40,8 @@ export const useThemeProvider = () => {
           return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
         };
 
-        // Apply all color tokens
-        const colorMappings = [
-          // Light mode colors
+        // Apply color tokens based on current theme
+        const lightColorMappings = [
           { setting: 'primary_color', variable: '--primary' },
           { setting: 'secondary_color', variable: '--secondary' },
           { setting: 'accent_color', variable: '--accent' },
@@ -50,21 +53,6 @@ export const useThemeProvider = () => {
           { setting: 'muted_color', variable: '--muted' },
           { setting: 'border_color', variable: '--border' },
           { setting: 'ring_color', variable: '--ring' },
-          
-          // Dark mode colors
-          { setting: 'primary_color_dark', variable: '--primary-dark' },
-          { setting: 'secondary_color_dark', variable: '--secondary-dark' },
-          { setting: 'accent_color_dark', variable: '--accent-dark' },
-          { setting: 'success_color_dark', variable: '--success-dark' },
-          { setting: 'destructive_color_dark', variable: '--destructive-dark' },
-          { setting: 'warning_color_dark', variable: '--warning-dark' },
-          { setting: 'background_color_dark', variable: '--background-dark' },
-          { setting: 'foreground_color_dark', variable: '--foreground-dark' },
-          { setting: 'muted_color_dark', variable: '--muted-dark' },
-          { setting: 'border_color_dark', variable: '--border-dark' },
-          { setting: 'ring_color_dark', variable: '--ring-dark' },
-          
-          // Sidebar colors
           { setting: 'sidebar_background', variable: '--sidebar-background' },
           { setting: 'sidebar_foreground', variable: '--sidebar-foreground' },
           { setting: 'sidebar_primary', variable: '--sidebar-primary' },
@@ -72,23 +60,45 @@ export const useThemeProvider = () => {
           { setting: 'sidebar_accent', variable: '--sidebar-accent' },
           { setting: 'sidebar_accent_foreground', variable: '--sidebar-accent-foreground' },
           { setting: 'sidebar_border', variable: '--sidebar-border' },
-          { setting: 'sidebar_ring', variable: '--sidebar-ring' },
-          
-          // Dark sidebar colors
-          { setting: 'sidebar_background_dark', variable: '--sidebar-background-dark' },
-          { setting: 'sidebar_foreground_dark', variable: '--sidebar-foreground-dark' },
-          { setting: 'sidebar_primary_dark', variable: '--sidebar-primary-dark' },
-          { setting: 'sidebar_primary_foreground_dark', variable: '--sidebar-primary-foreground-dark' },
-          { setting: 'sidebar_accent_dark', variable: '--sidebar-accent-dark' },
-          { setting: 'sidebar_accent_foreground_dark', variable: '--sidebar-accent-foreground-dark' },
-          { setting: 'sidebar_border_dark', variable: '--sidebar-border-dark' },
-          { setting: 'sidebar_ring_dark', variable: '--sidebar-ring-dark' }
+          { setting: 'sidebar_ring', variable: '--sidebar-ring' }
         ];
 
+        const darkColorMappings = [
+          { setting: 'primary_color_dark', variable: '--primary' },
+          { setting: 'secondary_color_dark', variable: '--secondary' },
+          { setting: 'accent_color_dark', variable: '--accent' },
+          { setting: 'success_color_dark', variable: '--success' },
+          { setting: 'destructive_color_dark', variable: '--destructive' },
+          { setting: 'warning_color_dark', variable: '--warning' },
+          { setting: 'background_color_dark', variable: '--background' },
+          { setting: 'foreground_color_dark', variable: '--foreground' },
+          { setting: 'muted_color_dark', variable: '--muted' },
+          { setting: 'border_color_dark', variable: '--border' },
+          { setting: 'ring_color_dark', variable: '--ring' },
+          { setting: 'sidebar_background_dark', variable: '--sidebar-background' },
+          { setting: 'sidebar_foreground_dark', variable: '--sidebar-foreground' },
+          { setting: 'sidebar_primary_dark', variable: '--sidebar-primary' },
+          { setting: 'sidebar_primary_foreground_dark', variable: '--sidebar-primary-foreground' },
+          { setting: 'sidebar_accent_dark', variable: '--sidebar-accent' },
+          { setting: 'sidebar_accent_foreground_dark', variable: '--sidebar-accent-foreground' },
+          { setting: 'sidebar_border_dark', variable: '--sidebar-border' },
+          { setting: 'sidebar_ring_dark', variable: '--sidebar-ring' }
+        ];
+
+        // Apply colors based on current theme
+        const colorMappings = isDark ? darkColorMappings : lightColorMappings;
+        
+        // Clear previous custom properties to ensure clean theme switching
+        [...lightColorMappings, ...darkColorMappings].forEach(({ variable }) => {
+          root.style.removeProperty(variable);
+        });
+        
+        // Apply current theme colors with proper specificity
         colorMappings.forEach(({ setting, variable }) => {
           if (settings[setting]) {
             const hsl = hexToHsl(settings[setting]);
-            root.style.setProperty(variable, hsl);
+            // Use !important to override the default CSS values while respecting theme classes
+            root.style.setProperty(variable, hsl, 'important');
           }
         });
 
@@ -165,5 +175,5 @@ export const useThemeProvider = () => {
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  }, [resolvedTheme]); // Re-run when theme changes
 };

@@ -184,6 +184,13 @@ All colors use HSL format for consistency. Based on authentic DemoStoke brand pa
     @apply border-border;
   }
 
+  /* Prevent theme transition flash */
+  .theme-transitioning *,
+  .theme-transitioning *::before,
+  .theme-transitioning *::after {
+    transition: none !important;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;

@@ -18,7 +18,10 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       {...props}
-      // Disable transition on change to prevent flash
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      // Enable transition on change for smooth switching
       disableTransitionOnChange={false}
     >
       {children}
