@@ -519,3 +519,20 @@ a[href="/"]:hover, .owner-personality:hover {
 .design-system-preview .font-mono {
   font-family: var(--ds-font-family-mono, var(--font-family-mono));
 }
+
+/* Ensure tabs always use consistent styling regardless of design system context */
+.design-system-preview [role="tablist"] {
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --border: 214.3 31.8% 91.4%;
+}
+
+.dark .design-system-preview [role="tablist"] {
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+}
