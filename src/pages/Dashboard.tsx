@@ -3,8 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Package, Palette, FileText, Download, Upload, Sparkles, TrendingUp } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 export default function Dashboard() {
+  const { data: dashboardStats, isLoading } = useDashboardStats();
+  
   const recentComponents = [
     { name: "Button", variant: "Primary", lastModified: "2 hours ago", status: "Published" },
     { name: "Card", variant: "Default", lastModified: "1 day ago", status: "Draft" },
@@ -13,10 +16,30 @@ export default function Dashboard() {
   ];
 
   const stats = [
-    { label: "Total Components", value: "24", icon: Package, color: "text-primary" },
-    { label: "Design Tokens", value: "156", icon: Palette, color: "text-accent" },
-    { label: "Documentation Pages", value: "8", icon: FileText, color: "text-success" },
-    { label: "Team Members", value: "12", icon: TrendingUp, color: "text-warning" },
+    { 
+      label: "Total Components", 
+      value: isLoading ? "..." : (dashboardStats?.totalComponents?.toString() || "0"), 
+      icon: Package, 
+      color: "text-primary" 
+    },
+    { 
+      label: "Design Tokens", 
+      value: isLoading ? "..." : (dashboardStats?.designTokens?.toString() || "0"), 
+      icon: Palette, 
+      color: "text-accent" 
+    },
+    { 
+      label: "Documentation Pages", 
+      value: isLoading ? "..." : (dashboardStats?.documentationPages?.toString() || "0"), 
+      icon: FileText, 
+      color: "text-success" 
+    },
+    { 
+      label: "Team Members", 
+      value: isLoading ? "..." : (dashboardStats?.teamMembers?.toString() || "0"), 
+      icon: TrendingUp, 
+      color: "text-warning" 
+    },
   ];
 
   return (
