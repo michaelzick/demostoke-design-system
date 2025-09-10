@@ -153,16 +153,15 @@ export default {
       },
       transitionDuration: {
         'fast': 'var(--transition-fast)',
-        'base': 'var(--transition-base)',
+        'medium': 'var(--transition-medium)',
         'slow': 'var(--transition-slow)',
       },
       borderRadius: {
-        'xs': 'var(--radius-sm)',
-        'sm': 'calc(var(--radius) - 4px)',
-        'md': 'calc(var(--radius) - 2px)',
-        'lg': 'var(--radius)',
-        'xl': 'var(--radius-lg)',
-        '2xl': 'var(--radius-xl)',
+        'sm': 'var(--radius-sm)',
+        'md': 'var(--radius-md)',
+        'lg': 'var(--radius-lg)',
+        'xl': 'var(--radius-xl)',
+        DEFAULT: 'var(--radius)',
       },
       keyframes: {
         "accordion-down": {
