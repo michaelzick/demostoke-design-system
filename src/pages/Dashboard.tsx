@@ -48,17 +48,16 @@ export default function Dashboard() {
       <div className="relative overflow-hidden rounded-xl border border-border bg-background p-8">
         {/* Right-side decorative slanted bars */}
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-0 flex w-1/2 items-center justify-end gap-3 pr-6"
+          className="pointer-events-none absolute -inset-y-8 right-8 mr-[1em] z-0 flex w-1/2 items-center justify-end gap-0 pr-0"
           aria-hidden="true"
         >
-          <div className="h-24 w-2 rotate-12 rounded-full bg-primary/90 shadow-glow" />
-          <div className="h-28 w-2 rotate-12 rounded-full bg-orange-400/90" />
-          <div className="h-20 w-2 rotate-12 rounded-full bg-sky-500/90" />
-          <div className="h-24 w-2 rotate-12 rounded-full bg-lime-300/90" />
-          <div className="h-32 w-2 rotate-12 rounded-full bg-rose-500/90" />
+          <div className="h-full w-[65px] rotate-12 bg-primary/90 shadow-glow" />
+          <div className="h-full w-[65px] rotate-12 bg-orange-400/90" />
+          <div className="h-full w-[65px] rotate-12 bg-lime-300/90" />
+          <div className="h-full w-[65px] rotate-12 bg-rose-500/90" />
         </div>
         <div className="relative z-10">
-          <h1 className="mb-4 text-display-lg text-foreground">Welcome to DemoStoke Design System</h1>
+          <h1 className="mb-4 text-display-lg text-foreground">DemoStoke Design System</h1>
           <p className="mb-6 text-body-lg text-muted-foreground">
             Create, manage, and scale your design components with enterprise-grade tools
           </p>
