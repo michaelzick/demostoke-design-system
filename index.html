@@ -22,6 +22,41 @@
 
   <body>
     <div id="root"></div>
+
+    <!-- Optional module script: map Vite env var to a runtime global before the IIFE runs. -->
+    <script type="module">
+      // If you set VITE_ENABLE_THEME_FLICKER_FIX=false in .env, this will disable the pre-hydration fix.
+      // import.meta.env is only available inside module scripts, so we set the global here.
+      try {
+        // Note: import.meta.env.* are strings; treat 'false' (string) as explicit false.
+        window.__ENABLE_THEME_FLICKER_FIX = import.meta.env.VITE_ENABLE_THEME_FLICKER_FIX !== 'false';
+      } catch (e) {
+        // If import.meta.env isn't available for some reason, do nothing and let the IIFE run by default.
+      }
+    </script>
+
+    <!-- Pre-hydration theme resolver: runs before app bundle to avoid theme flicker -->
+    <script>
+      (function () {
+        // If the app sets this global to false prior to the script running, skip the flicker-fix.
+        if (window.__ENABLE_THEME_FLICKER_FIX === false) return;
+        try {
+          var KEY = 'ui-theme';
+          var val = localStorage.getItem(KEY) || 'system';
+          if (!/^(light|dark|system)$/.test(val)) val = 'system';
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = val === 'system' ? (prefersDark ? 'dark' : 'light') : val;
+          var de = document.documentElement;
+          de.classList.remove('light', 'dark');
+          de.classList.add(theme);
+          if (val === 'system') de.classList.add('system'); else de.classList.remove('system');
+        } catch (e) {
+          var de = document.documentElement;
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          de.classList.add(prefersDark ? 'dark' : 'light');
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
