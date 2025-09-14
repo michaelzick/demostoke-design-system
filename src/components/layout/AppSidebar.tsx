@@ -60,6 +60,10 @@ export function AppSidebar() {
           <img
             src="/src/assets/images/demostoke-logo-ds-transparent-cropped.webp"
             alt="DemoStoke Logo"
+            width={32}
+            height={32}
+            // Inline style reserves the correct size before Tailwind loads (w-8 == 2rem == 32px)
+            style={{ width: '32px', height: '32px', minWidth: '32px', minHeight: '32px' }}
             className="w-8 h-8 object-contain"
           />
           {!collapsed && (
