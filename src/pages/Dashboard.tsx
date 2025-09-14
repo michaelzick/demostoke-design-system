@@ -2,12 +2,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Package, Palette, FileText, Download, Upload, Sparkles, TrendingUp } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 export default function Dashboard() {
   const { data: dashboardStats, isLoading } = useDashboardStats();
-  
+
   const recentComponents = [
     { name: "Button", variant: "Primary", lastModified: "2 hours ago", status: "Published" },
     { name: "Card", variant: "Default", lastModified: "1 day ago", status: "Draft" },
@@ -16,52 +16,62 @@ export default function Dashboard() {
   ];
 
   const stats = [
-    { 
-      label: "Total Components", 
-      value: isLoading ? "..." : (dashboardStats?.totalComponents?.toString() || "0"), 
-      icon: Package, 
-      color: "text-primary" 
+    {
+      label: "Total Components",
+      value: isLoading ? "..." : (dashboardStats?.totalComponents?.toString() || "0"),
+      icon: Package,
+      color: "text-primary"
     },
-    { 
-      label: "Design Tokens", 
-      value: isLoading ? "..." : (dashboardStats?.designTokens?.toString() || "0"), 
-      icon: Palette, 
-      color: "text-accent" 
+    {
+      label: "Design Tokens",
+      value: isLoading ? "..." : (dashboardStats?.designTokens?.toString() || "0"),
+      icon: Palette,
+      color: "text-accent"
     },
-    { 
-      label: "Documentation Pages", 
-      value: isLoading ? "..." : (dashboardStats?.documentationPages?.toString() || "0"), 
-      icon: FileText, 
-      color: "text-success" 
+    {
+      label: "Documentation Pages",
+      value: isLoading ? "..." : (dashboardStats?.documentationPages?.toString() || "0"),
+      icon: FileText,
+      color: "text-success"
     },
-    { 
-      label: "Team Members", 
-      value: isLoading ? "..." : (dashboardStats?.teamMembers?.toString() || "0"), 
-      icon: TrendingUp, 
-      color: "text-warning" 
+    {
+      label: "Team Members",
+      value: isLoading ? "..." : (dashboardStats?.teamMembers?.toString() || "0"),
+      icon: TrendingUp,
+      color: "text-warning"
     },
   ];
 
   return (
     <div className="p-6 space-y-6">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-xl bg-primary p-8 text-primary-foreground">
+      <div className="relative overflow-hidden rounded-xl border border-border bg-background p-8">
+        {/* Right-side decorative slanted bars */}
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 z-0 flex w-1/2 items-center justify-end gap-3 pr-6"
+          aria-hidden="true"
+        >
+          <div className="h-24 w-2 rotate-12 rounded-full bg-primary/90 shadow-glow" />
+          <div className="h-28 w-2 rotate-12 rounded-full bg-orange-400/90" />
+          <div className="h-20 w-2 rotate-12 rounded-full bg-sky-500/90" />
+          <div className="h-24 w-2 rotate-12 rounded-full bg-lime-300/90" />
+          <div className="h-32 w-2 rotate-12 rounded-full bg-rose-500/90" />
+        </div>
         <div className="relative z-10">
-          <h1 className="text-display-lg mb-4">Welcome to DemoStoke Design System</h1>
-          <p className="text-body-lg mb-6 opacity-90">
+          <h1 className="mb-4 text-display-lg text-foreground">Welcome to DemoStoke Design System</h1>
+          <p className="mb-6 text-body-lg text-muted-foreground">
             Create, manage, and scale your design components with enterprise-grade tools
           </p>
           <div className="flex gap-3">
-            <Button asChild variant="secondary" size="lg">
-              <NavLink to="/new-component">
-                <Plus className="h-4 w-4 mr-2" />
-                New Component
-              </NavLink>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="bg-foreground/10 border-foreground/20 text-foreground hover:bg-foreground/20">
-              <NavLink to="/components">
-                View Library
-              </NavLink>
+            {/* Use a semantic button that navigates so the button element receives the variant classes */}
+            <HeroNewComponent />
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-foreground/20 bg-foreground/10 text-foreground hover:bg-foreground/20"
+            >
+              <NavLink to="/components">View Library</NavLink>
             </Button>
           </div>
         </div>
@@ -182,5 +192,16 @@ export default function Dashboard() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+function HeroNewComponent() {
+  const navigate = useNavigate();
+
+  return (
+    <Button size="lg" variant="on-surface" className="text-[color:hsl(var(--hero-button-foreground))]" onClick={() => navigate("/new-component")}>
+      <Plus className="mr-2 h-4 w-4" />
+      New Component
+    </Button>
   );
 }

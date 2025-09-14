@@ -57,9 +57,9 @@ export function AppSidebar() {
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarHeader className="p-md">
         <NavLink to="/" className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''} hover:opacity-80 transition-opacity`}>
-          <img 
-            src="/src/assets/images/demostoke-logo-ds-transparent-cropped.webp" 
-            alt="DemoStoke Logo" 
+          <img
+            src="/src/assets/images/demostoke-logo-ds-transparent-cropped.webp"
+            alt="DemoStoke Logo"
             className="w-8 h-8 object-contain"
           />
           {!collapsed && (
@@ -73,11 +73,11 @@ export function AppSidebar() {
 
       <SidebarContent>
         {/* New Component Button */}
-        <div className="px-md pb-md">
+          <div className="px-md pb-md">
           <Button
             asChild
-            variant="default"
-            className={`w-full ${collapsed ? 'px-2' : ''}`}
+            variant="on-surface"
+            className={`text-[color:hsl(var(--hero-button-foreground))] w-full ${collapsed ? 'px-2' : ''}`}
           >
             <NavLink to="/new-component">
               <Plus className="h-4 w-4" />
