@@ -25,20 +25,23 @@ serve(async (req) => {
     }
 
     // Generate component with OpenAI
-    const systemPrompt = `You are an expert React developer creating reusable components for a design system. 
-    
-Generate a complete React component based on the user's description. The component should:
-- Use TypeScript
-- Follow React best practices
-- Use Tailwind CSS for styling with semantic tokens
-- Include proper TypeScript interfaces for props
-- Be accessible and responsive
-- Include JSDoc comments
-- Use design system patterns
+    const systemPrompt = `You are an expert React developer creating reusable components for a design system using Radix UI, Lucide icons, and Tailwind CSS.
 
-Return ONLY a JSON object with this exact structure:
+CRITICAL: Return ONLY valid JSON without any markdown formatting, code blocks, or additional text.
+
+Generate a complete React component based on the user's description. The component should:
+- Use TypeScript with proper interfaces
+- Use Tailwind CSS with semantic tokens (hsl colors from CSS variables)
+- Import from available libraries: @radix-ui/react-*, lucide-react, @/components/ui/*
+- Include JSDoc comments
+- Be accessible and responsive
+- Follow React best practices
+
+Available UI components: Button, Card, Input, Label, Select, Checkbox, Switch, Avatar, Badge, Alert, Dialog, Dropdown, Tooltip, etc.
+
+Return this exact JSON structure:
 {
-  "component_code": "// Complete React component code here",
+  "component_code": "import React from 'react';\nimport { Button } from '@/components/ui/button';\n\n// Component code here",
   "props_schema": {
     "variant": { "type": "string", "options": ["primary", "secondary"], "default": "primary" },
     "size": { "type": "string", "options": ["sm", "md", "lg"], "default": "md" },
@@ -56,13 +59,13 @@ Return ONLY a JSON object with this exact structure:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: `Create a React component named "${componentName}". ${prompt}` }
         ],
         max_tokens: 2000,
-        temperature: 0.7,
+        temperature: 0.3,
       }),
     });
 
@@ -75,13 +78,29 @@ Return ONLY a JSON object with this exact structure:
     const data = await response.json();
     const generatedContent = data.choices[0].message.content;
 
-    // Parse the JSON response from OpenAI
+    // Parse the JSON response from OpenAI (handle markdown-wrapped JSON)
     let componentData;
     try {
-      componentData = JSON.parse(generatedContent);
-    } catch (parseError) {
+      let jsonContent = generatedContent.trim();
+      
+      // Strip markdown code blocks if present
+      if (jsonContent.startsWith('```json')) {
+        jsonContent = jsonContent.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (jsonContent.startsWith('```')) {
+        jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      
+      componentData = JSON.parse(jsonContent);
+      
+      // Validate required fields
+      if (!componentData.component_code || !componentData.description || !componentData.category) {
+        throw new Error('Missing required fields in generated component data');
+      }
+      
+    } catch (parseError: any) {
       console.error('Failed to parse OpenAI response:', generatedContent);
-      throw new Error('Failed to parse generated component data');
+      console.error('Parse error:', parseError.message);
+      throw new Error(`Failed to parse generated component data: ${parseError.message}`);
     }
 
     // Initialize Supabase client
@@ -109,7 +128,13 @@ Return ONLY a JSON object with this exact structure:
 
     if (dbError) {
       console.error('Database error:', dbError);
-      throw new Error(`Failed to save component: ${dbError.message}`);
+      console.error('Component data being saved:', {
+        name: componentName,
+        description: componentData.description,
+        category: componentData.category,
+        created_by: userId
+      });
+      throw new Error(`Database error: ${dbError.message || 'Unknown database error'}`);
     }
 
     console.log('Component generated and saved successfully:', componentName);
@@ -125,15 +150,32 @@ Return ONLY a JSON object with this exact structure:
       }
     );
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in generate-component function:', error);
+    
+    // Determine appropriate error status and message
+    let status = 500;
+    let errorMessage = error.message || 'Unknown error occurred';
+    
+    if (error.message?.includes('OpenAI API error')) {
+      status = 502;
+      errorMessage = 'AI service temporarily unavailable';
+    } else if (error.message?.includes('parse')) {
+      status = 422;
+      errorMessage = 'Failed to process AI response';
+    } else if (error.message?.includes('Database error')) {
+      status = 500;
+      errorMessage = 'Failed to save component';
+    }
+    
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message
+        error: errorMessage,
+        details: error.message
       }),
       {
-        status: 500,
+        status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );

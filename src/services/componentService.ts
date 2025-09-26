@@ -17,9 +17,16 @@ export const componentService = {
       return data;
     } catch (error) {
       console.error('Error generating component:', error);
+      
+      // Extract more specific error information
+      let errorMessage = 'Failed to generate component';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred'
+        error: errorMessage
       };
     }
   },
