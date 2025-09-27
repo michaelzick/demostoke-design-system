@@ -169,7 +169,7 @@ export const designSystemSettingsService = {
       const legacyValues = legacyDesignTokenValues[key]?.map(normalize).filter((value): value is string => Boolean(value));
 
       if (currentNormalized === null || currentNormalized === '' || (legacyValues && legacyValues.includes(currentNormalized))) {
-        updates[key as keyof DesignSystemSettings] = defaultValue as DesignSystemSettings[keyof DesignSystemSettings];
+        (updates as any)[key] = defaultValue;
       }
     });
 
