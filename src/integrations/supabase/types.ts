@@ -274,18 +274,68 @@ export type Database = {
       }
       design_system_settings: {
         Row: {
+          auto_publish: boolean | null
+          build_command: string | null
+          code_generation: string | null
+          created_at: string
+          default_theme: string | null
+          id: string
+          notifications: boolean | null
+          project_description: string | null
+          project_name: string | null
+          project_version: string | null
+          public_components: boolean | null
+          storybook_port: string | null
+          test_command: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_publish?: boolean | null
+          build_command?: string | null
+          code_generation?: string | null
+          created_at?: string
+          default_theme?: string | null
+          id?: string
+          notifications?: boolean | null
+          project_description?: string | null
+          project_name?: string | null
+          project_version?: string | null
+          public_components?: boolean | null
+          storybook_port?: string | null
+          test_command?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_publish?: boolean | null
+          build_command?: string | null
+          code_generation?: string | null
+          created_at?: string
+          default_theme?: string | null
+          id?: string
+          notifications?: boolean | null
+          project_description?: string | null
+          project_name?: string | null
+          project_version?: string | null
+          public_components?: boolean | null
+          storybook_port?: string | null
+          test_command?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      design_system_tokens: {
+        Row: {
           accent_color: string | null
           accent_color_dark: string | null
-          auto_publish: boolean | null
           background_color: string | null
           background_color_dark: string | null
           base_font_size: string | null
           border_color: string | null
           border_color_dark: string | null
-          build_command: string | null
-          code_generation: string | null
           created_at: string
-          default_theme: string | null
           destructive_color: string | null
           destructive_color_dark: string | null
           font_body_lg: string | null
@@ -304,13 +354,8 @@ export type Database = {
           id: string
           muted_color: string | null
           muted_color_dark: string | null
-          notifications: boolean | null
           primary_color: string | null
           primary_color_dark: string | null
-          project_description: string | null
-          project_name: string | null
-          project_version: string | null
-          public_components: boolean | null
           ring_color: string | null
           ring_color_dark: string | null
           secondary_color: string | null
@@ -339,10 +384,8 @@ export type Database = {
           spacing_sm: string | null
           spacing_xl: string | null
           spacing_xs: string | null
-          storybook_port: string | null
           success_color: string | null
           success_color_dark: string | null
-          test_command: string | null
           updated_at: string
           user_id: string
           warning_color: string | null
@@ -351,16 +394,12 @@ export type Database = {
         Insert: {
           accent_color?: string | null
           accent_color_dark?: string | null
-          auto_publish?: boolean | null
           background_color?: string | null
           background_color_dark?: string | null
           base_font_size?: string | null
           border_color?: string | null
           border_color_dark?: string | null
-          build_command?: string | null
-          code_generation?: string | null
           created_at?: string
-          default_theme?: string | null
           destructive_color?: string | null
           destructive_color_dark?: string | null
           font_body_lg?: string | null
@@ -379,13 +418,8 @@ export type Database = {
           id?: string
           muted_color?: string | null
           muted_color_dark?: string | null
-          notifications?: boolean | null
           primary_color?: string | null
           primary_color_dark?: string | null
-          project_description?: string | null
-          project_name?: string | null
-          project_version?: string | null
-          public_components?: boolean | null
           ring_color?: string | null
           ring_color_dark?: string | null
           secondary_color?: string | null
@@ -414,10 +448,8 @@ export type Database = {
           spacing_sm?: string | null
           spacing_xl?: string | null
           spacing_xs?: string | null
-          storybook_port?: string | null
           success_color?: string | null
           success_color_dark?: string | null
-          test_command?: string | null
           updated_at?: string
           user_id: string
           warning_color?: string | null
@@ -426,16 +458,12 @@ export type Database = {
         Update: {
           accent_color?: string | null
           accent_color_dark?: string | null
-          auto_publish?: boolean | null
           background_color?: string | null
           background_color_dark?: string | null
           base_font_size?: string | null
           border_color?: string | null
           border_color_dark?: string | null
-          build_command?: string | null
-          code_generation?: string | null
           created_at?: string
-          default_theme?: string | null
           destructive_color?: string | null
           destructive_color_dark?: string | null
           font_body_lg?: string | null
@@ -454,13 +482,8 @@ export type Database = {
           id?: string
           muted_color?: string | null
           muted_color_dark?: string | null
-          notifications?: boolean | null
           primary_color?: string | null
           primary_color_dark?: string | null
-          project_description?: string | null
-          project_name?: string | null
-          project_version?: string | null
-          public_components?: boolean | null
           ring_color?: string | null
           ring_color_dark?: string | null
           secondary_color?: string | null
@@ -489,10 +512,8 @@ export type Database = {
           spacing_sm?: string | null
           spacing_xl?: string | null
           spacing_xs?: string | null
-          storybook_port?: string | null
           success_color?: string | null
           success_color_dark?: string | null
-          test_command?: string | null
           updated_at?: string
           user_id?: string
           warning_color?: string | null

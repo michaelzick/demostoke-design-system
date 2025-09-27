@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Copy, Palette, Type, Ruler, Sun, Moon } from 'lucide-react';
-import { designSystemSettingsService } from '@/services/designSystemSettingsService';
+import { designSystemTokensService } from '@/services/designSystemTokensService';
 import { designSystemDefaults } from '@/lib/designTokens';
 import { useToast } from '@/hooks/use-toast';
 import { DesignSystemProvider } from '@/components/DesignSystemProvider';
@@ -23,12 +23,12 @@ export default function EditableTokens() {
 
   const loadSettings = async () => {
     try {
-      const currentSettings = await designSystemSettingsService.getCurrentSettings();
-      if (currentSettings) {
-        setSettings(currentSettings);
+      const currentTokens = await designSystemTokensService.getCurrentTokens();
+      if (currentTokens) {
+        setSettings(currentTokens);
       }
     } catch (error) {
-      console.error('Error loading settings:', error);
+      console.error('Error loading tokens:', error);
     }
   };
 
@@ -52,11 +52,11 @@ export default function EditableTokens() {
     
     // Update in database
     try {
-      await designSystemSettingsService.updateSettings({ [key]: value });
+      await designSystemTokensService.updateTokens({ [key]: value });
       
-      // Trigger global settings update event
+      // Trigger global tokens update event
       window.dispatchEvent(new StorageEvent('storage', {
-        key: 'design-system-settings-updated',
+        key: 'design-system-tokens-updated',
         newValue: JSON.stringify({ [key]: value })
       }));
     } catch (error) {

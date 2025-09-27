@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Settings as SettingsIcon, Users, Shield, Palette, Code, Bell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { designSystemSettingsService } from "@/services/designSystemSettingsService";
-import { designSystemDefaults } from "@/lib/designTokens";
+
 
 export default function Settings() {
   const { toast } = useToast();
@@ -18,7 +18,6 @@ export default function Settings() {
     projectName: "DemoStoke Design System",
     projectDescription: "",
     projectVersion: "1.0.0",
-    defaultTheme: "light",
     autoPublish: true,
     notifications: true,
     publicComponents: false,
@@ -26,12 +25,6 @@ export default function Settings() {
     storybookPort: "6006",
     buildCommand: "",
     testCommand: "",
-    fontFamily: "inter",
-    baseFontSize: "16",
-    primaryColor: designSystemDefaults.primary_color,
-    secondaryColor: designSystemDefaults.secondary_color,
-    accentColor: designSystemDefaults.accent_color,
-    successColor: designSystemDefaults.success_color,
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -47,7 +40,6 @@ export default function Settings() {
           projectName: userSettings.project_name,
           projectDescription: userSettings.project_description || "",
           projectVersion: userSettings.project_version,
-          defaultTheme: userSettings.default_theme,
           autoPublish: userSettings.auto_publish,
           notifications: userSettings.notifications,
           publicComponents: userSettings.public_components,
@@ -55,12 +47,6 @@ export default function Settings() {
           storybookPort: userSettings.storybook_port,
           buildCommand: userSettings.build_command || "",
           testCommand: userSettings.test_command || "",
-          fontFamily: userSettings.font_family,
-          baseFontSize: userSettings.base_font_size,
-          primaryColor: userSettings.primary_color || designSystemDefaults.primary_color,
-          secondaryColor: userSettings.secondary_color || designSystemDefaults.secondary_color,
-          accentColor: userSettings.accent_color || designSystemDefaults.accent_color,
-          successColor: userSettings.success_color || designSystemDefaults.success_color,
         });
       }
     } catch (error) {
@@ -76,7 +62,6 @@ export default function Settings() {
         project_name: settings.projectName,
         project_description: settings.projectDescription,
         project_version: settings.projectVersion,
-        default_theme: settings.defaultTheme,
         auto_publish: settings.autoPublish,
         notifications: settings.notifications,
         public_components: settings.publicComponents,
@@ -84,12 +69,6 @@ export default function Settings() {
         storybook_port: settings.storybookPort,
         build_command: settings.buildCommand,
         test_command: settings.testCommand,
-        font_family: settings.fontFamily,
-        base_font_size: settings.baseFontSize,
-        primary_color: settings.primaryColor,
-        secondary_color: settings.secondaryColor,
-        accent_color: settings.accentColor,
-        success_color: settings.successColor,
       });
 
       if (success) {
@@ -135,14 +114,10 @@ export default function Settings() {
       </div>
 
       <Tabs defaultValue="general" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="general" className="flex items-center gap-2">
             <SettingsIcon className="h-4 w-4" />
             General
-          </TabsTrigger>
-          <TabsTrigger value="appearance" className="flex items-center gap-2">
-            <Palette className="h-4 w-4" />
-            Appearance
           </TabsTrigger>
           <TabsTrigger value="collaboration" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
@@ -231,95 +206,6 @@ export default function Settings() {
           </div>
         </TabsContent>
 
-        <TabsContent value="appearance">
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Theme Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Default theme</Label>
-                  <Select value={settings.defaultTheme} onValueChange={(value) => updateSetting('defaultTheme', value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Separator />
-
-                <div className="space-y-4">
-                  <Label>Color Palette</Label>
-                  <div className="grid grid-cols-4 gap-4">
-                    {[
-                      { name: "Primary", color: settings.primaryColor, key: "primaryColor" },
-                      { name: "Secondary", color: settings.secondaryColor, key: "secondaryColor" },
-                      { name: "Accent", color: settings.accentColor, key: "accentColor" },
-                      { name: "Success", color: settings.successColor, key: "successColor" },
-                    ].map((item) => (
-                      <div key={item.name} className="space-y-2">
-                        <Label className="text-sm">{item.name}</Label>
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="w-8 h-8 rounded border"
-                            style={{ backgroundColor: item.color }}
-                          />
-                          <Input
-                            value={item.color}
-                            className="font-mono text-sm"
-                            onChange={(e) => updateSetting(item.key, e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Typography</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Font Family</Label>
-                  <Select value={settings.fontFamily} onValueChange={(value) => updateSetting('fontFamily', value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="inter">Inter</SelectItem>
-                      <SelectItem value="tahoma">Tahoma</SelectItem>
-                      <SelectItem value="roboto">Roboto</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Base Font Size</Label>
-                  <Select value={settings.baseFontSize} onValueChange={(value) => updateSetting('baseFontSize', value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="14">14px</SelectItem>
-                      <SelectItem value="16">16px</SelectItem>
-                      <SelectItem value="18">18px</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
 
         <TabsContent value="collaboration">
           <div className="space-y-6">
