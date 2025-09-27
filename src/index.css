@@ -76,6 +76,8 @@
   --line-height-heading: 1.2;
   --line-height-body: 1.5;
   --line-height-relaxed: 1.75;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
 
   /* Font Weights */
   --font-weight-normal: 400;

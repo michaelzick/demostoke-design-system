@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Settings as SettingsIcon, Users, Shield, Palette, Code, Bell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { designSystemSettingsService } from "@/services/designSystemSettingsService";
+import { designSystemDefaults } from "@/lib/designTokens";
 
 export default function Settings() {
   const { toast } = useToast();
@@ -27,10 +28,10 @@ export default function Settings() {
     testCommand: "",
     fontFamily: "inter",
     baseFontSize: "16",
-    primaryColor: "#3b82f6",
-    secondaryColor: "#6b7280",
-    accentColor: "#f59e0b",
-    successColor: "#10b981",
+    primaryColor: designSystemDefaults.primary_color,
+    secondaryColor: designSystemDefaults.secondary_color,
+    accentColor: designSystemDefaults.accent_color,
+    successColor: designSystemDefaults.success_color,
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -56,10 +57,10 @@ export default function Settings() {
           testCommand: userSettings.test_command || "",
           fontFamily: userSettings.font_family,
           baseFontSize: userSettings.base_font_size,
-          primaryColor: userSettings.primary_color,
-          secondaryColor: userSettings.secondary_color,
-          accentColor: userSettings.accent_color,
-          successColor: userSettings.success_color,
+          primaryColor: userSettings.primary_color || designSystemDefaults.primary_color,
+          secondaryColor: userSettings.secondary_color || designSystemDefaults.secondary_color,
+          accentColor: userSettings.accent_color || designSystemDefaults.accent_color,
+          successColor: userSettings.success_color || designSystemDefaults.success_color,
         });
       }
     } catch (error) {

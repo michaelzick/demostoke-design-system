@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { designSystemDefaults } from '@/lib/designTokens';
 
 interface DesignSystemSettings {
   id?: string;
@@ -160,10 +161,7 @@ export const designSystemSettingsService = {
         storybook_port: '6006',
         font_family: 'inter',
         base_font_size: '16',
-        primary_color: '#3b82f6',
-        secondary_color: '#6b7280',
-        accent_color: '#f59e0b',
-        success_color: '#10b981'
+        ...designSystemDefaults,
       })
       .select();
 

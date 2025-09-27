@@ -7,12 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Copy, Palette, Type, Ruler, Sun, Moon } from 'lucide-react';
 import { designSystemSettingsService } from '@/services/designSystemSettingsService';
+import { designSystemDefaults } from '@/lib/designTokens';
 import { useToast } from '@/hooks/use-toast';
 import { DesignSystemProvider } from '@/components/DesignSystemProvider';
 
 export default function EditableTokens() {
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
   const [settings, setSettings] = useState<any>({});
+  const resolvedSettings = { ...designSystemDefaults, ...settings };
   const { toast } = useToast();
 
   useEffect(() => {
@@ -72,8 +74,8 @@ export default function EditableTokens() {
     {
       name: 'Primary',
       variable: '--primary',
-      value: settings.primary_color,
-      darkValue: settings.primary_color_dark,
+      value: resolvedSettings.primary_color,
+      darkValue: resolvedSettings.primary_color_dark,
       key: 'primary_color',
       darkKey: 'primary_color_dark',
       description: 'Main brand color used for primary actions and highlights'
@@ -81,8 +83,8 @@ export default function EditableTokens() {
     {
       name: 'Secondary',
       variable: '--secondary',
-      value: settings.secondary_color,
-      darkValue: settings.secondary_color_dark,
+      value: resolvedSettings.secondary_color,
+      darkValue: resolvedSettings.secondary_color_dark,
       key: 'secondary_color',
       darkKey: 'secondary_color_dark',
       description: 'Secondary color for less prominent elements'
@@ -90,8 +92,8 @@ export default function EditableTokens() {
     {
       name: 'Accent',
       variable: '--accent',
-      value: settings.accent_color,
-      darkValue: settings.accent_color_dark,
+      value: resolvedSettings.accent_color,
+      darkValue: resolvedSettings.accent_color_dark,
       key: 'accent_color',
       darkKey: 'accent_color_dark',
       description: 'Accent color for special highlights and call-to-actions'
@@ -99,8 +101,8 @@ export default function EditableTokens() {
     {
       name: 'Success',
       variable: '--success',
-      value: settings.success_color,
-      darkValue: settings.success_color_dark,
+      value: resolvedSettings.success_color,
+      darkValue: resolvedSettings.success_color_dark,
       key: 'success_color',
       darkKey: 'success_color_dark',
       description: 'Color for success states and positive feedback'
@@ -108,8 +110,8 @@ export default function EditableTokens() {
     {
       name: 'Destructive',
       variable: '--destructive',
-      value: settings.destructive_color,
-      darkValue: settings.destructive_color_dark,
+      value: resolvedSettings.destructive_color,
+      darkValue: resolvedSettings.destructive_color_dark,
       key: 'destructive_color',
       darkKey: 'destructive_color_dark',
       description: 'Color for destructive actions and error states'
@@ -117,8 +119,8 @@ export default function EditableTokens() {
     {
       name: 'Warning',
       variable: '--warning',
-      value: settings.warning_color,
-      darkValue: settings.warning_color_dark,
+      value: resolvedSettings.warning_color,
+      darkValue: resolvedSettings.warning_color_dark,
       key: 'warning_color',
       darkKey: 'warning_color_dark',
       description: 'Color for warning states and caution indicators'
@@ -126,8 +128,8 @@ export default function EditableTokens() {
     {
       name: 'Background',
       variable: '--background',
-      value: settings.background_color,
-      darkValue: settings.background_color_dark,
+      value: resolvedSettings.background_color,
+      darkValue: resolvedSettings.background_color_dark,
       key: 'background_color',
       darkKey: 'background_color_dark',
       description: 'Primary background color'
@@ -135,8 +137,8 @@ export default function EditableTokens() {
     {
       name: 'Foreground',
       variable: '--foreground',
-      value: settings.foreground_color,
-      darkValue: settings.foreground_color_dark,
+      value: resolvedSettings.foreground_color,
+      darkValue: resolvedSettings.foreground_color_dark,
       key: 'foreground_color',
       darkKey: 'foreground_color_dark',
       description: 'Primary text color'
@@ -144,8 +146,8 @@ export default function EditableTokens() {
     {
       name: 'Muted',
       variable: '--muted',
-      value: settings.muted_color,
-      darkValue: settings.muted_color_dark,
+      value: resolvedSettings.muted_color,
+      darkValue: resolvedSettings.muted_color_dark,
       key: 'muted_color',
       darkKey: 'muted_color_dark',
       description: 'Muted background color for subtle elements'
@@ -153,8 +155,8 @@ export default function EditableTokens() {
     {
       name: 'Border',
       variable: '--border',
-      value: settings.border_color,
-      darkValue: settings.border_color_dark,
+      value: resolvedSettings.border_color,
+      darkValue: resolvedSettings.border_color_dark,
       key: 'border_color',
       darkKey: 'border_color_dark',
       description: 'Default border color'
@@ -162,8 +164,8 @@ export default function EditableTokens() {
     {
       name: 'Ring',
       variable: '--ring',
-      value: settings.ring_color,
-      darkValue: settings.ring_color_dark,
+      value: resolvedSettings.ring_color,
+      darkValue: resolvedSettings.ring_color_dark,
       key: 'ring_color',
       darkKey: 'ring_color_dark',
       description: 'Focus ring color for interactive elements'
@@ -174,8 +176,8 @@ export default function EditableTokens() {
     {
       name: 'Sidebar Background',
       variable: '--sidebar-background',
-      value: settings.sidebar_background,
-      darkValue: settings.sidebar_background_dark,
+      value: resolvedSettings.sidebar_background,
+      darkValue: resolvedSettings.sidebar_background_dark,
       key: 'sidebar_background',
       darkKey: 'sidebar_background_dark',
       description: 'Background color for sidebar elements'
@@ -183,8 +185,8 @@ export default function EditableTokens() {
     {
       name: 'Sidebar Foreground',
       variable: '--sidebar-foreground',
-      value: settings.sidebar_foreground,
-      darkValue: settings.sidebar_foreground_dark,
+      value: resolvedSettings.sidebar_foreground,
+      darkValue: resolvedSettings.sidebar_foreground_dark,
       key: 'sidebar_foreground',
       darkKey: 'sidebar_foreground_dark',
       description: 'Text color for sidebar elements'
@@ -192,8 +194,8 @@ export default function EditableTokens() {
     {
       name: 'Sidebar Primary',
       variable: '--sidebar-primary',
-      value: settings.sidebar_primary,
-      darkValue: settings.sidebar_primary_dark,
+      value: resolvedSettings.sidebar_primary,
+      darkValue: resolvedSettings.sidebar_primary_dark,
       key: 'sidebar_primary',
       darkKey: 'sidebar_primary_dark',
       description: 'Primary color for sidebar elements'
@@ -201,8 +203,8 @@ export default function EditableTokens() {
     {
       name: 'Sidebar Primary Foreground',
       variable: '--sidebar-primary-foreground',
-      value: settings.sidebar_primary_foreground,
-      darkValue: settings.sidebar_primary_foreground_dark,
+      value: resolvedSettings.sidebar_primary_foreground,
+      darkValue: resolvedSettings.sidebar_primary_foreground_dark,
       key: 'sidebar_primary_foreground',
       darkKey: 'sidebar_primary_foreground_dark',
       description: 'Text color on sidebar primary elements'
@@ -210,8 +212,8 @@ export default function EditableTokens() {
     {
       name: 'Sidebar Accent',
       variable: '--sidebar-accent',
-      value: settings.sidebar_accent,
-      darkValue: settings.sidebar_accent_dark,
+      value: resolvedSettings.sidebar_accent,
+      darkValue: resolvedSettings.sidebar_accent_dark,
       key: 'sidebar_accent',
       darkKey: 'sidebar_accent_dark',
       description: 'Accent color for sidebar elements'
@@ -219,8 +221,8 @@ export default function EditableTokens() {
     {
       name: 'Sidebar Border',
       variable: '--sidebar-border',
-      value: settings.sidebar_border,
-      darkValue: settings.sidebar_border_dark,
+      value: resolvedSettings.sidebar_border,
+      darkValue: resolvedSettings.sidebar_border_dark,
       key: 'sidebar_border',
       darkKey: 'sidebar_border_dark',
       description: 'Border color for sidebar elements'
@@ -231,7 +233,7 @@ export default function EditableTokens() {
     {
       name: 'Font Family',
       variable: '--font-family',
-      value: settings.font_family,
+      value: resolvedSettings.font_family,
       key: 'font_family',
       type: 'select',
       options: [
@@ -244,7 +246,7 @@ export default function EditableTokens() {
     {
       name: 'Base Font Size',
       variable: '--font-size-base',
-      value: settings.base_font_size,
+      value: resolvedSettings.base_font_size,
       key: 'base_font_size',
       type: 'text',
       description: 'Base font size in pixels for body text'
@@ -252,7 +254,7 @@ export default function EditableTokens() {
     {
       name: 'Display Large',
       variable: '--font-size-display-lg',
-      value: settings.font_display_lg,
+      value: resolvedSettings.font_display_lg,
       key: 'font_display_lg',
       type: 'text',
       description: 'Large display text size'
@@ -260,7 +262,7 @@ export default function EditableTokens() {
     {
       name: 'Display Medium',
       variable: '--font-size-display-md',
-      value: settings.font_display_md,
+      value: resolvedSettings.font_display_md,
       key: 'font_display_md',
       type: 'text',
       description: 'Medium display text size'
@@ -268,7 +270,7 @@ export default function EditableTokens() {
     {
       name: 'Display Small',
       variable: '--font-size-display-sm',
-      value: settings.font_display_sm,
+      value: resolvedSettings.font_display_sm,
       key: 'font_display_sm',
       type: 'text',
       description: 'Small display text size'
@@ -276,7 +278,7 @@ export default function EditableTokens() {
     {
       name: 'Heading Large',
       variable: '--font-size-heading-lg',
-      value: settings.font_heading_lg,
+      value: resolvedSettings.font_heading_lg,
       key: 'font_heading_lg',
       type: 'text',
       description: 'Large heading text size'
@@ -284,7 +286,7 @@ export default function EditableTokens() {
     {
       name: 'Heading Medium',
       variable: '--font-size-heading-md',
-      value: settings.font_heading_md,
+      value: resolvedSettings.font_heading_md,
       key: 'font_heading_md',
       type: 'text',
       description: 'Medium heading text size'
@@ -292,7 +294,7 @@ export default function EditableTokens() {
     {
       name: 'Heading Small',
       variable: '--font-size-heading-sm',
-      value: settings.font_heading_sm,
+      value: resolvedSettings.font_heading_sm,
       key: 'font_heading_sm',
       type: 'text',
       description: 'Small heading text size'
@@ -300,7 +302,7 @@ export default function EditableTokens() {
     {
       name: 'Body Large',
       variable: '--font-size-body-lg',
-      value: settings.font_body_lg,
+      value: resolvedSettings.font_body_lg,
       key: 'font_body_lg',
       type: 'text',
       description: 'Large body text size'
@@ -308,7 +310,7 @@ export default function EditableTokens() {
     {
       name: 'Body Medium',
       variable: '--font-size-body-md',
-      value: settings.font_body_md,
+      value: resolvedSettings.font_body_md,
       key: 'font_body_md',
       type: 'text',
       description: 'Medium body text size'
@@ -316,7 +318,7 @@ export default function EditableTokens() {
     {
       name: 'Body Small',
       variable: '--font-size-body-sm',
-      value: settings.font_body_sm,
+      value: resolvedSettings.font_body_sm,
       key: 'font_body_sm',
       type: 'text',
       description: 'Small body text size'
@@ -324,7 +326,7 @@ export default function EditableTokens() {
     {
       name: 'Caption',
       variable: '--font-size-caption',
-      value: settings.font_caption,
+      value: resolvedSettings.font_caption,
       key: 'font_caption',
       type: 'text',
       description: 'Caption text size'
@@ -335,56 +337,56 @@ export default function EditableTokens() {
     {
       name: 'Extra Small',
       variable: '--spacing-xs',
-      value: settings.spacing_xs,
+      value: resolvedSettings.spacing_xs,
       key: 'spacing_xs',
       description: 'Extra small spacing'
     },
     {
       name: 'Small',
       variable: '--spacing-sm',
-      value: settings.spacing_sm,
+      value: resolvedSettings.spacing_sm,
       key: 'spacing_sm',
       description: 'Small spacing'
     },
     {
       name: 'Medium',
       variable: '--spacing-md',
-      value: settings.spacing_md,
+      value: resolvedSettings.spacing_md,
       key: 'spacing_md',
       description: 'Medium spacing'
     },
     {
       name: 'Large',
       variable: '--spacing-lg',
-      value: settings.spacing_lg,
+      value: resolvedSettings.spacing_lg,
       key: 'spacing_lg',
       description: 'Large spacing'
     },
     {
       name: 'Extra Large',
       variable: '--spacing-xl',
-      value: settings.spacing_xl,
+      value: resolvedSettings.spacing_xl,
       key: 'spacing_xl',
       description: 'Extra large spacing'
     },
     {
       name: '2X Large',
       variable: '--spacing-2xl',
-      value: settings.spacing_2xl,
+      value: resolvedSettings.spacing_2xl,
       key: 'spacing_2xl',
       description: '2X large spacing'
     },
     {
       name: '3X Large',
       variable: '--spacing-3xl',
-      value: settings.spacing_3xl,
+      value: resolvedSettings.spacing_3xl,
       key: 'spacing_3xl',
       description: '3X large spacing'
     },
     {
       name: '4X Large',
       variable: '--spacing-4xl',
-      value: settings.spacing_4xl,
+      value: resolvedSettings.spacing_4xl,
       key: 'spacing_4xl',
       description: '4X large spacing'
     }
