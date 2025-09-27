@@ -558,5 +558,50 @@ export const designSystemDefaults = {
 
 export type DesignSystemDefaults = typeof designSystemDefaults;
 
+export const designTokenSettingKeys = Object.keys(designSystemDefaults) as Array<keyof DesignSystemDefaults>;
+
+export const legacyDesignTokenValues: Partial<Record<keyof DesignSystemDefaults, string[]>> = {
+  primary_color: ["#3b82f6"],
+  primary_color_dark: ["#60a5fa"],
+  secondary_color: ["#6b7280"],
+  secondary_color_dark: ["#9ca3af"],
+  accent_color: ["#f59e0b"],
+  accent_color_dark: ["#fbbf24"],
+  success_color: ["#10b981"],
+  success_color_dark: ["#34d399"],
+  destructive_color_dark: ["#f87171"],
+  warning_color: ["#f59e0b"],
+  warning_color_dark: ["#fbbf24"],
+  background_color_dark: ["#0f172a"],
+  foreground_color: ["#0f172a"],
+  border_color_dark: ["#334155"],
+  ring_color: ["#3b82f6"],
+  ring_color_dark: ["#60a5fa"],
+  sidebar_background: ["#f8fafc"],
+  sidebar_background_dark: ["#020817"],
+  sidebar_foreground: ["#0f172a"],
+  sidebar_foreground_dark: ["#f8fafc"],
+  sidebar_primary: ["#3b82f6"],
+  sidebar_primary_dark: ["#60a5fa"],
+  sidebar_primary_foreground: ["#ffffff"],
+  sidebar_primary_foreground_dark: ["#0f172a"],
+  sidebar_accent: ["#f1f5f9"],
+  sidebar_accent_dark: ["#1e293b"],
+  sidebar_accent_foreground: ["#0f172a"],
+  sidebar_accent_foreground_dark: ["#f8fafc"],
+  sidebar_border: ["#e2e8f0"],
+  sidebar_border_dark: ["#334155"],
+  spacing_xs: ["0.5rem"],
+  spacing_sm: ["0.75rem"],
+  spacing_md: ["1rem"],
+  spacing_lg: ["1.5rem"],
+  spacing_xl: ["2rem"],
+  spacing_2xl: ["3rem"],
+  spacing_3xl: ["4rem"],
+  spacing_4xl: ["6rem"],
+  font_display_lg: ["4rem"],
+  font_display_md: ["3rem"],
+};
+
 export const getDesignSystemDefault = <T extends keyof DesignSystemDefaults>(key: T): DesignSystemDefaults[T] =>
   designSystemDefaults[key];

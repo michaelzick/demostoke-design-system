@@ -1,5 +1,9 @@
 import { supabase } from '@/integrations/supabase/client';
-import { designSystemDefaults } from '@/lib/designTokens';
+import {
+  designSystemDefaults,
+  designTokenSettingKeys,
+  legacyDesignTokenValues,
+} from '@/lib/designTokens';
 
 interface DesignSystemSettings {
   id?: string;
@@ -103,7 +107,11 @@ export const designSystemSettingsService = {
       return null;
     }
 
-    return data;
+    if (!data) {
+      return null;
+    }
+
+    return this.ensureLatestDesignTokens(data);
   },
 
   async updateSettings(updates: Partial<Omit<DesignSystemSettings, 'id' | 'user_id' | 'created_at' | 'updated_at'>>): Promise<boolean> {
@@ -137,6 +145,45 @@ export const designSystemSettingsService = {
 
     console.log('Settings updated successfully:', data[0]);
     return true;
+  },
+
+  async ensureLatestDesignTokens(settings: DesignSystemSettings): Promise<DesignSystemSettings> {
+    const updates: Partial<DesignSystemSettings> = {};
+
+    const normalize = (value: unknown): string | null => {
+      if (value === null || value === undefined) return null;
+      if (typeof value !== 'string') return null;
+      return value.trim().toLowerCase();
+    };
+
+    designTokenSettingKeys.forEach((key) => {
+      const defaultValue = designSystemDefaults[key];
+      const defaultNormalized = normalize(defaultValue);
+      const currentValue = settings[key as keyof DesignSystemSettings];
+      const currentNormalized = normalize(currentValue);
+
+      if (currentNormalized === defaultNormalized) {
+        return;
+      }
+
+      const legacyValues = legacyDesignTokenValues[key]?.map(normalize).filter((value): value is string => Boolean(value));
+
+      if (currentNormalized === null || currentNormalized === '' || (legacyValues && legacyValues.includes(currentNormalized))) {
+        updates[key as keyof DesignSystemSettings] = defaultValue as DesignSystemSettings[keyof DesignSystemSettings];
+      }
+    });
+
+    if (Object.keys(updates).length === 0) {
+      return settings;
+    }
+
+    const success = await this.updateSettings(updates);
+
+    if (!success) {
+      console.warn('Failed to persist canonical design token defaults', updates);
+    }
+
+    return { ...settings, ...updates };
   },
 
   async createDefaultSettings(): Promise<boolean> {
