@@ -54,7 +54,7 @@ export function AppSidebar() {
   };
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+      ? "bg-primary/10 text-primary font-medium"
       : "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground";
 
   return (
@@ -94,7 +94,7 @@ export function AppSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end className={({ isActive }) => getNavCls({ isActive })}>
+                    <NavLink to={item.url} end={item.url === "/"} className={({ isActive }) => getNavCls({ isActive })}>
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
