@@ -4,16 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Package, Palette, FileText, Download, Upload, Sparkles, TrendingUp } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
+import { useRecentComponents } from "@/hooks/useRecentComponents";
 
 export default function Dashboard() {
   const { data: dashboardStats, isLoading } = useDashboardStats();
-
-  const recentComponents = [
-    { name: "Button", variant: "Primary", lastModified: "2 hours ago", status: "Published" },
-    { name: "Card", variant: "Default", lastModified: "1 day ago", status: "Draft" },
-    { name: "Modal", variant: "Large", lastModified: "3 days ago", status: "Published" },
-    { name: "Input", variant: "Search", lastModified: "1 week ago", status: "Published" },
-  ];
+  const { data: recentComponents = [], isLoading: isLoadingComponents } = useRecentComponents();
 
   const stats = [
     {
@@ -107,17 +102,39 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {recentComponents.map((component) => (
-                <div key={`${component.name}-${component.variant}`} className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors">
-                  <div>
-                    <div className="font-medium">{component.name}</div>
-                    <div className="text-sm text-muted-foreground">{component.variant} • {component.lastModified}</div>
-                  </div>
-                  <Badge variant={component.status === "Published" ? "default" : "secondary"}>
-                    {component.status}
-                  </Badge>
+              {isLoadingComponents ? (
+                <div className="space-y-3">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 rounded-lg border border-border">
+                      <div className="space-y-2">
+                        <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+                        <div className="h-3 w-32 bg-muted rounded animate-pulse" />
+                      </div>
+                      <div className="h-6 w-16 bg-muted rounded animate-pulse" />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              ) : recentComponents.length > 0 ? (
+                recentComponents.map((component, index) => (
+                  <div key={`${component.name}-${component.variant}-${index}`} className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors">
+                    <div>
+                      <div className="font-medium">{component.name}</div>
+                      <div className="text-sm text-muted-foreground">{component.variant} • {component.lastModified}</div>
+                    </div>
+                    <Badge variant={component.status === "Published" ? "default" : "secondary"}>
+                      {component.status}
+                    </Badge>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-6 text-muted-foreground">
+                  <Package className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No components created yet</p>
+                  <Button asChild variant="link" size="sm" className="mt-2">
+                    <NavLink to="/new-component">Create your first component</NavLink>
+                  </Button>
+                </div>
+              )}
             </div>
             <div className="mt-4">
               <Button asChild variant="ghost" className="w-full">
