@@ -56,38 +56,6 @@ export default function Tokens() {
       description: "Main text color"
     },
     {
-      name: "Card",
-      value: "hsl(var(--card))",
-      css: "--card",
-      lightHsl: "0 0% 100%",
-      darkHsl: "222.2 84% 4.9%",
-      description: "Card background color"
-    },
-    {
-      name: "Card Foreground",
-      value: "hsl(var(--card-foreground))",
-      css: "--card-foreground",
-      lightHsl: "222.2 84% 4.9%",
-      darkHsl: "210 40% 98%",
-      description: "Card text color"
-    },
-    {
-      name: "Popover",
-      value: "hsl(var(--popover))",
-      css: "--popover",
-      lightHsl: "0 0% 100%",
-      darkHsl: "222.2 84% 4.9%",
-      description: "Popover background color"
-    },
-    {
-      name: "Popover Foreground",
-      value: "hsl(var(--popover-foreground))",
-      css: "--popover-foreground",
-      lightHsl: "222.2 84% 4.9%",
-      darkHsl: "210 40% 98%",
-      description: "Popover text color"
-    },
-    {
       name: "Muted",
       value: "hsl(var(--muted))",
       css: "--muted",
@@ -96,28 +64,12 @@ export default function Tokens() {
       description: "Muted background for cards and surfaces"
     },
     {
-      name: "Muted Foreground",
-      value: "hsl(var(--muted-foreground))",
-      css: "--muted-foreground",
-      lightHsl: "215.4 16.3% 46.9%",
-      darkHsl: "215 20.2% 65.1%",
-      description: "Muted text color"
-    },
-    {
       name: "Border",
       value: "hsl(var(--border))",
       css: "--border",
       lightHsl: "214.3 31.8% 91.4%",
       darkHsl: "217.2 32.6% 17.5%",
       description: "Border color for components"
-    },
-    {
-      name: "Input",
-      value: "hsl(var(--input))",
-      css: "--input",
-      lightHsl: "214.3 31.8% 91.4%",
-      darkHsl: "217.2 32.6% 17.5%",
-      description: "Input field border color"
     },
     {
       name: "Ring",
@@ -136,19 +88,45 @@ export default function Tokens() {
       description: "Error and destructive actions"
     },
     {
-      name: "Destructive Foreground",
-      value: "hsl(var(--destructive-foreground))",
-      css: "--destructive-foreground",
-      lightHsl: "210 40% 98%",
-      darkHsl: "210 40% 98%",
-      description: "Text color on destructive backgrounds"
+      name: "Success",
+      value: "hsl(var(--success))",
+      css: "--success",
+      lightHsl: "142 70% 45%",
+      darkHsl: "142 70% 50%",
+      description: "Success and positive actions"
+    },
+    {
+      name: "Warning",
+      value: "hsl(var(--warning))",
+      css: "--warning",
+      lightHsl: "38 95% 55%",
+      darkHsl: "38 90% 60%",
+      description: "Warning and caution states"
     },
   ];
 
-
+  const typographyTokens = [
+    { name: "Display Large", value: "text-display-lg", fontSize: "3.5rem (56px)", lineHeight: "1.2" },
+    { name: "Display Medium", value: "text-display-md", fontSize: "2.75rem (44px)", lineHeight: "1.2" },
+    { name: "Display Small", value: "text-display-sm", fontSize: "2.25rem (36px)", lineHeight: "1.2" },
+    { name: "Heading Large", value: "text-heading-lg", fontSize: "1.875rem (30px)", lineHeight: "1.2" },
+    { name: "Heading Medium", value: "text-heading-md", fontSize: "1.5rem (24px)", lineHeight: "1.2" },
+    { name: "Heading Small", value: "text-heading-sm", fontSize: "1.25rem (20px)", lineHeight: "1.5" },
+    { name: "Body Large", value: "text-body-lg", fontSize: "1.125rem (18px)", lineHeight: "1.75" },
+    { name: "Body Medium", value: "text-body-md", fontSize: "1rem (16px)", lineHeight: "1.5" },
+    { name: "Body Small", value: "text-body-sm", fontSize: "0.875rem (14px)", lineHeight: "1.5" },
+    { name: "Caption", value: "text-caption", fontSize: "0.75rem (12px)", lineHeight: "1.5" },
+  ];
 
   const spacingTokens = [
-    { name: "Border Radius", value: "0.5rem", class: "rounded-md", css: "--radius", description: "Default border radius" },
+    { name: "Extra Small", value: "4px", class: "space-xs", css: "--spacing-xs", description: "Minimal spacing" },
+    { name: "Small", value: "8px", class: "space-sm", css: "--spacing-sm", description: "Small spacing" },
+    { name: "Medium", value: "16px", class: "space-md", css: "--spacing-md", description: "Default spacing" },
+    { name: "Large", value: "24px", class: "space-lg", css: "--spacing-lg", description: "Large spacing" },
+    { name: "Extra Large", value: "32px", class: "space-xl", css: "--spacing-xl", description: "Extra large spacing" },
+    { name: "2X Large", value: "48px", class: "space-2xl", css: "--spacing-2xl", description: "Section spacing" },
+    { name: "3X Large", value: "64px", class: "space-3xl", css: "--spacing-3xl", description: "Large sections" },
+    { name: "4X Large", value: "96px", class: "space-4xl", css: "--spacing-4xl", description: "Hero sections" },
   ];
 
   const sidebarTokens = [
@@ -296,7 +274,39 @@ export default function Tokens() {
         </CardContent>
       </Card>
 
-
+      {/* Typography */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Type className="h-5 w-5" />
+            Typography Tokens
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {typographyTokens.map((token) => (
+              <div key={token.name} className="border rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-medium">{token.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => copyToClipboard(token.value)}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div className={token.value}>Sample Text</div>
+                <div className="mt-2 text-sm text-muted-foreground">
+                  Class: <code className="bg-muted px-1 rounded">{token.value}</code> •
+                  Size: {token.fontSize} •
+                  Line Height: {token.lineHeight}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Sidebar Tokens */}
       <Card>
