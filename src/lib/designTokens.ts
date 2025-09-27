@@ -60,6 +60,28 @@ const hslToHex = (hsl: string): string => {
   return `#${toFixedHex(r)}${toFixedHex(g)}${toFixedHex(b)}`;
 };
 
+// Manual hex overrides for precise browser color matching
+const hexOverrides: Record<string, { light?: string; dark?: string }> = {
+  "--primary": { light: "#00dcf5", dark: "#0da2e7" },
+  "--secondary": { light: "#f4d291", dark: "#d4c29c" },
+  "--accent": { light: "#f5f7fa", dark: "#2c3e50" },
+  "--background": { light: "#ffffff", dark: "#0c1222" },
+  "--foreground": { light: "#0c1222", dark: "#f5f7fa" },
+  "--muted": { light: "#f5f7fa", dark: "#2c3e50" },
+  "--border": { light: "#e4e9f2", dark: "#2c3e50" },
+  "--ring": { light: "#00dcf5", dark: "#4dabf7" },
+  "--destructive": { light: "#f56565", dark: "#7c2d12" },
+  "--destructive-foreground": { light: "#f5f7fa", dark: "#f5f7fa" },
+  "--sidebar-background": { light: "#fafcfe", dark: "#1a202c" },
+  "--sidebar-foreground": { light: "#64748b", dark: "#f8fafc" },
+  "--sidebar-primary": { light: "#1a202c", dark: "#4dabf7" },
+  "--sidebar-primary-foreground": { light: "#fafcfe", dark: "#ffffff" },
+  "--sidebar-accent": { light: "#f8fafc", dark: "#374151" },
+  "--sidebar-accent-foreground": { light: "#1a202c", dark: "#f8fafc" },
+  "--sidebar-border": { light: "#e2e8f0", dark: "#374151" },
+  "--sidebar-ring": { light: "#3b82f6", dark: "#3b82f6" },
+};
+
 const createColorToken = ({
   name,
   cssVariable,
@@ -72,13 +94,22 @@ const createColorToken = ({
   description: string;
   lightHsl: string;
   darkHsl: string;
-}): ColorToken => ({
-  name,
-  cssVariable,
-  description,
-  light: { hsl: lightHsl, hex: hslToHex(lightHsl) },
-  dark: { hsl: darkHsl, hex: hslToHex(darkHsl) },
-});
+}): ColorToken => {
+  const override = hexOverrides[cssVariable];
+  return {
+    name,
+    cssVariable,
+    description,
+    light: { 
+      hsl: lightHsl, 
+      hex: override?.light || hslToHex(lightHsl) 
+    },
+    dark: { 
+      hsl: darkHsl, 
+      hex: override?.dark || hslToHex(darkHsl) 
+    },
+  };
+};
 
 export const colorTokens: ColorToken[] = [
   createColorToken({
