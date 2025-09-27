@@ -406,33 +406,11 @@ body {
   box-shadow: var(--shadow-glow);
 }
 
-/* Enhancement Classes for Specific Elements */
-.owner-personality {
-  color: hsl(var(--primary));
-  font-weight: var(--font-weight-medium);
-  transition: color var(--transition-fast);
-}
 
-.owner-personality:hover {
-  color: hsl(var(--primary-glow));
-}
 
-.homepage-float-1 {
-  animation: float 6s ease-in-out infinite;
-}
 
-.how-it-works-icon {
-  color: hsl(var(--primary));
-  background: hsl(var(--primary) / 0.1);
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  transition: all var(--transition-medium);
-}
 
-.how-it-works-icon:hover {
-  background: hsl(var(--primary) / 0.2);
-  transform: scale(1.05);
-}
+
 
 /* Animation Keyframes */
 @keyframes slideUp {
