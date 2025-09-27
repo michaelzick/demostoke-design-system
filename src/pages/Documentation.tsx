@@ -55,7 +55,7 @@ export default function Documentation() {
     {
       title: "GitHub Repository",
       description: "Source code and contributions",
-      url: "https://github.com/example/design-system",
+      url: "/demostoke-design-system",
       external: true
     }
   ];

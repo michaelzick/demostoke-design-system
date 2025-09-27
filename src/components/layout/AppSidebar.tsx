@@ -26,6 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { NewComponentButton } from "@/components/common/NewComponentButton";
 
 const menuItems = [
   { title: "Dashboard", url: "/", icon: Home },
@@ -47,7 +48,10 @@ export function AppSidebar() {
   const currentPath = location.pathname;
   const collapsed = state === "collapsed";
 
-  const isActive = (path: string) => currentPath === path;
+  const isActive = (path: string) => {
+    if (path === "/") return currentPath === "/";
+    return currentPath.startsWith(path);
+  };
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive
       ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
@@ -77,17 +81,10 @@ export function AppSidebar() {
 
       <SidebarContent>
         {/* New Component Button */}
-          <div className="px-md pb-md">
-          <Button
-            asChild
-            variant="on-surface"
-            className={`text-[color:hsl(var(--hero-button-foreground))] w-full ${collapsed ? 'px-2' : ''}`}
-          >
-            <NavLink to="/new-component">
-              <Plus className="h-4 w-4" />
-              {!collapsed && <span className="ml-2">New Component</span>}
-            </NavLink>
-          </Button>
+        <div className="px-md pb-md">
+          <NewComponentButton className={`w-full ${collapsed ? 'px-2' : ''}`}>
+            {!collapsed && "New Component"}
+          </NewComponentButton>
         </div>
 
         <SidebarGroup>
@@ -97,7 +94,7 @@ export function AppSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end className={getNavCls}>
+                    <NavLink to={item.url} end className={({ isActive }) => getNavCls({ isActive })}>
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
@@ -115,7 +112,7 @@ export function AppSidebar() {
               {toolsItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={getNavCls}>
+                    <NavLink to={item.url} className={({ isActive }) => getNavCls({ isActive })}>
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>

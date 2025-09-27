@@ -13,6 +13,7 @@ import { componentService } from "@/services/componentService";
 import { DesignSystemComponent } from "@/types/component";
 import { toast } from "@/hooks/use-toast";
 import { copyComponentCode, viewInStorybook, exportComponentSpec } from "@/utils/componentActions";
+import { NewComponentButton } from "@/components/common/NewComponentButton";
 
 export default function Components() {
   const navigate = useNavigate();
@@ -120,9 +121,6 @@ export default function Components() {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Badge variant="outline">{component.category}</Badge>
-            <Badge variant={component.status === "published" ? "default" : "secondary"}>
-              {component.status.charAt(0).toUpperCase() + component.status.slice(1)}
-            </Badge>
           </div>
           
           <div className="flex flex-wrap gap-1">
@@ -158,9 +156,6 @@ export default function Components() {
           
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Badge variant="outline">{component.category}</Badge>
-            <Badge variant={component.status === "published" ? "default" : "secondary"}>
-              {component.status.charAt(0).toUpperCase() + component.status.slice(1)}
-            </Badge>
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -198,13 +193,9 @@ export default function Components() {
             Browse and manage your design system components
           </p>
         </div>
-        <Button 
-          className="btn-hero" 
-          onClick={() => navigate('/new-component')}
-        >
-          <Plus className="h-4 w-4 mr-2" />
+        <NewComponentButton>
           Add Component
-        </Button>
+        </NewComponentButton>
       </div>
 
       {/* Search and Filters */}
@@ -309,10 +300,9 @@ export default function Components() {
                     Clear filters
                   </Button>
                 ) : (
-                  <Button onClick={() => navigate('/new-component')}>
-                    <Plus className="h-4 w-4 mr-2" />
+                  <NewComponentButton>
                     Create Component
-                  </Button>
+                  </NewComponentButton>
                 )}
               </Card>
             )}
