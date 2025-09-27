@@ -407,13 +407,13 @@ body {
 }
 
 /* Enhancement Classes for Specific Elements */
-a[href="/"], .owner-personality {
+.owner-personality {
   color: hsl(var(--primary));
   font-weight: var(--font-weight-medium);
   transition: color var(--transition-fast);
 }
 
-a[href="/"]:hover, .owner-personality:hover {
+.owner-personality:hover {
   color: hsl(var(--primary-glow));
 }
 

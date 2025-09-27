@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useLocation, NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   Palette,
   Plus,
@@ -20,12 +19,10 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { NewComponentButton } from "@/components/common/NewComponentButton";
 
 const menuItems = [
@@ -45,22 +42,28 @@ const toolsItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
-  const currentPath = location.pathname;
   const collapsed = state === "collapsed";
 
-  const isActive = (path: string) => {
-    if (path === "/") return currentPath === "/";
-    return currentPath.startsWith(path);
+  const isActiveRoute = (path: string) => {
+    if (path === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname === path;
   };
-  const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive
-      ? "bg-primary/10 text-primary font-medium"
-      : "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground";
+
+  const getNavCls = (path: string) => {
+    const baseClasses = "flex items-center gap-2 w-full px-2 py-2 rounded-md transition-colors";
+    const isActive = isActiveRoute(path);
+
+    return isActive
+      ? `${baseClasses} text-primary font-medium`
+      : `${baseClasses} text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground`;
+  };
 
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarHeader className="p-md">
-        <NavLink to="/" className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''} hover:opacity-80 transition-opacity`}>
+        <div className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''}`}>
           <img
             src="/src/assets/images/demostoke-logo-ds-transparent-cropped.webp"
             alt="DemoStoke Logo"
@@ -76,7 +79,7 @@ export function AppSidebar() {
               <p className="text-xs text-sidebar-foreground/70">Design System</p>
             </div>
           )}
-        </NavLink>
+        </div>
       </SidebarHeader>
 
       <SidebarContent>
@@ -93,12 +96,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end={item.url === "/"} className={({ isActive }) => getNavCls({ isActive })}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
+                  <NavLink
+                    to={item.url}
+                    className={getNavCls(item.url)}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {!collapsed && <span>{item.title}</span>}
+                  </NavLink>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -111,12 +115,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {toolsItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={({ isActive }) => getNavCls({ isActive })}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
+                  <NavLink
+                    to={item.url}
+                    className={getNavCls(item.url)}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {!collapsed && <span>{item.title}</span>}
+                  </NavLink>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
