@@ -29,7 +29,7 @@ const menuItems = [
   { title: "Dashboard", url: "/", icon: Home },
   { title: "Components", url: "/components", icon: Package },
   { title: "Tokens", url: "/tokens", icon: Palette },
-  { title: "Documentation", url: "/docs", icon: FileText },
+  // { title: "Documentation", url: "/docs", icon: FileText },
 ];
 
 const toolsItems = [
