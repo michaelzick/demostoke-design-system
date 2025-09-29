@@ -47,7 +47,7 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
-        className={`${isFullscreen ? 'max-w-[95vw] max-h-[95vh]' : 'max-w-4xl max-h-[80vh]'} transition-all duration-300`}
+        className={`${isFullscreen ? 'max-w-[95vw] max-h-[95vh]' : 'max-w-4xl max-h-[80vh]'} transition-all duration-300 [&>button]:hidden`}
       >
         <DialogHeader className="flex-row items-center justify-between space-y-0 pb-4 border-b">
           <DialogTitle className="text-lg font-semibold">
@@ -103,10 +103,7 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
           </div>
         </div>
         
-        <div className="flex items-center justify-between pt-4 border-t">
-          <div className="text-sm text-muted-foreground">
-            Press Ctrl/Cmd + C to copy • ESC to close
-          </div>
+        <div className="flex items-center justify-end pt-4 border-t">
           <Button variant="outline" onClick={onClose}>
             Close
           </Button>
