@@ -74,14 +74,6 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
                 <Copy className="h-4 w-4" />
               )}
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="h-8 w-8 p-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
           </div>
         </DialogHeader>
         
@@ -115,15 +107,9 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
           <div className="text-sm text-muted-foreground">
             Press Ctrl/Cmd + C to copy • ESC to close
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={handleCopy}>
-              <Copy className="h-4 w-4 mr-2" />
-              {copied ? 'Copied!' : 'Copy Code'}
-            </Button>
-            <Button variant="secondary" onClick={onClose}>
-              Close
-            </Button>
-          </div>
+          <Button variant="outline" onClick={onClose}>
+            Close
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
