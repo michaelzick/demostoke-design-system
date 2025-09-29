@@ -7,12 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, Grid, List, Filter, MoreHorizontal, Eye, Download, Copy, Plus } from "lucide-react";
+import { Search, Grid, List, Filter, MoreHorizontal, Eye, Download, Copy, Plus, Code } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { componentService } from "@/services/componentService";
 import { DesignSystemComponent } from "@/types/component";
 import { toast } from "@/hooks/use-toast";
-import { copyComponentCode, viewInStorybook, exportComponentSpec } from "@/utils/componentActions";
+import { copyComponentCode, viewInStorybook, exportComponentSpec, viewComponentCode, registerCodeModal } from "@/utils/componentActions";
+import { CodeModal } from "@/components/ui/code-modal";
 import { NewComponentButton } from "@/components/common/NewComponentButton";
 
 export default function Components() {
@@ -23,6 +24,12 @@ export default function Components() {
   const [components, setComponents] = useState<DesignSystemComponent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [codeModal, setCodeModal] = useState({ isOpen: false, componentName: "", code: "" });
+
+  // Register code modal handler
+  useEffect(() => {
+    registerCodeModal(setCodeModal);
+  }, []);
 
   // Fetch components on mount
   useEffect(() => {
@@ -105,6 +112,10 @@ export default function Components() {
                 <Eye className="h-4 w-4 mr-2" />
                 View in Storybook
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => viewComponentCode(component.name)}>
+                <Code className="h-4 w-4 mr-2" />
+                View Code
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => copyComponentCode(component.name)}>
                 <Copy className="h-4 w-4 mr-2" />
                 Copy Code
@@ -167,6 +178,10 @@ export default function Components() {
                 <DropdownMenuItem onClick={() => viewInStorybook(component.name)}>
                   <Eye className="h-4 w-4 mr-2" />
                   View in Storybook
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => viewComponentCode(component.name)}>
+                  <Code className="h-4 w-4 mr-2" />
+                  View Code
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => copyComponentCode(component.name)}>
                   <Copy className="h-4 w-4 mr-2" />
@@ -309,6 +324,13 @@ export default function Components() {
           </>
         )}
       </div>
+
+      <CodeModal
+        isOpen={codeModal.isOpen}
+        onClose={() => setCodeModal({ ...codeModal, isOpen: false })}
+        componentName={codeModal.componentName}
+        code={codeModal.code}
+      />
     </div>
   );
 }
