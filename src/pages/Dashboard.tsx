@@ -5,10 +5,19 @@ import { Plus, Package, Palette, FileText, Download, Upload, Sparkles, TrendingU
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 import { useRecentComponents } from "@/hooks/useRecentComponents";
+import { viewComponentCode, registerCodeModal } from "@/utils/componentActions";
+import { CodeModal } from "@/components/ui/code-modal";
+import { useState, useEffect } from "react";
 
 export default function Dashboard() {
   const { data: dashboardStats, isLoading } = useDashboardStats();
   const { data: recentComponents = [], isLoading: isLoadingComponents } = useRecentComponents();
+  const [codeModal, setCodeModal] = useState({ isOpen: false, componentName: "", code: "" });
+
+  // Register code modal handler
+  useEffect(() => {
+    registerCodeModal(setCodeModal);
+  }, []);
 
   const stats = [
     {
@@ -116,7 +125,11 @@ export default function Dashboard() {
                 </div>
               ) : recentComponents.length > 0 ? (
                 recentComponents.map((component, index) => (
-                  <div key={`${component.name}-${component.variant}-${index}`} className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors">
+                  <div 
+                    key={`${component.name}-${component.variant}-${index}`} 
+                    className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer"
+                    onClick={() => viewComponentCode(component.name)}
+                  >
                     <div>
                       <div className="font-medium">{component.name}</div>
                       <div className="text-sm text-muted-foreground">{component.variant} • {component.lastModified}</div>
@@ -207,6 +220,13 @@ export default function Dashboard() {
           </ul>
         </CardContent>
       </Card>
+
+      <CodeModal
+        isOpen={codeModal.isOpen}
+        onClose={() => setCodeModal({ ...codeModal, isOpen: false })}
+        componentName={codeModal.componentName}
+        code={codeModal.code}
+      />
     </div>
   );
 }
