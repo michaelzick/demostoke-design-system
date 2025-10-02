@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function Export() {
   const { toast } = useToast();
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
-  const [exportFormat, setExportFormat] = useState<"figma" | "js" | "tsx">("tsx");
+  const [exportFormat, setExportFormat] = useState<"figma" | "js" | "tsx">("figma");
   const [isExporting, setIsExporting] = useState(false);
 
   // Fetch real components from database
