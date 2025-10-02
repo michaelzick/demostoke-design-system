@@ -379,13 +379,11 @@ ${props}
   async exportTokensToFigmaVariables(categories: string[]): Promise<Blob> {
     const zip = new JSZip();
 
-    const variableCollections: any = {};
-
     categories.forEach(category => {
       const tokens = this.getTokensByCategory(category);
       
       if (category === 'colors' || category === 'sidebar') {
-        const colorCollection: any = {
+        const colorCollection = {
           name: category === 'colors' ? 'Colors' : 'Sidebar',
           modes: {
             light: 'Light Mode',
@@ -399,10 +397,14 @@ ${props}
               dark: this.hexToRgb(token.dark.hex),
             },
           })),
+          version: '1.0.0',
+          generatedAt: new Date().toISOString(),
         };
-        variableCollections[category] = colorCollection;
+        
+        zip.file(`${category}-variables.json`, JSON.stringify(colorCollection, null, 2));
+        
       } else if (category === 'typography') {
-        const typCollection: any = {
+        const typCollection = {
           name: 'Typography',
           modes: {
             default: 'Default',
@@ -411,17 +413,21 @@ ${props}
             name: token.name,
             type: 'FLOAT',
             valuesByMode: {
-              default: parseFloat(token.fontSize.split('rem')[0] || token.fontSize.split('px')[0]) || 16,
+              default: parseFloat(token.fontSize.replace(/[^0-9.]/g, '')) || 16,
             },
             metadata: {
               fontSize: token.fontSize,
               lineHeight: token.lineHeight,
             },
           })),
+          version: '1.0.0',
+          generatedAt: new Date().toISOString(),
         };
-        variableCollections[category] = typCollection;
+        
+        zip.file('typography-variables.json', JSON.stringify(typCollection, null, 2));
+        
       } else if (category === 'spacing') {
-        const spacingCollection: any = {
+        const spacingCollection = {
           name: 'Spacing',
           modes: {
             default: 'Default',
@@ -433,18 +439,13 @@ ${props}
               default: parseFloat(token.value.replace(/[^0-9.]/g, '')) || 0,
             },
           })),
+          version: '1.0.0',
+          generatedAt: new Date().toISOString(),
         };
-        variableCollections[category] = spacingCollection;
+        
+        zip.file('spacing-variables.json', JSON.stringify(spacingCollection, null, 2));
       }
     });
-
-    const figmaData = {
-      variableCollections,
-      version: '1.0.0',
-      generatedAt: new Date().toISOString(),
-    };
-
-    zip.file('tokens.json', JSON.stringify(figmaData, null, 2));
 
     const readme = `# Design System Tokens - Figma Variable Collection
 
@@ -454,11 +455,14 @@ Import these tokens into Figma using the Variables feature.
 1. Open Figma
 2. Go to Local Variables (⌥ ⌘ K on Mac, Ctrl Alt K on Windows)
 3. Click the import button
-4. Select the tokens.json file
+4. Import each category file separately:
+${categories.map(cat => `   - ${cat}-variables.json`).join('\n')}
 5. Map the variable collections to your design
 
-## Included Categories:
-${categories.map(cat => `- ${cat.charAt(0).toUpperCase() + cat.slice(1)}`).join('\n')}
+## Included Files:
+${categories.map(cat => `- ${cat}-variables.json`).join('\n')}
+
+Each file contains a complete Figma variable collection for that category.
 
 Generated: ${new Date().toLocaleString()}
 `;
