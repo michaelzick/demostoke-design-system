@@ -1,4 +1,5 @@
 import { DesignSystemComponent } from "@/types/component";
+import { colorTokens, typographyTokens, spacingTokens, radiusTokens, ColorToken, TypographyToken, SpacingToken, RadiusToken } from "@/lib/designTokens";
 import JSZip from "jszip";
 
 export const exportService = {
@@ -315,5 +316,369 @@ ${props}
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+  },
+
+  /**
+   * Get base color tokens (excluding sidebar)
+   */
+  getBaseColorTokens(): ColorToken[] {
+    return colorTokens.filter(token => !token.cssVariable.includes('sidebar'));
+  },
+
+  /**
+   * Get sidebar color tokens
+   */
+  getSidebarColorTokens(): ColorToken[] {
+    return colorTokens.filter(token => token.cssVariable.includes('sidebar'));
+  },
+
+  /**
+   * Get tokens by category
+   */
+  getTokensByCategory(category: string): Array<ColorToken | TypographyToken | SpacingToken | RadiusToken> {
+    switch (category) {
+      case 'colors':
+        return this.getBaseColorTokens();
+      case 'sidebar':
+        return this.getSidebarColorTokens();
+      case 'typography':
+        return typographyTokens;
+      case 'spacing':
+        return [...spacingTokens, ...radiusTokens];
+      default:
+        return [];
+    }
+  },
+
+  /**
+   * Convert hex to RGB object (0-1 range for Figma)
+   */
+  hexToRgb(hex: string): { r: number; g: number; b: number } {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!result) {
+      return { r: 0, g: 0, b: 0 };
+    }
+    return {
+      r: parseInt(result[1], 16) / 255,
+      g: parseInt(result[2], 16) / 255,
+      b: parseInt(result[3], 16) / 255,
+    };
+  },
+
+  /**
+   * Convert px to rem
+   */
+  pxToRem(px: string): string {
+    const value = parseFloat(px.replace('px', ''));
+    return `${value / 16}rem`;
+  },
+
+  /**
+   * Export design tokens to Figma Variable Collection format
+   */
+  async exportTokensToFigmaVariables(categories: string[]): Promise<Blob> {
+    const zip = new JSZip();
+
+    const variableCollections: any = {};
+
+    categories.forEach(category => {
+      const tokens = this.getTokensByCategory(category);
+      
+      if (category === 'colors' || category === 'sidebar') {
+        const colorCollection: any = {
+          name: category === 'colors' ? 'Colors' : 'Sidebar',
+          modes: {
+            light: 'Light Mode',
+            dark: 'Dark Mode',
+          },
+          variables: (tokens as ColorToken[]).map(token => ({
+            name: token.name,
+            type: 'COLOR',
+            valuesByMode: {
+              light: this.hexToRgb(token.light.hex),
+              dark: this.hexToRgb(token.dark.hex),
+            },
+          })),
+        };
+        variableCollections[category] = colorCollection;
+      } else if (category === 'typography') {
+        const typCollection: any = {
+          name: 'Typography',
+          modes: {
+            default: 'Default',
+          },
+          variables: (tokens as TypographyToken[]).map(token => ({
+            name: token.name,
+            type: 'FLOAT',
+            valuesByMode: {
+              default: parseFloat(token.fontSize.split('rem')[0] || token.fontSize.split('px')[0]) || 16,
+            },
+            metadata: {
+              fontSize: token.fontSize,
+              lineHeight: token.lineHeight,
+            },
+          })),
+        };
+        variableCollections[category] = typCollection;
+      } else if (category === 'spacing') {
+        const spacingCollection: any = {
+          name: 'Spacing',
+          modes: {
+            default: 'Default',
+          },
+          variables: (tokens as Array<SpacingToken | RadiusToken>).map(token => ({
+            name: token.name,
+            type: 'FLOAT',
+            valuesByMode: {
+              default: parseFloat(token.value.replace(/[^0-9.]/g, '')) || 0,
+            },
+          })),
+        };
+        variableCollections[category] = spacingCollection;
+      }
+    });
+
+    const figmaData = {
+      variableCollections,
+      version: '1.0.0',
+      generatedAt: new Date().toISOString(),
+    };
+
+    zip.file('tokens.json', JSON.stringify(figmaData, null, 2));
+
+    const readme = `# Design System Tokens - Figma Variable Collection
+
+Import these tokens into Figma using the Variables feature.
+
+## Import Instructions:
+1. Open Figma
+2. Go to Local Variables (⌥ ⌘ K on Mac, Ctrl Alt K on Windows)
+3. Click the import button
+4. Select the tokens.json file
+5. Map the variable collections to your design
+
+## Included Categories:
+${categories.map(cat => `- ${cat.charAt(0).toUpperCase() + cat.slice(1)}`).join('\n')}
+
+Generated: ${new Date().toLocaleString()}
+`;
+
+    zip.file('README.md', readme);
+
+    return await zip.generateAsync({ type: 'blob' });
+  },
+
+  /**
+   * Export design tokens to simple JSON format
+   */
+  async exportTokensToFigmaSimple(categories: string[]): Promise<Blob> {
+    const zip = new JSZip();
+
+    categories.forEach(category => {
+      const tokens = this.getTokensByCategory(category);
+      let jsonData: any = {};
+
+      if (category === 'colors' || category === 'sidebar') {
+        (tokens as ColorToken[]).forEach(token => {
+          const key = token.name.toLowerCase().replace(/\s+/g, '-');
+          jsonData[key] = {
+            light: token.light.hex,
+            dark: token.dark.hex,
+          };
+        });
+        zip.file(`${category}.json`, JSON.stringify(jsonData, null, 2));
+      } else if (category === 'typography') {
+        (tokens as TypographyToken[]).forEach(token => {
+          const key = token.name.toLowerCase().replace(/\s+/g, '-');
+          jsonData[key] = {
+            fontSize: token.fontSize,
+            lineHeight: token.lineHeight,
+          };
+        });
+        zip.file('typography.json', JSON.stringify(jsonData, null, 2));
+      } else if (category === 'spacing') {
+        (tokens as Array<SpacingToken | RadiusToken>).forEach(token => {
+          const key = token.name.toLowerCase().replace(/\s+/g, '-');
+          jsonData[key] = token.value;
+        });
+        zip.file('spacing.json', JSON.stringify(jsonData, null, 2));
+      }
+    });
+
+    const readme = `# Design System Tokens - Simple JSON
+
+Easy-to-parse JSON format for custom integrations.
+
+## Usage:
+Import individual category files:
+
+\`\`\`javascript
+import colors from './colors.json';
+import typography from './typography.json';
+import spacing from './spacing.json';
+\`\`\`
+
+## Included Files:
+${categories.map(cat => `- ${cat}.json`).join('\n')}
+
+## Format Examples:
+
+**Colors:**
+\`\`\`json
+{
+  "primary": {
+    "light": "#00dcf5",
+    "dark": "#0da2e7"
   }
+}
+\`\`\`
+
+**Typography:**
+\`\`\`json
+{
+  "display-large": {
+    "fontSize": "3.5rem (56px)",
+    "lineHeight": "1.2"
+  }
+}
+\`\`\`
+
+**Spacing:**
+\`\`\`json
+{
+  "medium": "16px",
+  "large": "24px"
+}
+\`\`\`
+
+Generated: ${new Date().toLocaleString()}
+`;
+
+    zip.file('README.md', readme);
+
+    return await zip.generateAsync({ type: 'blob' });
+  },
+
+  /**
+   * Export design tokens to CSS format
+   */
+  async exportTokensToCSS(
+    categories: string[],
+    darkModeOptions: { classSelector: boolean; mediaQuery: boolean }
+  ): Promise<Blob> {
+    const zip = new JSZip();
+
+    categories.forEach(category => {
+      const tokens = this.getTokensByCategory(category);
+      let cssContent = '';
+
+      if (category === 'colors' || category === 'sidebar') {
+        // Light mode
+        cssContent += `/* ${category.charAt(0).toUpperCase() + category.slice(1)} - Light Mode */\n`;
+        cssContent += ':root {\n';
+        (tokens as ColorToken[]).forEach(token => {
+          cssContent += `  ${token.cssVariable}: ${token.light.hsl};\n`;
+        });
+        cssContent += '}\n\n';
+
+        // Dark mode - class selector
+        if (darkModeOptions.classSelector) {
+          cssContent += `/* Dark Mode - Class Selector */\n`;
+          cssContent += '.dark {\n';
+          (tokens as ColorToken[]).forEach(token => {
+            cssContent += `  ${token.cssVariable}: ${token.dark.hsl};\n`;
+          });
+          cssContent += '}\n\n';
+        }
+
+        // Dark mode - media query
+        if (darkModeOptions.mediaQuery) {
+          cssContent += `/* Dark Mode - Media Query */\n`;
+          cssContent += '@media (prefers-color-scheme: dark) {\n';
+          cssContent += '  :root {\n';
+          (tokens as ColorToken[]).forEach(token => {
+            cssContent += `    ${token.cssVariable}: ${token.dark.hsl};\n`;
+          });
+          cssContent += '  }\n';
+          cssContent += '}\n';
+        }
+
+        zip.file(`${category}.css`, cssContent);
+      } else if (category === 'typography') {
+        cssContent += `/* Typography Tokens */\n`;
+        cssContent += ':root {\n';
+        (tokens as TypographyToken[]).forEach(token => {
+          const varName = token.name.toLowerCase().replace(/\s+/g, '-');
+          const fontSize = token.fontSize.split('(')[0].trim();
+          cssContent += `  --font-${varName}: ${fontSize};\n`;
+          cssContent += `  --line-height-${varName}: ${token.lineHeight};\n`;
+        });
+        cssContent += '}\n';
+
+        zip.file('typography.css', cssContent);
+      } else if (category === 'spacing') {
+        cssContent += `/* Spacing & Radius Tokens */\n`;
+        cssContent += ':root {\n';
+        (tokens as Array<SpacingToken | RadiusToken>).forEach(token => {
+          cssContent += `  ${token.cssVariable}: ${token.value};\n`;
+        });
+        cssContent += '}\n';
+
+        zip.file('spacing.css', cssContent);
+      }
+    });
+
+    const darkModeDescription = darkModeOptions.classSelector && darkModeOptions.mediaQuery
+      ? 'Both `.dark` class selector and `@media (prefers-color-scheme: dark)` are included.'
+      : darkModeOptions.classSelector
+      ? 'Dark mode uses `.dark` class selector.'
+      : darkModeOptions.mediaQuery
+      ? 'Dark mode uses `@media (prefers-color-scheme: dark)` query.'
+      : 'Light mode only.';
+
+    const readme = `# Design System Tokens - CSS Variables
+
+Ready-to-use CSS custom properties.
+
+## Usage:
+Import in your main CSS file:
+
+\`\`\`css
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+\`\`\`
+
+Or in JavaScript/TypeScript:
+
+\`\`\`javascript
+import './tokens/colors.css';
+import './tokens/typography.css';
+import './tokens/spacing.css';
+\`\`\`
+
+## Dark Mode:
+${darkModeDescription}
+
+## Included Files:
+${categories.map(cat => `- ${cat}.css`).join('\n')}
+
+## Usage Example:
+
+\`\`\`css
+.my-component {
+  background-color: hsl(var(--primary));
+  font-size: var(--font-heading-large);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+}
+\`\`\`
+
+Generated: ${new Date().toLocaleString()}
+`;
+
+    zip.file('README.md', readme);
+
+    return await zip.generateAsync({ type: 'blob' });
+  },
 };
