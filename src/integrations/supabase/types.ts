@@ -829,6 +829,7 @@ export type Database = {
           updated_at: string
           user_id: string
           user_info: Json
+          vault_secret_id: string | null
         }
         Insert: {
           access_token: string
@@ -838,6 +839,7 @@ export type Database = {
           updated_at?: string
           user_id: string
           user_info: Json
+          vault_secret_id?: string | null
         }
         Update: {
           access_token?: string
@@ -847,6 +849,7 @@ export type Database = {
           updated_at?: string
           user_id?: string
           user_info?: Json
+          vault_secret_id?: string | null
         }
         Relationships: []
       }
@@ -1254,6 +1257,10 @@ export type Database = {
           deleted_records: number
         }[]
       }
+      delete_figma_token_encrypted: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
       find_unused_downloaded_images: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -1265,6 +1272,10 @@ export type Database = {
       get_app_setting: {
         Args: { key: string }
         Returns: Json
+      }
+      get_figma_token_decrypted: {
+        Args: { p_user_id: string }
+        Returns: string
       }
       get_trending_equipment: {
         Args: { limit_count?: number }
@@ -1295,9 +1306,22 @@ export type Database = {
         }
         Returns: undefined
       }
+      migrate_figma_tokens_to_vault: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       refresh_performance_views: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      store_figma_token_encrypted: {
+        Args: {
+          p_access_token: string
+          p_team_id?: string
+          p_user_id: string
+          p_user_info: Json
+        }
+        Returns: string
       }
     }
     Enums: {

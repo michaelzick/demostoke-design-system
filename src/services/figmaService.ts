@@ -82,44 +82,71 @@ class FigmaService {
 
   // Database operations for Figma connections
   async saveConnection(accessToken: string, userInfo: FigmaUser, teamId?: string): Promise<FigmaConnection> {
-    const { data, error } = await supabase
-      .from('figma_connections')
-      .upsert({
-        user_id: (await supabase.auth.getUser()).data.user?.id,
-        access_token: accessToken,
-        user_info: userInfo as any, // Cast to any for JSON storage
-        team_id: teamId,
-      })
-      .select()
-      .single();
+    const user = (await supabase.auth.getUser()).data.user;
+    if (!user) throw new Error('User not authenticated');
+
+    // Use the encrypted storage function
+    const { data: connectionId, error } = await supabase.rpc('store_figma_token_encrypted', {
+      p_user_id: user.id,
+      p_access_token: accessToken,
+      p_user_info: userInfo as any,
+      p_team_id: teamId || null,
+    });
 
     if (error) throw error;
+
+    // Fetch the connection record
+    const { data: connection, error: fetchError } = await supabase
+      .from('figma_connections')
+      .select('*')
+      .eq('id', connectionId)
+      .single();
+
+    if (fetchError) throw fetchError;
+
     return {
-      ...data,
-      user_info: data.user_info as unknown as FigmaUser, // Cast through unknown
+      ...connection,
+      access_token: accessToken, // Include token in return for immediate use
+      user_info: connection.user_info as unknown as FigmaUser,
     } as FigmaConnection;
   }
 
   async getConnection(): Promise<FigmaConnection | null> {
+    const user = (await supabase.auth.getUser()).data.user;
+    if (!user) return null;
+
+    // Fetch connection metadata
     const { data, error } = await supabase
       .from('figma_connections')
       .select('*')
+      .eq('user_id', user.id)
       .single();
 
     if (error && error.code !== 'PGRST116') throw error;
     if (!data) return null;
+
+    // Decrypt the access token using the secure function
+    const { data: decryptedToken, error: decryptError } = await supabase.rpc('get_figma_token_decrypted', {
+      p_user_id: user.id,
+    });
+
+    if (decryptError) throw decryptError;
     
     return {
       ...data,
-      user_info: data.user_info as unknown as FigmaUser, // Cast through unknown
+      access_token: decryptedToken,
+      user_info: data.user_info as unknown as FigmaUser,
     } as FigmaConnection;
   }
 
   async deleteConnection(): Promise<void> {
-    const { error } = await supabase
-      .from('figma_connections')
-      .delete()
-      .eq('user_id', (await supabase.auth.getUser()).data.user?.id);
+    const user = (await supabase.auth.getUser()).data.user;
+    if (!user) throw new Error('User not authenticated');
+
+    // Use the secure deletion function that also removes the vault secret
+    const { error } = await supabase.rpc('delete_figma_token_encrypted', {
+      p_user_id: user.id,
+    });
 
     if (error) throw error;
   }
