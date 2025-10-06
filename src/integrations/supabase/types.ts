@@ -656,6 +656,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "equipment_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profiles"
+            referencedColumns: ["id"]
+          },
         ]
       }
       equipment_images: {
@@ -1247,7 +1254,66 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_profiles: {
+        Row: {
+          about: string | null
+          address: string | null
+          avatar_url: string | null
+          created_at: string | null
+          hero_image_url: string | null
+          id: string | null
+          location_lat: number | null
+          location_lng: number | null
+          member_since: string | null
+          name: string | null
+          phone: string | null
+          privacy_acknowledgment: boolean | null
+          show_address: boolean | null
+          show_location: boolean | null
+          show_phone: boolean | null
+          show_website: boolean | null
+          website: string | null
+        }
+        Insert: {
+          about?: string | null
+          address?: never
+          avatar_url?: string | null
+          created_at?: string | null
+          hero_image_url?: string | null
+          id?: string | null
+          location_lat?: never
+          location_lng?: never
+          member_since?: string | null
+          name?: string | null
+          phone?: never
+          privacy_acknowledgment?: boolean | null
+          show_address?: boolean | null
+          show_location?: boolean | null
+          show_phone?: boolean | null
+          show_website?: boolean | null
+          website?: never
+        }
+        Update: {
+          about?: string | null
+          address?: never
+          avatar_url?: string | null
+          created_at?: string | null
+          hero_image_url?: string | null
+          id?: string | null
+          location_lat?: never
+          location_lng?: never
+          member_since?: string | null
+          name?: string | null
+          phone?: never
+          privacy_acknowledgment?: boolean | null
+          show_address?: boolean | null
+          show_location?: boolean | null
+          show_phone?: boolean | null
+          show_website?: boolean | null
+          website?: never
+        }
+        Relationships: []
+      }
     }
     Functions: {
       cleanup_unused_downloaded_images: {
