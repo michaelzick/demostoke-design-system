@@ -47,7 +47,7 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
-        className={`${isFullscreen ? 'max-w-[95vw] max-h-[95vh]' : 'max-w-4xl max-h-[80vh]'} flex flex-col transition-all duration-300 [&>button]:hidden`}
+        className={`${isFullscreen ? 'max-w-[95vw] max-h-[95vh]' : 'max-w-4xl max-h-[80vh]'} !flex !flex-col gap-0 transition-all duration-300 [&>button]:hidden`}
       >
         <DialogHeader className="flex-row items-center justify-between space-y-0 pb-4 border-b">
           <DialogTitle className="text-lg font-semibold">
