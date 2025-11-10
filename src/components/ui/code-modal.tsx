@@ -46,7 +46,7 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent 
+      <DialogContent
         className={`${isFullscreen ? 'max-w-[95vw] max-h-[95vh]' : 'max-w-4xl max-h-[80vh]'} !flex !flex-col gap-0 transition-all duration-300 [&>button]:hidden`}
       >
         <DialogHeader className="flex-row items-center justify-between space-y-0 pb-4 border-b">
@@ -76,8 +76,8 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
             </Button>
           </div>
         </DialogHeader>
-        
-        <div className="flex-1 min-h-0 overflow-hidden">
+
+        <div className="flex-1 min-h-0 overflow-scroll">
           <div className="h-full overflow-auto rounded-md border">
             <SyntaxHighlighter
               language="tsx"
@@ -102,7 +102,7 @@ export function CodeModal({ isOpen, onClose, componentName, code }: CodeModalPro
             </SyntaxHighlighter>
           </div>
         </div>
-        
+
         <div className="flex items-center justify-end pt-4 border-t">
           <Button variant="outline" onClick={onClose}>
             Close
