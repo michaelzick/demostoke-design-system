@@ -734,7 +734,7 @@ export default function Documentation() {
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent className="space-y-6 pt-0">
+                  <CardContent className="space-y-6 pt-6">
                     {section.sections.map((subsection, idx) => (
                       <div key={idx} className="space-y-3">
                         <h3 className="text-heading-md font-semibold flex items-center gap-2">
