@@ -808,7 +808,7 @@ export default function Documentation() {
                               <div key={i} className="space-y-2">
                                 <h4 className="font-semibold text-foreground">{category.name}</h4>
                                 <ul className="space-y-1 ml-4">
-                                  {category.items.map((item, j) => (
+                                  {category.items?.map((item, j) => (
                                     <li key={j} className="text-body-lg text-foreground/70 flex items-start gap-2">
                                       <Code className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                                       <span className="font-mono text-sm">{item}</span>
