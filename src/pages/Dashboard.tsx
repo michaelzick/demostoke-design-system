@@ -200,27 +200,6 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Notice about Supabase */}
-      <Card className="border-warning/20 bg-warning/5">
-        <CardHeader>
-          <CardTitle className="text-warning">Backend Integration Required</CardTitle>
-          <CardDescription>
-            To enable AI component generation, Figma sync, and component storage, connect your project to Supabase.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground mb-4">
-            Click the green Supabase button in the top right to connect your project and unlock advanced features like:
-          </p>
-          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 mb-4">
-            <li>AI-powered component generation with GPT-4o</li>
-            <li>Component storage and versioning</li>
-            <li>Figma integration and sync</li>
-            <li>Team collaboration features</li>
-          </ul>
-        </CardContent>
-      </Card>
-
       <CodeModal
         isOpen={codeModal.isOpen}
         onClose={() => setCodeModal({ ...codeModal, isOpen: false })}

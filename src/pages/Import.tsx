@@ -105,19 +105,23 @@ export default function Import() {
                       Supports .tsx, .jsx, .json, .zip files
                     </p>
                   </div>
-                  <Label htmlFor="file-upload" className="cursor-pointer">
-                    <Input
-                      id="file-upload"
-                      type="file"
-                      multiple
-                      accept=".tsx,.jsx,.json,.zip"
-                      onChange={handleFileImport}
-                      className="hidden"
-                    />
-                    <Button variant="outline" disabled={isImporting}>
-                      {isImporting ? "Importing..." : "Choose Files"}
-                    </Button>
-                  </Label>
+                  <Input
+                    id="file-upload"
+                    type="file"
+                    multiple
+                    accept=".tsx,.jsx,.json,.zip"
+                    onChange={handleFileImport}
+                    className="hidden"
+                  />
+                  <div className="pt-4">
+                    <Label htmlFor="file-upload" className="cursor-pointer inline-block">
+                      <Button variant="outline" disabled={isImporting} asChild>
+                        <span>
+                          {isImporting ? "Importing..." : "Choose Files"}
+                        </span>
+                      </Button>
+                    </Label>
+                  </div>
                 </div>
               </div>
               
