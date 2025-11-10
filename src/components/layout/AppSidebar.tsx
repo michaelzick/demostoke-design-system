@@ -62,8 +62,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
-      <SidebarHeader className="p-md">
-        <div className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''}`}>
+      <SidebarHeader className="px-md pt-md pb-sm">
+        <NavLink to="/" className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''} transition-colors hover:opacity-80`}>
           <img
             src="/src/assets/images/demostoke-logo-ds-transparent-cropped.webp"
             alt="DemoStoke Logo"
@@ -79,7 +79,7 @@ export function AppSidebar() {
               <p className="text-xs text-sidebar-foreground/70">Design System</p>
             </div>
           )}
-        </div>
+        </NavLink>
       </SidebarHeader>
 
       <SidebarContent>

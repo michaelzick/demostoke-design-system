@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Package, Palette, FileText, Download, Upload, Sparkles, TrendingUp } from "lucide-react";
+import { Plus, Package, Palette, FileText, Download, Upload, Sparkles, Users } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 import { useRecentComponents } from "@/hooks/useRecentComponents";
@@ -30,7 +30,7 @@ export default function Dashboard() {
       label: "Design Tokens",
       value: isLoading ? "..." : (dashboardStats?.designTokens?.toString() || "0"),
       icon: Palette,
-      color: "text-accent"
+      color: "text-rose-500"
     },
     {
       label: "Documentation Pages",
@@ -41,7 +41,7 @@ export default function Dashboard() {
     {
       label: "Team Members",
       value: isLoading ? "..." : (dashboardStats?.teamMembers?.toString() || "0"),
-      icon: TrendingUp,
+      icon: Users,
       color: "text-warning"
     },
   ];
