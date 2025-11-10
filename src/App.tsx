@@ -11,7 +11,7 @@ import Components from "./pages/Components";
 import NewComponent from "./pages/NewComponent";
 import Tokens from "./pages/Tokens";
 import EditableTokens from "./pages/EditableTokens";
-// import Documentation from "./pages/Documentation";
+import Documentation from "./pages/Documentation";
 import Import from "./pages/Import";
 import Export from "./pages/Export";
 import Figma from "./pages/Figma";
@@ -48,7 +48,7 @@ const App = () => {
                   <Route path="/ai-generate" element={<NewComponent />} />
                   <Route path="/tokens" element={<EditableTokens />} />
                   <Route path="/tokens-old" element={<Tokens />} />
-                  {/* <Route path="/docs" element={<Documentation />} /> */}
+                  <Route path="/docs" element={<Documentation />} />
                   <Route path="/import" element={<Import />} />
                   <Route path="/export" element={<Export />} />
                   <Route path="/figma" element={<Figma />} />
