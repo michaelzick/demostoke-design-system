@@ -91,8 +91,11 @@ export function AppSidebar() {
 
       <SidebarContent>
         {/* New Component Button */}
-        <div className="px-md pb-md">
-          <NewComponentButton className="w-full" showLabel={!collapsed}>
+        <div className={`pb-md ${collapsed ? "flex justify-center" : "px-md"}`}>
+          <NewComponentButton
+            className={collapsed ? "h-10 w-10 justify-center" : "w-full"}
+            showLabel={!collapsed}
+          >
             New Component
           </NewComponentButton>
         </div>
