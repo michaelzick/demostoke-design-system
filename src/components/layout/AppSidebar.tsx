@@ -76,7 +76,7 @@ export function AppSidebar() {
           />
           {!collapsed && (
             <div>
-              <h2 className="text-heading-sm text-sidebar-foreground">DemoStoke</h2>
+              <h2 className="font-primary font-bold">DemoStoke</h2>
               <p className="text-xs text-sidebar-foreground/70">Design System</p>
             </div>
           )}

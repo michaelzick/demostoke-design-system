@@ -115,7 +115,6 @@ const Auth = () => {
           />
           <span
             className="ml-2 text-xl font-bold font-primary"
-            style={{ color: "hsl(186 100% 48%)" }}
           >
             DemoStoke
           </span>
@@ -135,88 +134,88 @@ const Auth = () => {
         <div className="w-full max-w-md">
           <form onSubmit={handleSignIn}>
             <Card className="w-full max-w-md mx-auto border border-border/80 shadow-lg dark:border-muted">
-            <CardHeader className="text-center">
-              <div className="mb-2 flex items-center justify-center text-primary">
-                <MapPin className="h-6 w-6" />
-                <h3 className="ml-2 text-2xl font-semibold tracking-tight text-foreground">Sign In to DemoStoke</h3>
-              </div>
-              <CardDescription className="text-sm text-muted-foreground">
-                Enter your credentials to access your account
-              </CardDescription>
-            </CardHeader>
-
-            <CardContent className="space-y-4 pt-0">
-              <div className="space-y-2">
-                <Label htmlFor="signin-email">Email</Label>
-                <Input
-                  id="signin-email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className={errors.email ? 'border-destructive' : ''}
-                />
-                {errors.email && (
-                  <p className="text-sm text-destructive">{errors.email}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="signin-password">Password</Label>
-                  <Link to="/auth/forgot-password" className="text-sm text-primary hover:underline">
-                    Forgot password?
-                  </Link>
+              <CardHeader className="text-center">
+                <div className="mb-2 flex items-center justify-center text-primary">
+                  <MapPin className="h-6 w-6" />
+                  <h3 className="ml-2 text-2xl font-semibold tracking-tight text-foreground">Sign In to DemoStoke</h3>
                 </div>
-                <Input
-                  id="signin-password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className={errors.password ? 'border-destructive' : ''}
-                />
-                {errors.password && (
-                  <p className="text-sm text-destructive">{errors.password}</p>
+                <CardDescription className="text-sm text-muted-foreground">
+                  Enter your credentials to access your account
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="space-y-4 pt-0">
+                <div className="space-y-2">
+                  <Label htmlFor="signin-email">Email</Label>
+                  <Input
+                    id="signin-email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className={errors.email ? 'border-destructive' : ''}
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-destructive">{errors.email}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="signin-password">Password</Label>
+                    <Link to="/auth/forgot-password" className="text-sm text-primary hover:underline">
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <Input
+                    id="signin-password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className={errors.password ? 'border-destructive' : ''}
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-destructive">{errors.password}</p>
+                  )}
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <Checkbox
+                    id="remember-me"
+                    checked={rememberMe}
+                    onCheckedChange={(checked) => setRememberMe(checked === true)}
+                  />
+                  <Label htmlFor="remember-me" className="text-sm font-normal text-muted-foreground">
+                    Remember me
+                  </Label>
+                </div>
+
+                <div className="pt-2">
+                  <HCaptcha
+                    ref={captchaRef}
+                    sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
+                    onVerify={(token) => setCaptchaToken(token)}
+                    onExpire={() => setCaptchaToken(null)}
+                    onError={() => setCaptchaToken(null)}
+                  />
+                </div>
+
+                {errors.general && (
+                  <Alert variant="destructive">
+                    <AlertDescription>{errors.general}</AlertDescription>
+                  </Alert>
                 )}
-              </div>
+              </CardContent>
 
-              <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="remember-me"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) => setRememberMe(checked === true)}
-                />
-                <Label htmlFor="remember-me" className="text-sm font-normal text-muted-foreground">
-                  Remember me
-                </Label>
-              </div>
-
-              <div className="pt-2">
-                <HCaptcha
-                  ref={captchaRef}
-                  sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
-                  onVerify={(token) => setCaptchaToken(token)}
-                  onExpire={() => setCaptchaToken(null)}
-                  onError={() => setCaptchaToken(null)}
-                />
-              </div>
-
-              {errors.general && (
-                <Alert variant="destructive">
-                  <AlertDescription>{errors.general}</AlertDescription>
-                </Alert>
-              )}
-            </CardContent>
-
-            <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={loading || !captchaToken}>
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Sign In
-              </Button>
-            </CardFooter>
+              <CardFooter className="flex flex-col space-y-4">
+                <Button type="submit" className="w-full" disabled={loading || !captchaToken}>
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Sign In
+                </Button>
+              </CardFooter>
             </Card>
           </form>
         </div>
