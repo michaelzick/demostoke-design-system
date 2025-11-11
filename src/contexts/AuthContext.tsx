@@ -10,6 +10,7 @@ interface AuthContextType {
   signIn: (email: string, password: string, captchaToken?: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   isAuthenticated: boolean;
+  isAdmin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +19,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -68,6 +70,67 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
   };
 
+  const metadataIndicatesAdmin = (metadata: Record<string, any> | null | undefined) => {
+    if (!metadata) return false;
+    if (metadata.is_admin === true) return true;
+    const role =
+      metadata.app_role ??
+      metadata.role ??
+      metadata.user_role ??
+      metadata.display_role;
+    if (typeof role === "string" && role.toLowerCase() === "admin") {
+      return true;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (!user) {
+      setIsAdmin(false);
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    const metadataAdmin =
+      metadataIndicatesAdmin(user.app_metadata as Record<string, any>) ||
+      metadataIndicatesAdmin(user.user_metadata as Record<string, any>);
+
+    if (metadataAdmin) {
+      setIsAdmin(true);
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    const checkAdminStatus = async () => {
+      try {
+        const { data, error } = await supabase.rpc('is_admin', { user_id: user.id });
+        if (!isMounted) return;
+
+        if (error) {
+          console.error('Error verifying admin role:', error);
+          setIsAdmin(false);
+          return;
+        }
+
+        setIsAdmin(Boolean(data));
+      } catch (err) {
+        if (!isMounted) return;
+        console.error('Unexpected error verifying admin role:', err);
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdminStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user]);
+
   const value = {
     user,
     session,
@@ -76,6 +139,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signIn,
     signOut,
     isAuthenticated: !!user,
+    isAdmin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

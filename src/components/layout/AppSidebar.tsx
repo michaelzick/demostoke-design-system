@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NewComponentButton } from "@/components/common/NewComponentButton";
 import dsLogo from "@/assets/images/demostoke-logo-ds-transparent-cropped.webp";
+import { useAuth } from "@/contexts/AuthContext";
 
 const menuItems = [
   { title: "Dashboard", url: "/", icon: Home },
@@ -44,6 +45,7 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const collapsed = state === "collapsed";
+  const { isAuthenticated, isAdmin } = useAuth();
 
   const isActiveRoute = (path: string) => {
     if (path === "/") {
@@ -114,7 +116,16 @@ export function AppSidebar() {
           <SidebarGroupLabel className={collapsed ? 'sr-only' : ''}>Tools</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {toolsItems.map((item) => (
+              {toolsItems
+                .filter((item) => {
+                  const isSettingsLink =
+                    item.title.toLowerCase() === "settings" || item.url === "/settings";
+                  if (isSettingsLink) {
+                    return isAuthenticated && isAdmin;
+                  }
+                  return true;
+                })
+                .map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <NavLink
                     to={item.url}
