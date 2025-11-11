@@ -66,30 +66,34 @@ export function AppSidebar() {
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarHeader className="px-md pt-md pb-sm">
-        <NavLink to="/" className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''} transition-colors hover:opacity-80`}>
-          <img
-            src={dsLogo}
-            alt="DemoStoke Logo"
-            width={32}
-            height={32}
-            // Inline style reserves the correct size before Tailwind loads (w-8 == 2rem == 32px)
-            style={{ width: '32px', height: '32px', minWidth: '32px', minHeight: '32px' }}
-            className="w-8 h-8 object-contain"
-          />
-          {!collapsed && (
-            <div>
-              <h2 className="font-primary font-bold">DemoStoke</h2>
-              <p className="text-xs text-sidebar-foreground/70">Design System</p>
-            </div>
-          )}
+        <NavLink to="/" className="block">
+          <div className={`flex items-center gap-sm ${collapsed ? "justify-center" : ""}`}>
+            <img
+              src={dsLogo}
+              alt="DemoStoke Logo"
+              width={32}
+              height={32}
+              // Inline style reserves the correct size before Tailwind loads (w-8 == 2rem == 32px)
+              style={{ width: "32px", height: "32px", minWidth: "32px", minHeight: "32px" }}
+              className="w-8 h-8 object-contain"
+            />
+            {!collapsed && (
+              <div>
+                <h2 className="font-primary font-bold text-primary">
+                  DemoStoke
+                </h2>
+                <p className="text-xs text-sidebar-foreground/70">Design System</p>
+              </div>
+            )}
+          </div>
         </NavLink>
       </SidebarHeader>
 
       <SidebarContent>
         {/* New Component Button */}
         <div className="px-md pb-md">
-          <NewComponentButton className={`w-full ${collapsed ? 'px-2' : ''}`}>
-            {!collapsed && "New Component"}
+          <NewComponentButton className="w-full" showLabel={!collapsed}>
+            New Component
           </NewComponentButton>
         </div>
 

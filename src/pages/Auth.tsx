@@ -114,7 +114,7 @@ const Auth = () => {
             className="h-8 w-auto"
           />
           <span
-            className="ml-2 text-xl font-bold font-primary"
+            className="ml-2 text-xl font-bold font-primary text-primary"
           >
             DemoStoke
           </span>
