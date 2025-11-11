@@ -24,6 +24,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { NewComponentButton } from "@/components/common/NewComponentButton";
+import dsLogo from "@/assets/images/demostoke-logo-ds-transparent-cropped.webp";
 
 const menuItems = [
   { title: "Dashboard", url: "/", icon: Home },
@@ -65,7 +66,7 @@ export function AppSidebar() {
       <SidebarHeader className="px-md pt-md pb-sm">
         <NavLink to="/" className={`flex items-center gap-sm ${collapsed ? 'justify-center' : ''} transition-colors hover:opacity-80`}>
           <img
-            src="/src/assets/images/demostoke-logo-ds-transparent-cropped.webp"
+            src={dsLogo}
             alt="DemoStoke Logo"
             width={32}
             height={32}
