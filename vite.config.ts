@@ -10,6 +10,10 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  preview: {
+    allowedHosts: ['designsystem.demostoke.com'],
+    port: 4173,
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
