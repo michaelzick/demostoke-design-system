@@ -294,7 +294,6 @@ body {
 /* Font Family Utilities */
 .font-primary {
   font-family: 'Tahoma', 'Helvetica Neue', 'Arial', sans-serif;
-  color: hsl(186 100% 48%);
 }
 
 .font-sans {
