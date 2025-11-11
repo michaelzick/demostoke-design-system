@@ -33,9 +33,12 @@ export function AppLayout({ children }: AppLayoutProps) {
         <div className="flex-1 flex flex-col">
           {/* Header */}
           <header className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-md">
-            <div className="flex items-center gap-md">
+            <div className="flex items-center gap-md min-w-0">
               <SidebarTrigger />
-              <div className="text-heading-md">DemoStoke Design System</div>
+              <div className="text-heading-md truncate">
+                <span className="hidden sm:inline">DemoStoke Design System</span>
+                <span className="sm:hidden">DDS</span>
+              </div>
             </div>
 
             <div className="flex items-center gap-sm">

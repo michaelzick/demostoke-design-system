@@ -65,7 +65,7 @@ export default function Dashboard() {
           <p className="mb-6 text-body-lg text-muted-foreground">
             Create, manage, and scale your design components with enterprise-grade tools
           </p>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             {/* Use a semantic button that navigates so the button element receives the variant classes */}
             <HeroNewComponent />
             <Button
