@@ -42,7 +42,7 @@ const toolsItems = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, isMobile, setOpenMobile } = useSidebar();
   const location = useLocation();
   const collapsed = state === "collapsed";
   const { isAuthenticated, isAdmin } = useAuth();
@@ -63,10 +63,16 @@ export function AppSidebar() {
       : `${baseClasses} text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground`;
   };
 
+  const handleMobileNavClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarHeader className="px-md pt-md pb-sm">
-        <NavLink to="/" className="block">
+        <NavLink to="/" className="block" onClick={handleMobileNavClick}>
           <div className={`flex items-center gap-sm ${collapsed ? "justify-center" : ""}`}>
             <img
               src={dsLogo}
@@ -109,6 +115,7 @@ export function AppSidebar() {
                   <NavLink
                     to={item.url}
                     className={getNavCls(item.url)}
+                    onClick={handleMobileNavClick}
                   >
                     <item.icon className="h-4 w-4" />
                     {!collapsed && <span>{item.title}</span>}
@@ -137,6 +144,7 @@ export function AppSidebar() {
                   <NavLink
                     to={item.url}
                     className={getNavCls(item.url)}
+                    onClick={handleMobileNavClick}
                   >
                     <item.icon className="h-4 w-4" />
                     {!collapsed && <span>{item.title}</span>}

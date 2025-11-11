@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import dsLogo from "@/assets/images/ds-mosaic-logo-cropped.webp";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -35,10 +36,17 @@ export function AppLayout({ children }: AppLayoutProps) {
           <header className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-md">
             <div className="flex items-center gap-md min-w-0">
               <SidebarTrigger />
-              <div className="text-heading-md truncate">
-                <span className="hidden sm:inline">DemoStoke Design System</span>
-                <span className="sm:hidden">DDS</span>
-              </div>
+              <div className="hidden sm:block text-heading-md truncate">DemoStoke Design System</div>
+              <Link to="/" className="sm:hidden inline-flex items-center" aria-label="Go to dashboard">
+                <img
+                  src={dsLogo}
+                  alt="DemoStoke Logo"
+                  width={32}
+                  height={32}
+                  style={{ width: "32px", height: "32px", minWidth: "32px", minHeight: "32px" }}
+                  className="w-8 h-8 object-contain"
+                />
+              </Link>
             </div>
 
             <div className="flex items-center gap-sm">
