@@ -292,8 +292,8 @@ body {
 }
 
 /* Font Family Utilities */
-.font-display {
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+.font-primary {
+  font-family: 'Tahoma', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 .font-sans {

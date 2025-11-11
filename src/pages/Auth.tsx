@@ -114,7 +114,7 @@ const Auth = () => {
             className="h-8 w-auto"
           />
           <span
-            className="ml-2 text-xl font-bold"
+            className="ml-2 text-xl font-bold font-primary"
             style={{ color: "hsl(186 100% 48%)" }}
           >
             DemoStoke
