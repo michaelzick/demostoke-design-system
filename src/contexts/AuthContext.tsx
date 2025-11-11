@@ -1,13 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
+import { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+
+type MetadataShape = Record<string, unknown> | null | undefined;
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string, captchaToken?: string) => Promise<{ error: any }>;
-  signIn: (email: string, password: string, captchaToken?: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, captchaToken?: string) => Promise<{ error: AuthError | null }>;
+  signIn: (email: string, password: string, captchaToken?: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -70,14 +72,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
   };
 
-  const metadataIndicatesAdmin = (metadata: Record<string, any> | null | undefined) => {
-    if (!metadata) return false;
-    if (metadata.is_admin === true) return true;
+  const metadataIndicatesAdmin = (metadata: MetadataShape) => {
+    if (!metadata || typeof metadata !== 'object') return false;
+    const record = metadata as Record<string, unknown>;
+    const isAdminFlag = record['is_admin'];
+    if (typeof isAdminFlag === 'boolean' && isAdminFlag) return true;
+
     const role =
-      metadata.app_role ??
-      metadata.role ??
-      metadata.user_role ??
-      metadata.display_role;
+      record['app_role'] ??
+      record['role'] ??
+      record['user_role'] ??
+      record['display_role'];
     if (typeof role === "string" && role.toLowerCase() === "admin") {
       return true;
     }
@@ -95,8 +100,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     const metadataAdmin =
-      metadataIndicatesAdmin(user.app_metadata as Record<string, any>) ||
-      metadataIndicatesAdmin(user.user_metadata as Record<string, any>);
+      metadataIndicatesAdmin(user.app_metadata ?? null) ||
+      metadataIndicatesAdmin(user.user_metadata ?? null);
 
     if (metadataAdmin) {
       setIsAdmin(true);
@@ -107,7 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const checkAdminStatus = async () => {
       try {
-        const { data, error } = await supabase.rpc('is_admin', { user_id: user.id });
+        const { data, error } = await supabase.rpc<boolean>('is_admin', { user_id: user.id });
         if (!isMounted) return;
 
         if (error) {
