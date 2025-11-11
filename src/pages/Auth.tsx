@@ -109,7 +109,7 @@ const Auth = () => {
       <div className="container flex h-16 items-center px-4 md:px-6">
         <Link to="/" className="flex items-center justify-center">
           <img
-            src="/img/demostoke-logo-ds-transparent-cropped.webp"
+            src="/img/ds-mosaic-logo-cropped.webp"
             alt="DemoStoke Logo"
             className="h-8 w-auto"
           />

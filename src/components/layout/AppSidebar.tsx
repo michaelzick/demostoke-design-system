@@ -24,7 +24,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { NewComponentButton } from "@/components/common/NewComponentButton";
-import dsLogo from "@/assets/images/demostoke-logo-ds-transparent-cropped.webp";
+import dsLogo from "@/assets/images/ds-mosaic-logo-cropped.webp";
 import { useAuth } from "@/contexts/AuthContext";
 
 const menuItems = [
