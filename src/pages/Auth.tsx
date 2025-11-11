@@ -3,10 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Loader2, MapPin } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
@@ -14,15 +14,21 @@ import HCaptcha from '@hcaptcha/react-hcaptcha';
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    try {
+      const stored = window.localStorage.getItem('demostoke-remember-me');
+      return stored ? stored === 'true' : true;
+    } catch {
+      return true;
+    }
+  });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<HCaptcha>(null);
 
-  const { signIn, signUp, isAuthenticated } = useAuth();
+  const { signIn, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -32,6 +38,15 @@ const Auth = () => {
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem('demostoke-remember-me', rememberMe ? 'true' : 'false');
+    } catch {
+      // Ignore write failures (private mode, etc.)
+    }
+  }, [rememberMe]);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -89,278 +104,122 @@ const Auth = () => {
     setLoading(false);
   };
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrors({});
-
-    if (!validateEmail(email)) {
-      setErrors({ email: 'Please enter a valid email address' });
-      setLoading(false);
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      setErrors({ password: 'Password must be at least 8 characters long' });
-      setLoading(false);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setErrors({ confirmPassword: 'Passwords do not match' });
-      setLoading(false);
-      return;
-    }
-
-    if (!captchaToken) {
-      setErrors({ general: 'Please complete the captcha verification' });
-      setLoading(false);
-      return;
-    }
-
-    const { error } = await signUp(email, password, captchaToken);
-
-    if (error) {
-      if (error.message.includes('User already registered')) {
-        setErrors({ general: 'An account with this email already exists' });
-      } else {
-        setErrors({ general: error.message });
-      }
-      toast({
-        title: "Sign up failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Account created!",
-        description: "Please check your email to verify your account.",
-      });
-    }
-
-    setLoading(false);
-  };
-
-  const resetForm = () => {
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setErrors({});
-    setCaptchaToken(null);
-    captchaRef.current?.resetCaptcha();
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation Header */}
-      <div className="p-4">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-3 hover:opacity-80 transition-opacity"
-        >
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">DS</span>
-          </div>
-          <div>
-            <h2 className="text-heading-sm text-foreground">DemoStoke</h2>
-            <p className="text-xs text-muted-foreground">Design System</p>
-          </div>
+    <div className="flex min-h-screen flex-col bg-ocean-light dark:bg-mountain-dark">
+      <div className="container flex h-16 items-center px-4 md:px-6">
+        <Link to="/" className="flex items-center justify-center">
+          <img
+            src="/img/demostoke-logo-ds-transparent-cropped.webp"
+            alt="DemoStoke Logo"
+            className="h-8 w-auto"
+          />
+          <span
+            className="ml-2 text-xl font-bold"
+            style={{ color: "hsl(186 100% 48%)" }}
+          >
+            DemoStoke
+          </span>
         </Link>
+        <div className="ml-auto">
+          <Button
+            variant="ghost"
+            asChild
+            className="dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800"
+          >
+            <Link to="/">Back to Home</Link>
+          </Button>
+        </div>
       </div>
 
-      {/* Auth Form */}
-      <div className="flex items-center justify-center px-4 pb-4">
-        <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Design System</CardTitle>
-          <CardDescription>
-            Create and manage your components
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="signin" onValueChange={resetForm}>
-            <TabsList className="grid w-full grid-cols-1">
-              <TabsTrigger value="signin">Sign In</TabsTrigger>
-              {/* <TabsTrigger value="signup">Sign Up</TabsTrigger> */}
-            </TabsList>
+      <div className="flex flex-1 items-center justify-center p-4 md:p-8">
+        <div className="w-full max-w-md">
+          <form onSubmit={handleSignIn}>
+            <Card className="w-full max-w-md mx-auto border border-border/80 shadow-lg dark:border-muted">
+            <CardHeader className="text-center">
+              <div className="mb-2 flex items-center justify-center text-primary">
+                <MapPin className="h-6 w-6" />
+                <h3 className="ml-2 text-2xl font-semibold tracking-tight text-foreground">Sign In to DemoStoke</h3>
+              </div>
+              <CardDescription className="text-sm text-muted-foreground">
+                Enter your credentials to access your account
+              </CardDescription>
+            </CardHeader>
 
-            <TabsContent value="signin" className="space-y-4">
-              <form onSubmit={handleSignIn} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signin-email">Email</Label>
-                  <Input
-                    id="signin-email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className={errors.email ? 'border-destructive' : ''}
-                  />
-                  {errors.email && (
-                    <p className="text-sm text-destructive">{errors.email}</p>
-                  )}
-                </div>
+            <CardContent className="space-y-4 pt-0">
+              <div className="space-y-2">
+                <Label htmlFor="signin-email">Email</Label>
+                <Input
+                  id="signin-email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className={errors.email ? 'border-destructive' : ''}
+                />
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email}</p>
+                )}
+              </div>
 
-                <div className="space-y-2">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
                   <Label htmlFor="signin-password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="signin-password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className={errors.password ? 'border-destructive pr-10' : 'pr-10'}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                  {errors.password && (
-                    <p className="text-sm text-destructive">{errors.password}</p>
-                  )}
+                  <Link to="/auth/forgot-password" className="text-sm text-primary hover:underline">
+                    Forgot password?
+                  </Link>
                 </div>
-
-                <div>
-                  <HCaptcha
-                    ref={captchaRef}
-                    sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
-                    onVerify={(token) => setCaptchaToken(token)}
-                    onExpire={() => setCaptchaToken(null)}
-                    onError={() => setCaptchaToken(null)}
-                  />
-                </div>
-
-                {errors.general && (
-                  <Alert variant="destructive">
-                    <AlertDescription>{errors.general}</AlertDescription>
-                  </Alert>
+                <Input
+                  id="signin-password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className={errors.password ? 'border-destructive' : ''}
+                />
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password}</p>
                 )}
+              </div>
 
-                <Button type="submit" className="w-full" disabled={loading || !captchaToken}>
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Sign In
-                </Button>
-              </form>
-            </TabsContent>
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id="remember-me"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked === true)}
+                />
+                <Label htmlFor="remember-me" className="text-sm font-normal text-muted-foreground">
+                  Remember me
+                </Label>
+              </div>
 
-            {/* <TabsContent value="signup" className="space-y-4">
-              <form onSubmit={handleSignUp} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input
-                    id="signup-email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className={errors.email ? 'border-destructive' : ''}
-                  />
-                  {errors.email && (
-                    <p className="text-sm text-destructive">{errors.email}</p>
-                  )}
-                </div>
+              <div className="pt-2">
+                <HCaptcha
+                  ref={captchaRef}
+                  sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
+                  onVerify={(token) => setCaptchaToken(token)}
+                  onExpire={() => setCaptchaToken(null)}
+                  onError={() => setCaptchaToken(null)}
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="signup-password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Choose a password (min 8 characters)"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className={errors.password ? 'border-destructive pr-10' : 'pr-10'}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                  {errors.password && (
-                    <p className="text-sm text-destructive">{errors.password}</p>
-                  )}
-                </div>
+              {errors.general && (
+                <Alert variant="destructive">
+                  <AlertDescription>{errors.general}</AlertDescription>
+                </Alert>
+              )}
+            </CardContent>
 
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-password">Confirm Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="confirm-password"
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      placeholder="Confirm your password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      required
-                      className={errors.confirmPassword ? 'border-destructive pr-10' : 'pr-10'}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                  {errors.confirmPassword && (
-                    <p className="text-sm text-destructive">{errors.confirmPassword}</p>
-                  )}
-                </div>
-
-                <div>
-                  <HCaptcha
-                    ref={captchaRef}
-                    sitekey="8d0c1c8a-89b0-44a2-ab1c-b8f809a6dd00"
-                    onVerify={(token) => setCaptchaToken(token)}
-                    onExpire={() => setCaptchaToken(null)}
-                    onError={() => setCaptchaToken(null)}
-                  />
-                </div>
-
-                {errors.general && (
-                  <Alert variant="destructive">
-                    <AlertDescription>{errors.general}</AlertDescription>
-                  </Alert>
-                )}
-
-                <Button type="submit" className="w-full" disabled={loading || !captchaToken}>
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Create Account
-                </Button>
-              </form>
-            </TabsContent> */}
-          </Tabs>
-        </CardContent>
-      </Card>
+            <CardFooter className="flex flex-col space-y-4">
+              <Button type="submit" className="w-full" disabled={loading || !captchaToken}>
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Sign In
+              </Button>
+            </CardFooter>
+            </Card>
+          </form>
+        </div>
       </div>
     </div>
   );
