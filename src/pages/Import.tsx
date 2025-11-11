@@ -7,10 +7,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Upload, FileText, Code, Link, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthRequiredCard } from "@/components/common/AuthRequiredCard";
 
 export default function Import() {
   const { toast } = useToast();
   const [isImporting, setIsImporting] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <AuthRequiredCard />;
+  }
 
   const handleFileImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

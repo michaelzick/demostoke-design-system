@@ -10,12 +10,15 @@ import { designSystemTokensService } from '@/services/designSystemTokensService'
 import { designSystemDefaults } from '@/lib/designTokens';
 import { useToast } from '@/hooks/use-toast';
 import { DesignSystemProvider } from '@/components/DesignSystemProvider';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function EditableTokens() {
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
   const [settings, setSettings] = useState<any>({});
   const resolvedSettings = { ...designSystemDefaults, ...settings };
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
+  const canEdit = isAuthenticated;
 
   useEffect(() => {
     loadSettings();
@@ -47,6 +50,8 @@ export default function EditableTokens() {
   };
 
   const updateToken = async (key: string, value: string) => {
+    if (!canEdit) return;
+
     // Update local state immediately for responsive UI
     setSettings((prev: any) => ({ ...prev, [key]: value }));
     
@@ -392,48 +397,55 @@ export default function EditableTokens() {
     }
   ];
 
-  const renderColorToken = (token: any, isDark = false) => (
-    <div key={`${token.key}-${isDark ? 'dark' : 'light'}`} className="space-y-3">
-      <div className="flex items-center justify-between">
-        <div>
-          <Label className="text-sm font-medium">
-            {token.name} {isDark && '(Dark)'}
-          </Label>
-          <p className="text-xs text-muted-foreground mt-1">{token.description}</p>
+  const renderColorToken = (token: any, isDark = false) => {
+    const key = isDark ? token.darkKey : token.key;
+    const value = (isDark ? token.darkValue : token.value) || '';
+
+    return (
+      <div key={`${token.key}-${isDark ? 'dark' : 'light'}`} className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <Label className="text-sm font-medium">
+              {token.name} {isDark && '(Dark)'}
+            </Label>
+            <p className="text-xs text-muted-foreground mt-1">{token.description}</p>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => copyToClipboard(token.variable)}
+            className="shrink-0"
+          >
+            <Copy className="h-3 w-3" />
+          </Button>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => copyToClipboard(token.variable)}
-          className="shrink-0"
-        >
-          <Copy className="h-3 w-3" />
-        </Button>
+        <div className="flex items-center gap-3">
+          <div
+            className="h-12 w-12 shrink-0 rounded-lg border-2 border-border"
+            style={{ backgroundColor: value || '#000000' }}
+          />
+          <Input
+            type="color"
+            value={value || '#000000'}
+            onChange={(e) => updateToken(key, e.target.value)}
+            className="h-12 w-20 p-1"
+            disabled={!canEdit}
+          />
+          <Input
+            type="text"
+            value={value}
+            onChange={(e) => updateToken(key, e.target.value)}
+            className="font-mono text-sm"
+            placeholder="#000000"
+            readOnly={!canEdit}
+          />
+        </div>
+        <div className="rounded bg-muted p-2 text-xs font-mono text-muted-foreground">
+          {token.variable}
+        </div>
       </div>
-      <div className="flex items-center gap-3">
-        <div
-          className="w-12 h-12 rounded-lg border-2 border-border shrink-0"
-          style={{ backgroundColor: isDark ? token.darkValue : token.value }}
-        />
-        <Input
-          type="color"
-          value={(isDark ? token.darkValue : token.value) || '#000000'}
-          onChange={(e) => updateToken(isDark ? token.darkKey : token.key, e.target.value)}
-          className="w-20 h-12 p-1 cursor-pointer"
-        />
-        <Input
-          type="text"
-          value={(isDark ? token.darkValue : token.value) || ''}
-          onChange={(e) => updateToken(isDark ? token.darkKey : token.key, e.target.value)}
-          className="font-mono text-sm"
-          placeholder="#000000"
-        />
-      </div>
-      <div className="text-xs text-muted-foreground font-mono bg-muted p-2 rounded">
-        {token.variable}
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <DesignSystemProvider>
@@ -558,7 +570,11 @@ export default function EditableTokens() {
                       </Button>
                     </div>
                     {token.type === 'select' ? (
-                      <Select value={token.value} onValueChange={(value) => updateToken(token.key, value)}>
+                      <Select
+                        value={token.value}
+                        onValueChange={(value) => updateToken(token.key, value)}
+                        disabled={!canEdit}
+                      >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -577,6 +593,7 @@ export default function EditableTokens() {
                         onChange={(e) => updateToken(token.key, e.target.value)}
                         className="font-mono text-sm"
                         placeholder="1rem"
+                        readOnly={!canEdit}
                       />
                     )}
                     <div className="text-xs text-muted-foreground font-mono bg-muted p-2 rounded">
@@ -626,6 +643,7 @@ export default function EditableTokens() {
                         onChange={(e) => updateToken(token.key, e.target.value)}
                         className="font-mono text-sm"
                         placeholder="1rem"
+                        readOnly={!canEdit}
                       />
                     </div>
                     <div className="text-xs text-muted-foreground font-mono bg-muted p-2 rounded">

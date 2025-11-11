@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { figmaService } from "@/services/figmaService";
 import { FigmaConnection, FigmaFileRecord, FigmaComponentRecord } from "@/types/figma";
 import { useAuth } from "@/contexts/AuthContext";
+import { AuthRequiredCard } from "@/components/common/AuthRequiredCard";
 
 export default function FigmaSync() {
   const { toast } = useToast();
@@ -228,17 +229,7 @@ export default function FigmaSync() {
   };
 
   if (!user) {
-    return (
-      <div className="p-6">
-        <Card>
-          <CardContent className="p-6 text-center">
-            <AlertCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="font-medium mb-2">Authentication Required</h3>
-            <p className="text-muted-foreground">Please sign in to access Figma integration.</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <AuthRequiredCard />;
   }
 
   if (isLoading) {

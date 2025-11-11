@@ -10,10 +10,13 @@ import { Separator } from "@/components/ui/separator";
 import { Settings as SettingsIcon, Users, Shield, Palette, Code, Bell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { designSystemSettingsService } from "@/services/designSystemSettingsService";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthRequiredCard } from "@/components/common/AuthRequiredCard";
 
 
 export default function Settings() {
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
   const [settings, setSettings] = useState({
     projectName: "DemoStoke Design System",
     projectDescription: "",
@@ -29,10 +32,16 @@ export default function Settings() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      setIsLoading(false);
+      return;
+    }
     loadSettings();
-  }, []);
+  }, [isAuthenticated]);
 
   const loadSettings = async () => {
+    if (!isAuthenticated) return;
+
     try {
       const userSettings = await designSystemSettingsService.getCurrentSettings();
       if (userSettings) {
@@ -57,6 +66,8 @@ export default function Settings() {
   };
 
   const handleSave = async () => {
+    if (!isAuthenticated) return;
+
     try {
       const success = await designSystemSettingsService.updateSettings({
         project_name: settings.projectName,
@@ -103,6 +114,10 @@ export default function Settings() {
       [key]: value
     }));
   };
+
+  if (!isAuthenticated) {
+    return <AuthRequiredCard />;
+  }
 
   return (
     <div className="p-6 space-y-6">

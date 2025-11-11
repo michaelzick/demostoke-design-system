@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,9 +11,12 @@ import { exportService } from "@/services/exportService";
 import { DesignSystemComponent } from "@/types/component";
 import { useQuery } from "@tanstack/react-query";
 import { typographyTokens, spacingTokens, radiusTokens } from "@/lib/designTokens";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthRequiredCard } from "@/components/common/AuthRequiredCard";
 
 export default function Export() {
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   const [exportFormat, setExportFormat] = useState<"figma" | "js" | "tsx">("figma");
   const [isExporting, setIsExporting] = useState(false);
@@ -31,6 +34,7 @@ export default function Export() {
   const { data: components = [], isLoading } = useQuery({
     queryKey: ['user-components'],
     queryFn: componentService.getUserComponents,
+    enabled: isAuthenticated,
   });
 
   // Token categories
@@ -201,6 +205,10 @@ export default function Export() {
       setIsExportingTokens(false);
     }
   };
+
+  if (!isAuthenticated) {
+    return <AuthRequiredCard />;
+  }
 
   return (
     <div className="p-6 space-y-6">
