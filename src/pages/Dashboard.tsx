@@ -62,9 +62,6 @@ export default function Dashboard() {
         </div>
         <div className="relative z-10">
           <h1 className="mb-4 text-display-lg text-foreground">DemoStoke Design System</h1>
-          <p className="mb-6 text-body-lg text-muted-foreground">
-            Create, manage, and scale your design components with enterprise-grade tools
-          </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             {/* Use a semantic button that navigates so the button element receives the variant classes */}
             <HeroNewComponent />
@@ -125,8 +122,8 @@ export default function Dashboard() {
                 </div>
               ) : recentComponents.length > 0 ? (
                 recentComponents.map((component, index) => (
-                  <div 
-                    key={`${component.name}-${component.variant}-${index}`} 
+                  <div
+                    key={`${component.name}-${component.variant}-${index}`}
                     className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer"
                     onClick={() => viewComponentCode(component.name)}
                   >
