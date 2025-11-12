@@ -21,6 +21,15 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  viteFinal: async (config, { configType }) => {
+    if (configType === 'PRODUCTION') {
+      // Ensure no dev-mode scripts are injected in production
+      config.plugins = config.plugins?.filter(
+        plugin => plugin && typeof plugin === 'object' && 'name' in plugin && plugin.name !== 'vite:inject-mocker'
+      );
+    }
+    return config;
+  },
 };
 
 export default config;

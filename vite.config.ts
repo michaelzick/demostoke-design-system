@@ -18,6 +18,13 @@ export default defineConfig(({ mode }) => ({
       name: 'serve-storybook-static',
       configureServer(server: ViteDevServer) {
         server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction) => {
+          // Handle the vite-inject-mocker-entry.js that Storybook references
+          if (req.url === '/vite-inject-mocker-entry.js') {
+            res.setHeader('Content-Type', 'application/javascript');
+            res.end('// Empty module for Storybook compatibility');
+            return;
+          }
+          
           if (req.url?.startsWith('/storybook-static/')) {
             const filePath = path.join(process.cwd(), 'storybook-static', req.url.replace('/storybook-static/', ''));
             if (fs.existsSync(filePath)) {
