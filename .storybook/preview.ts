@@ -1,5 +1,18 @@
 import type { Preview } from '@storybook/react-vite';
+import { ThemeProvider } from '../src/components/theme-provider';
+import { DesignSystemProvider } from '../src/components/DesignSystemProvider';
 import '../src/index.css';
+
+// Wrap all stories with theme and design system providers
+export const decorators = [
+  (Story) => (
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+      <DesignSystemProvider>
+        <Story />
+      </DesignSystemProvider>
+    </ThemeProvider>
+  ),
+];
 
 const preview: Preview = {
   parameters: {
