@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ import { NewComponentButton } from "@/components/common/NewComponentButton";
 
 export default function Components() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -207,6 +209,12 @@ export default function Components() {
 
   // Storybook handlers
   const handleRunStorybook = () => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      navigate('/auth');
+      return;
+    }
+    
     setIsStorybookLoading(true);
     setStorybookError(null);
     // Simulate a small delay for better UX
