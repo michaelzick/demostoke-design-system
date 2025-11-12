@@ -10,7 +10,7 @@ import { Loader2, MapPin } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import dsLogo from '@/assets/images/ds-mosaic-logo-cropped.webp';
+import dsLogo from '@/assets/images/ds-logo-stripes.webp';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -111,7 +111,7 @@ const Auth = () => {
         <Link to="/" className="flex items-center justify-center">
           <img
             src={dsLogo}
-            alt="DemoStoke Logo"
+            alt="DemoStoke stripes logo"
             className="h-8 w-auto"
           />
           <span

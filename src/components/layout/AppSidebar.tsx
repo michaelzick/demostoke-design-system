@@ -24,7 +24,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { NewComponentButton } from "@/components/common/NewComponentButton";
-import dsLogo from "@/assets/images/ds-mosaic-logo-cropped.webp";
+import dsLogo from "@/assets/images/ds-logo-stripes.webp";
 import { useAuth } from "@/contexts/AuthContext";
 
 const menuItems = [
@@ -76,7 +76,7 @@ export function AppSidebar() {
           <div className={`flex items-center gap-sm ${collapsed ? "justify-center" : ""}`}>
             <img
               src={dsLogo}
-              alt="DemoStoke Logo"
+              alt="DemoStoke stripes logo"
               width={32}
               height={32}
               // Inline style reserves the correct size before Tailwind loads (w-8 == 2rem == 32px)
