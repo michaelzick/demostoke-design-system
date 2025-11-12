@@ -27,7 +27,7 @@ export default function Components() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [codeModal, setCodeModal] = useState({ isOpen: false, componentName: "", code: "" });
-  
+
   // Storybook tab state
   const [activeTab, setActiveTab] = useState<"components" | "storybook">("components");
   const [isStorybookRunning, setIsStorybookRunning] = useState(false);
@@ -47,12 +47,12 @@ export default function Components() {
         setError(null);
         const userComponents = await componentService.getUserComponents();
         const publicComponents = await componentService.getPublicComponents();
-        
+
         // Combine user's components with public components, removing duplicates
         const allComponents = [...userComponents, ...publicComponents.filter(
           pc => !userComponents.some(uc => uc.id === pc.id)
         )];
-        
+
         setComponents(allComponents);
       } catch (err) {
         console.error('Failed to fetch components:', err);
@@ -81,13 +81,13 @@ export default function Components() {
     const date = new Date(dateString);
     const now = new Date();
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
+
     if (diffInHours < 1) return 'Just now';
     if (diffInHours < 24) return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
-    
+
     const diffInDays = Math.floor(diffInHours / 24);
     if (diffInDays < 7) return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
-    
+
     const diffInWeeks = Math.floor(diffInDays / 7);
     return `${diffInWeeks} week${diffInWeeks !== 1 ? 's' : ''} ago`;
   };
@@ -141,7 +141,7 @@ export default function Components() {
           <div className="flex items-center gap-2">
             <Badge variant="outline">{component.category}</Badge>
           </div>
-          
+
           <div className="flex flex-wrap gap-1">
             {component.tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="text-xs">
@@ -149,7 +149,7 @@ export default function Components() {
               </Badge>
             ))}
           </div>
-          
+
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span className="text-sm text-muted-foreground">
               Updated: {formatLastModified(component.updated_at)}
@@ -172,10 +172,10 @@ export default function Components() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Badge variant="outline">{component.category}</Badge>
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
@@ -214,7 +214,7 @@ export default function Components() {
       navigate('/auth');
       return;
     }
-    
+
     setIsStorybookLoading(true);
     setStorybookError(null);
     // Simulate a small delay for better UX
@@ -280,7 +280,7 @@ export default function Components() {
                 disabled={loading}
               />
             </div>
-            
+
             <div className="flex gap-2">
               <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={loading}>
                 <SelectTrigger className="w-40">
@@ -295,7 +295,7 @@ export default function Components() {
                   ))}
                 </SelectContent>
               </Select>
-              
+
               <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as "grid" | "list")}>
                 <TabsList>
                   <TabsTrigger value="grid" disabled={loading}>
@@ -360,8 +360,8 @@ export default function Components() {
                 {filteredComponents.length === 0 && !loading && (
                   <Card className="p-8 text-center">
                     <p className="text-muted-foreground mb-4">
-                      {components.length === 0 
-                        ? "No components found. Create your first component!" 
+                      {components.length === 0
+                        ? "No components found. Create your first component!"
                         : "No components found matching your criteria."
                       }
                     </p>
@@ -390,7 +390,7 @@ export default function Components() {
                 <div className="rounded-full bg-primary/10 p-6">
                   <BookOpen className="h-12 w-12 text-primary" />
                 </div>
-                
+
                 <div className="space-y-2 max-w-md">
                   <h2 className="text-2xl font-semibold">View Your Components in Storybook</h2>
                   <p className="text-muted-foreground">
@@ -428,7 +428,7 @@ export default function Components() {
                   </div>
                 </div>
 
-                <Button size="lg" onClick={handleRunStorybook} className="gap-2">
+                <Button size="lg" onClick={handleRunStorybook} className="gap-2 text-[color:hsl(var(--hero-button-foreground))]">
                   <PlayCircle className="h-5 w-5" />
                   Run Storybook
                 </Button>
