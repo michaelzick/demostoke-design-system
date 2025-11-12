@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, Grid, List, Filter, MoreHorizontal, Eye, Download, Copy, Plus, Code, PlayCircle, StopCircle, BookOpen, Loader2, AlertCircle } from "lucide-react";
+import { Search, Grid, List, Filter, MoreHorizontal, Eye, Download, Copy, Plus, Code, PlayCircle, StopCircle, BookOpen, Loader2, AlertCircle, RefreshCw, RotateCw } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { componentService } from "@/services/componentService";
 import { DesignSystemComponent } from "@/types/component";
@@ -16,6 +16,14 @@ import { toast } from "@/hooks/use-toast";
 import { copyComponentCode, viewInStorybook, exportComponentSpec, viewComponentCode, registerCodeModal } from "@/utils/componentActions";
 import { CodeModal } from "@/components/ui/code-modal";
 import { NewComponentButton } from "@/components/common/NewComponentButton";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function Components() {
   const navigate = useNavigate();
@@ -33,6 +41,7 @@ export default function Components() {
   const [isStorybookRunning, setIsStorybookRunning] = useState(false);
   const [isStorybookLoading, setIsStorybookLoading] = useState(false);
   const [storybookError, setStorybookError] = useState<string | null>(null);
+  const [showRebuildModal, setShowRebuildModal] = useState(false);
 
   // Register code modal handler
   useEffect(() => {
@@ -237,6 +246,40 @@ export default function Components() {
   const handleStorybookError = () => {
     setIsStorybookLoading(false);
     setStorybookError("Failed to load Storybook. Make sure the Storybook build exists.");
+  };
+
+  const handleCopyCommand = async () => {
+    try {
+      await navigator.clipboard.writeText('npm run build-storybook');
+      toast({
+        title: "Copied!",
+        description: "Command copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please copy the command manually",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleRefreshStorybook = () => {
+    setIsStorybookLoading(true);
+    const iframe = document.querySelector('iframe[title="Storybook Viewer"]') as HTMLIFrameElement;
+    if (iframe) {
+      iframe.src = iframe.src.split('?')[0] + '?t=' + Date.now();
+    }
+    setTimeout(() => setIsStorybookLoading(false), 1000);
+  };
+
+  const handleRefreshAfterBuild = () => {
+    setShowRebuildModal(false);
+    handleRefreshStorybook();
+    toast({
+      title: "Refreshing Storybook",
+      description: "Loading your updated components...",
+    });
   };
 
   return (
@@ -476,10 +519,19 @@ export default function Components() {
                   <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                   <span>Storybook is running</span>
                 </div>
-                <Button variant="destructive" size="sm" onClick={handleStopStorybook} className="gap-2">
-                  <StopCircle className="h-4 w-4" />
-                  Stop Storybook
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" onClick={() => setShowRebuildModal(true)} className="gap-2">
+                    <RefreshCw className="h-4 w-4" />
+                    Rebuild Storybook
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={handleRefreshStorybook} title="Refresh Storybook view" className="gap-2">
+                    <RotateCw className="h-4 w-4" />
+                  </Button>
+                  <Button variant="destructive" size="sm" onClick={handleStopStorybook} className="gap-2">
+                    <StopCircle className="h-4 w-4" />
+                    Stop Storybook
+                  </Button>
+                </div>
               </div>
 
               <Card className="overflow-hidden">
@@ -508,6 +560,41 @@ export default function Components() {
         componentName={codeModal.componentName}
         code={codeModal.code}
       />
+
+      <Dialog open={showRebuildModal} onOpenChange={setShowRebuildModal}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Rebuild Storybook</DialogTitle>
+            <DialogDescription>
+              To update the Storybook view with your latest changes, run this command in your terminal:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-muted p-4 rounded-lg flex items-center justify-between">
+              <code className="text-sm">npm run build-storybook</code>
+              <Button size="sm" variant="ghost" onClick={handleCopyCommand}>
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="text-sm text-muted-foreground space-y-2">
+              <p>This command will:</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Build your Storybook with the latest components</li>
+                <li>Generate updated static files</li>
+                <li>Include any new stories you've added</li>
+              </ul>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowRebuildModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleRefreshAfterBuild}>
+              Done - Refresh View
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
