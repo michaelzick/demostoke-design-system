@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Preview } from '@storybook/react-vite';
 import { ThemeProvider } from '../src/components/theme-provider';
 import { DesignSystemProvider } from '../src/components/DesignSystemProvider';
