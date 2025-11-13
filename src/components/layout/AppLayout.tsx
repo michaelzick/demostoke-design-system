@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import dsLogo from "@/assets/images/ds-logo-stripes.webp";
+import dsLogo from "@/assets/images/ds-logo-stripes-fuchsia.webp";
 
 interface AppLayoutProps {
   children: React.ReactNode;

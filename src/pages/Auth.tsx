@@ -10,7 +10,7 @@ import { Loader2, MapPin } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import dsLogo from '@/assets/images/ds-logo-stripes.webp';
+import dsLogo from '@/assets/images/ds-logo-stripes-fuchsia.webp';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
