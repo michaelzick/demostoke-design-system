@@ -55,10 +55,10 @@ export default function Dashboard() {
           className="pointer-events-none absolute -inset-y-8 right-8 mr-[1em] z-0 flex w-1/2 items-center justify-end gap-0 pr-0"
           aria-hidden="true"
         >
-          <div className="h-full w-[65px] rotate-12 bg-primary/90" />
-          <div className="h-full w-[65px] rotate-12 bg-orange-400/90" />
-          <div className="h-full w-[65px] rotate-12 bg-lime-300/90" />
-          <div className="h-full w-[65px] rotate-12 bg-rose-500/90" />
+          <div className="h-full w-[65px] rotate-12 bg-primary" />
+          <div className="h-full w-[65px] rotate-12 bg-fuchsia-500" />
+          <div className="h-full w-[65px] rotate-12 bg-orange-400" />
+          <div className="h-full w-[65px] rotate-12 bg-rose-500" />
         </div>
         <div className="relative z-10">
           <h1 className="mb-4 text-display-lg text-foreground">DemoStoke Design System</h1>
