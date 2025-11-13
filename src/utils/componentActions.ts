@@ -1,7 +1,8 @@
 import { toast } from "@/hooks/use-toast";
+import { buildStorybookStoryUrl } from "@/lib/utils";
 
 // Global state for code modal
-let codeModalState: {
+const codeModalState: {
   setModalData: ((data: { isOpen: boolean; componentName: string; code: string }) => void) | null;
 } = {
   setModalData: null
@@ -113,8 +114,8 @@ export default function Example() {
 };
 
 export const viewInStorybook = (componentName: string) => {
-  const storybookUrl = `http://localhost:6006/?path=/story/ui-${componentName.toLowerCase()}--default`;
-  window.open(storybookUrl, '_blank');
+  const storybookUrl = buildStorybookStoryUrl(componentName);
+  window.open(storybookUrl, "_blank");
 };
 
 export const exportComponentSpec = (componentName: string) => {
@@ -123,7 +124,7 @@ export const exportComponentSpec = (componentName: string) => {
     description: `${componentName} component specification`,
     props: {
       variant: "string",
-      size: "string", 
+      size: "string",
       children: "ReactNode"
     },
     examples: [`<${componentName}>Example</${componentName}>`]

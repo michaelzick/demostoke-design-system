@@ -27,6 +27,7 @@ import {
   CollapsibleContent, 
   CollapsibleTrigger 
 } from "@/components/ui/collapsible";
+import { getStorybookBaseUrl } from "@/lib/utils";
 
 export default function Documentation() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,11 +41,13 @@ export default function Documentation() {
     );
   };
 
+  const storybookBaseUrl = getStorybookBaseUrl();
+
   const resources = [
     {
       title: "Storybook",
       description: "Interactive component explorer",
-      url: "http://localhost:6006",
+      url: storybookBaseUrl,
       external: true,
       icon: Book
     },
