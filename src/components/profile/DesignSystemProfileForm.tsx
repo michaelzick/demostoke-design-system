@@ -115,8 +115,13 @@ export function DesignSystemProfileForm() {
       setIsUploadingAvatar(true);
       const deleted = await designSystemProfileService.deleteAvatar(profile.avatar_url);
       if (deleted) {
-        await designSystemProfileService.updateProfile({ avatar_url: null });
-        setProfile({ ...profile, avatar_url: null });
+        // Generate Dicebear URL instead of setting to null
+        const dicebearUrl = getInitialsAvatarUrl(
+          getInitials(profile.display_name || profile.user_id),
+          (resolvedTheme as 'light' | 'dark') || 'light'
+        );
+        await designSystemProfileService.updateProfile({ avatar_url: dicebearUrl });
+        setProfile({ ...profile, avatar_url: dicebearUrl });
         toast({
           title: 'Success',
           description: 'Avatar removed successfully'
