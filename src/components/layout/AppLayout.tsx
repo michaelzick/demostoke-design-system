@@ -83,7 +83,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                         <AvatarImage 
                           src={profileData.avatar || getInitialsAvatarUrl(
                             getInitials(profileData.displayName || user?.email),
-                            resolvedTheme as 'light' | 'dark'
+                            (resolvedTheme as 'light' | 'dark') || 'light'
                           )}
                         />
                         <AvatarFallback>
