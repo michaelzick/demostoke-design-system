@@ -215,7 +215,7 @@ export function DesignSystemProfileForm() {
                 <AvatarImage 
                   src={avatarPreview || profile?.avatar_url || getInitialsAvatarUrl(
                     getInitials(profile?.display_name || profile?.user_id),
-                    resolvedTheme as 'light' | 'dark'
+                    (resolvedTheme as 'light' | 'dark') || 'light'
                   )}
                 />
                 <AvatarFallback>
