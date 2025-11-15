@@ -125,7 +125,7 @@ export const designSystemProfileService = {
     // Generate unique filename with timestamp to avoid collisions
     const fileExt = file.name.split('.').pop();
     const fileName = `${user.id}-${Date.now()}.${fileExt}`;
-    const filePath = `avatars/${fileName}`;
+    const filePath = `${user.id}/${fileName}`;
 
     // Upload file to profile-images bucket
     const { error: uploadError } = await supabase.storage
