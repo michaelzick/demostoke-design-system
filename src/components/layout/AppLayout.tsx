@@ -6,7 +6,9 @@ import { User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "../theme-toggle";
+import { useTheme } from "@/components/theme-provider";
 import { designSystemProfileService } from "@/services/designSystemProfileService";
+import { getInitials, getInitialsAvatarUrl } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +25,11 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const { user, signOut, isAuthenticated } = useAuth();
-  const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
+  const { resolvedTheme } = useTheme();
+  const [profileData, setProfileData] = useState<{ avatar: string | null; displayName: string | null }>({
+    avatar: null,
+    displayName: null
+  });
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -33,9 +39,10 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   const loadProfileAvatar = async () => {
     const profile = await designSystemProfileService.getCurrentProfile();
-    if (profile?.avatar_url) {
-      setProfileAvatar(profile.avatar_url);
-    }
+    setProfileData({
+      avatar: profile?.avatar_url || null,
+      displayName: profile?.display_name || null
+    });
   };
 
   const handleSignOut = async () => {
@@ -73,11 +80,14 @@ export function AppLayout({ children }: AppLayoutProps) {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="relative h-8 w-8 rounded-full">
                       <Avatar className="h-8 w-8">
-                <AvatarImage 
-                  src={profileAvatar || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.id}&top=shortHair&hairColor=4a312c`}
+                        <AvatarImage 
+                          src={profileData.avatar || getInitialsAvatarUrl(
+                            getInitials(profileData.displayName || user?.email),
+                            resolvedTheme as 'light' | 'dark'
+                          )}
                         />
                         <AvatarFallback>
-                          {user?.email?.charAt(0).toUpperCase()}
+                          {getInitials(profileData.displayName || user?.email)}
                         </AvatarFallback>
                       </Avatar>
                     </Button>

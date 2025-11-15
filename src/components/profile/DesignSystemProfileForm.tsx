@@ -8,7 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useTheme } from '@/components/theme-provider';
 import { designSystemProfileService, DesignSystemProfile } from '@/services/designSystemProfileService';
+import { getInitials, getInitialsAvatarUrl } from '@/lib/utils';
 import { Loader2, User, Building, Globe, Github, Dribbble } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -30,6 +32,7 @@ export function DesignSystemProfileForm() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const { toast } = useToast();
+  const { resolvedTheme } = useTheme();
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -210,10 +213,13 @@ export function DesignSystemProfileForm() {
             <div className="flex items-start gap-4">
               <Avatar className="h-24 w-24">
                 <AvatarImage 
-                  src={avatarPreview || profile?.avatar_url || `https://api.dicebear.com/6.x/avataaars/svg?seed=${profile?.user_id}&top=shortHair&hairColor=4a312c`}
+                  src={avatarPreview || profile?.avatar_url || getInitialsAvatarUrl(
+                    getInitials(profile?.display_name || profile?.user_id),
+                    resolvedTheme as 'light' | 'dark'
+                  )}
                 />
                 <AvatarFallback>
-                  {profile?.display_name?.charAt(0).toUpperCase() || 'U'}
+                  {getInitials(profile?.display_name || profile?.user_id)}
                 </AvatarFallback>
               </Avatar>
               
