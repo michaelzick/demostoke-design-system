@@ -210,7 +210,7 @@ export function DesignSystemProfileForm() {
             <div className="flex items-start gap-4">
               <Avatar className="h-24 w-24">
                 <AvatarImage 
-                  src={avatarPreview || profile?.avatar_url || `https://api.dicebear.com/6.x/avataaars/svg?seed=${profile?.user_id}`} 
+                  src={avatarPreview || profile?.avatar_url || `https://api.dicebear.com/6.x/avataaars/svg?seed=${profile?.user_id}&top=shortHair&hairColor=4a312c`}
                 />
                 <AvatarFallback>
                   {profile?.display_name?.charAt(0).toUpperCase() || 'U'}
