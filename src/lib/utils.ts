@@ -102,5 +102,5 @@ export function getInitialsAvatarUrl(initials: string, theme: 'light' | 'dark' =
   // Combine: primary first, then static colors
   const allColors = [primaryColor, ...staticColors];
   
-  return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(initials)}&backgroundColor=${allColors.join(',')}&textColor=ffffff&fontFamily=Inter&fontSize=42&fontWeight=600`;
+  return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(initials)}&backgroundColor=${allColors.join(',')}&textColor=ffffff`;
 }
