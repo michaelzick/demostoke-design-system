@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { designSystemProfileService, DesignSystemProfile } from '@/services/designSystemProfileService';
 import { Loader2, User, Building, Globe, Github, Dribbble } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const profileSchema = z.object({
   display_name: z.string().min(1, 'Display name is required').max(100),
@@ -25,6 +26,9 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 export function DesignSystemProfileForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState<DesignSystemProfile | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<ProfileFormData>({
@@ -69,11 +73,88 @@ export function DesignSystemProfileForm() {
     }
   };
 
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Invalid File',
+        description: 'Please select an image file',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    // Validate file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      toast({
+        title: 'File Too Large',
+        description: 'Please select an image smaller than 2MB',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    setAvatarFile(file);
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveAvatar = async () => {
+    if (profile?.avatar_url && !profile.avatar_url.includes('dicebear')) {
+      setIsUploadingAvatar(true);
+      const deleted = await designSystemProfileService.deleteAvatar(profile.avatar_url);
+      if (deleted) {
+        await designSystemProfileService.updateProfile({ avatar_url: null });
+        setProfile({ ...profile, avatar_url: null });
+        toast({
+          title: 'Success',
+          description: 'Avatar removed successfully'
+        });
+      }
+      setIsUploadingAvatar(false);
+    }
+    setAvatarFile(null);
+    setAvatarPreview(null);
+  };
+
   const onSubmit = async (data: ProfileFormData) => {
     setIsLoading(true);
     try {
+      let avatarUrl = profile?.avatar_url;
+
+      // Upload new avatar if selected
+      if (avatarFile) {
+        setIsUploadingAvatar(true);
+        // Delete old avatar if it exists and isn't dicebear
+        if (profile?.avatar_url && !profile.avatar_url.includes('dicebear')) {
+          await designSystemProfileService.deleteAvatar(profile.avatar_url);
+        }
+        
+        avatarUrl = await designSystemProfileService.uploadAvatar(avatarFile);
+        setIsUploadingAvatar(false);
+        
+        if (!avatarUrl) {
+          toast({
+            title: 'Error',
+            description: 'Failed to upload avatar',
+            variant: 'destructive'
+          });
+          setIsLoading(false);
+          return;
+        }
+      }
+
       const updates = {
         ...data,
+        avatar_url: avatarUrl,
         website_url: data.website_url || null,
         github_url: data.github_url || null,
         dribbble_url: data.dribbble_url || null,
@@ -88,7 +169,9 @@ export function DesignSystemProfileForm() {
           title: 'Success',
           description: 'Profile updated successfully'
         });
-        loadProfile(); // Reload to get updated data
+        setAvatarFile(null);
+        setAvatarPreview(null);
+        loadProfile();
       } else {
         toast({
           title: 'Error',
@@ -104,6 +187,7 @@ export function DesignSystemProfileForm() {
       });
     } finally {
       setIsLoading(false);
+      setIsUploadingAvatar(false);
     }
   };
 

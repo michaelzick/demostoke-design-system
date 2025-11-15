@@ -140,6 +140,8 @@ export type Database = {
           id: string
           is_featured: boolean
           location: string | null
+          location_lat: number | null
+          location_lng: number | null
           thumbnail_url: string | null
           title: string
           updated_at: string
@@ -155,6 +157,8 @@ export type Database = {
           id?: string
           is_featured?: boolean
           location?: string | null
+          location_lat?: number | null
+          location_lng?: number | null
           thumbnail_url?: string | null
           title: string
           updated_at?: string
@@ -170,6 +174,8 @@ export type Database = {
           id?: string
           is_featured?: boolean
           location?: string | null
+          location_lat?: number | null
+          location_lng?: number | null
           thumbnail_url?: string | null
           title?: string
           updated_at?: string
@@ -829,34 +835,31 @@ export type Database = {
       }
       figma_connections: {
         Row: {
-          access_token: string
           created_at: string
           id: string
           team_id: string | null
           updated_at: string
           user_id: string
           user_info: Json
-          vault_secret_id: string | null
+          vault_secret_id: string
         }
         Insert: {
-          access_token: string
           created_at?: string
           id?: string
           team_id?: string | null
           updated_at?: string
           user_id: string
           user_info: Json
-          vault_secret_id?: string | null
+          vault_secret_id: string
         }
         Update: {
-          access_token?: string
           created_at?: string
           id?: string
           team_id?: string | null
           updated_at?: string
           user_id?: string
           user_info?: Json
-          vault_secret_id?: string | null
+          vault_secret_id?: string
         }
         Relationships: []
       }
@@ -902,57 +905,6 @@ export type Database = {
         }
         Relationships: []
       }
-      jpeg_images: {
-        Row: {
-          created_at: string
-          id: string
-          jpeg_height: number | null
-          jpeg_size: number | null
-          jpeg_url: string
-          jpeg_width: number | null
-          original_height: number | null
-          original_size: number | null
-          original_url: string
-          original_width: number | null
-          source_column: string
-          source_record_id: string | null
-          source_table: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          jpeg_height?: number | null
-          jpeg_size?: number | null
-          jpeg_url: string
-          jpeg_width?: number | null
-          original_height?: number | null
-          original_size?: number | null
-          original_url: string
-          original_width?: number | null
-          source_column: string
-          source_record_id?: string | null
-          source_table: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          jpeg_height?: number | null
-          jpeg_size?: number | null
-          jpeg_url?: string
-          jpeg_width?: number | null
-          original_height?: number | null
-          original_size?: number | null
-          original_url?: string
-          original_width?: number | null
-          source_column?: string
-          source_record_id?: string | null
-          source_table?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       pricing_options: {
         Row: {
           created_at: string
@@ -984,69 +936,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      processed_images: {
-        Row: {
-          created_at: string
-          error_message: string | null
-          id: string
-          original_format: string | null
-          original_height: number | null
-          original_size: number | null
-          original_url: string
-          original_width: number | null
-          processed_format: string | null
-          processed_height: number | null
-          processed_size: number | null
-          processed_url: string
-          processed_width: number | null
-          source_column: string
-          source_record_id: string | null
-          source_table: string
-          updated_at: string
-          was_resized: boolean | null
-        }
-        Insert: {
-          created_at?: string
-          error_message?: string | null
-          id?: string
-          original_format?: string | null
-          original_height?: number | null
-          original_size?: number | null
-          original_url: string
-          original_width?: number | null
-          processed_format?: string | null
-          processed_height?: number | null
-          processed_size?: number | null
-          processed_url: string
-          processed_width?: number | null
-          source_column: string
-          source_record_id?: string | null
-          source_table: string
-          updated_at?: string
-          was_resized?: boolean | null
-        }
-        Update: {
-          created_at?: string
-          error_message?: string | null
-          id?: string
-          original_format?: string | null
-          original_height?: number | null
-          original_size?: number | null
-          original_url?: string
-          original_width?: number | null
-          processed_format?: string | null
-          processed_height?: number | null
-          processed_size?: number | null
-          processed_url?: string
-          processed_width?: number | null
-          source_column?: string
-          source_record_id?: string | null
-          source_table?: string
-          updated_at?: string
-          was_resized?: boolean | null
-        }
-        Relationships: []
       }
       profiles: {
         Row: {
@@ -1113,7 +1002,7 @@ export type Database = {
           action: string
           created_at: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           new_values: Json | null
           old_values: Json | null
           record_id: string | null
@@ -1125,7 +1014,7 @@ export type Database = {
           action: string
           created_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           new_values?: Json | null
           old_values?: Json | null
           record_id?: string | null
@@ -1137,40 +1026,13 @@ export type Database = {
           action?: string
           created_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           new_values?: Json | null
           old_values?: Json | null
           record_id?: string | null
           table_name?: string | null
           user_agent?: string | null
           user_id?: string | null
-        }
-        Relationships: []
-      }
-      temp_images: {
-        Row: {
-          created_at: string
-          error_message: string | null
-          id: string
-          original_url: string
-          status: string | null
-          temp_file_path: string | null
-        }
-        Insert: {
-          created_at?: string
-          error_message?: string | null
-          id?: string
-          original_url: string
-          status?: string | null
-          temp_file_path?: string | null
-        }
-        Update: {
-          created_at?: string
-          error_message?: string | null
-          id?: string
-          original_url?: string
-          status?: string | null
-          temp_file_path?: string | null
         }
         Relationships: []
       }
@@ -1198,57 +1060,6 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
-        }
-        Relationships: []
-      }
-      webp_images: {
-        Row: {
-          created_at: string
-          id: string
-          original_height: number | null
-          original_size: number | null
-          original_url: string
-          original_width: number | null
-          source_column: string
-          source_record_id: string | null
-          source_table: string
-          updated_at: string
-          webp_height: number | null
-          webp_size: number | null
-          webp_url: string
-          webp_width: number | null
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          original_height?: number | null
-          original_size?: number | null
-          original_url: string
-          original_width?: number | null
-          source_column: string
-          source_record_id?: string | null
-          source_table: string
-          updated_at?: string
-          webp_height?: number | null
-          webp_size?: number | null
-          webp_url: string
-          webp_width?: number | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          original_height?: number | null
-          original_size?: number | null
-          original_url?: string
-          original_width?: number | null
-          source_column?: string
-          source_record_id?: string | null
-          source_table?: string
-          updated_at?: string
-          webp_height?: number | null
-          webp_size?: number | null
-          webp_url?: string
-          webp_width?: number | null
         }
         Relationships: []
       }
@@ -1317,7 +1128,7 @@ export type Database = {
     }
     Functions: {
       cleanup_unused_downloaded_images: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           deleted_files: number
           deleted_records: number
@@ -1328,17 +1139,14 @@ export type Database = {
         Returns: undefined
       }
       find_unused_downloaded_images: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           downloaded_url: string
           file_path: string
           reason: string
         }[]
       }
-      get_app_setting: {
-        Args: { key: string }
-        Returns: Json
-      }
+      get_app_setting: { Args: { key: string }; Returns: Json }
       get_figma_token_decrypted: {
         Args: { p_user_id: string }
         Returns: string
@@ -1358,10 +1166,7 @@ export type Database = {
         Args: { equipment_id: string }
         Returns: undefined
       }
-      is_admin: {
-        Args: { user_id?: string }
-        Returns: boolean
-      }
+      is_admin: { Args: { user_id?: string }; Returns: boolean }
       log_security_event: {
         Args: {
           action_type: string
@@ -1372,14 +1177,8 @@ export type Database = {
         }
         Returns: undefined
       }
-      migrate_figma_tokens_to_vault: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      refresh_performance_views: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      migrate_figma_tokens_to_vault: { Args: never; Returns: undefined }
+      refresh_performance_views: { Args: never; Returns: undefined }
       store_figma_token_encrypted: {
         Args: {
           p_access_token: string

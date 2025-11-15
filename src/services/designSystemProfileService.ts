@@ -112,5 +112,58 @@ export const designSystemProfileService = {
 
   isConnected(): boolean {
     return !!supabase;
+  },
+
+  async uploadAvatar(file: File): Promise<string | null> {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.error('No authenticated user found');
+      return null;
+    }
+
+    // Generate unique filename with timestamp to avoid collisions
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+    const filePath = `avatars/${fileName}`;
+
+    // Upload file to profile-images bucket
+    const { error: uploadError } = await supabase.storage
+      .from('profile-images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
+
+    if (uploadError) {
+      console.error('Error uploading avatar:', uploadError);
+      return null;
+    }
+
+    // Get public URL
+    const { data } = supabase.storage
+      .from('profile-images')
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
+  },
+
+  async deleteAvatar(avatarUrl: string): Promise<boolean> {
+    // Extract file path from URL
+    const urlParts = avatarUrl.split('/profile-images/');
+    if (urlParts.length < 2) return false;
+    
+    const filePath = urlParts[1];
+    
+    const { error } = await supabase.storage
+      .from('profile-images')
+      .remove([filePath]);
+
+    if (error) {
+      console.error('Error deleting avatar:', error);
+      return false;
+    }
+
+    return true;
   }
 };
