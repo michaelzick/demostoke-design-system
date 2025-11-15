@@ -73,8 +73,8 @@ export function AppLayout({ children }: AppLayoutProps) {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="relative h-8 w-8 rounded-full">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage 
-                          src={profileAvatar || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.id}`} 
+                <AvatarImage 
+                  src={profileAvatar || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.id}&top=shortHair&hairColor=4a312c`}
                         />
                         <AvatarFallback>
                           {user?.email?.charAt(0).toUpperCase()}
