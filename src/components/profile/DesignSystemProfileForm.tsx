@@ -204,6 +204,66 @@ export function DesignSystemProfileForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* Avatar Upload */}
+          <div className="space-y-2 mb-6">
+            <Label>Profile Picture</Label>
+            <div className="flex items-start gap-4">
+              <Avatar className="h-24 w-24">
+                <AvatarImage 
+                  src={avatarPreview || profile?.avatar_url || `https://api.dicebear.com/6.x/avataaars/svg?seed=${profile?.user_id}`} 
+                />
+                <AvatarFallback>
+                  {profile?.display_name?.charAt(0).toUpperCase() || 'U'}
+                </AvatarFallback>
+              </Avatar>
+              
+              <div className="flex-1 space-y-2">
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => document.getElementById('avatar-upload')?.click()}
+                    disabled={isLoading || isUploadingAvatar}
+                  >
+                    {isUploadingAvatar ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Uploading...
+                      </>
+                    ) : (
+                      'Choose Image'
+                    )}
+                  </Button>
+                  
+                  {(avatarPreview || (profile?.avatar_url && !profile.avatar_url.includes('dicebear'))) && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleRemoveAvatar}
+                      disabled={isLoading || isUploadingAvatar}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                </div>
+                
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarChange}
+                />
+                
+                <p className="text-xs text-muted-foreground">
+                  JPG, PNG, or GIF. Max size 2MB.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="display_name">Display Name *</Label>
             <Input
