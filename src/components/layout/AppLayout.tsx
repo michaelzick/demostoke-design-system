@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "../theme-toggle";
+import { designSystemProfileService } from "@/services/designSystemProfileService";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +23,20 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const { user, signOut, isAuthenticated } = useAuth();
+  const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      loadProfileAvatar();
+    }
+  }, [isAuthenticated, user]);
+
+  const loadProfileAvatar = async () => {
+    const profile = await designSystemProfileService.getCurrentProfile();
+    if (profile?.avatar_url) {
+      setProfileAvatar(profile.avatar_url);
+    }
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -57,7 +73,9 @@ export function AppLayout({ children }: AppLayoutProps) {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="relative h-8 w-8 rounded-full">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={`https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.id}`} />
+                        <AvatarImage 
+                          src={profileAvatar || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.id}`} 
+                        />
                         <AvatarFallback>
                           {user?.email?.charAt(0).toUpperCase()}
                         </AvatarFallback>
